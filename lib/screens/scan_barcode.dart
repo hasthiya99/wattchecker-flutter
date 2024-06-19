@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 
-class ScanScreen extends StatefulWidget {
-  const ScanScreen({super.key});
+class ScanBarcode extends StatefulWidget {
+  const ScanBarcode({super.key});
 
   @override
-  State<ScanScreen> createState() => _ScanScreenState();
+  State<ScanBarcode> createState() => _ScanBarcodeState();
 }
 
-class _ScanScreenState extends State<ScanScreen> {
+class _ScanBarcodeState extends State<ScanBarcode> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StandardAppBar(title: 'Scan Product',),
-
+      appBar: StandardAppBar(title: 'Scan Barcode'),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05,),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              const Text(
-                'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
-                style: TextStyle(fontSize: 12, fontFamily: 'Inter', fontWeight: FontWeight.w400),
+              SizedBox(
+                width: ScreenSize().width(context)*0.7,
+                child: const Text(
+                  'Hold your phone steady and focus on the barcode',
+                  style: TextStyle(fontSize: 14, fontFamily: 'Inter', fontWeight: FontWeight.w400),
+                  textAlign: TextAlign.center,
+                ),
               ),
-              const SizedBox(height: 10,),
+
               SvgPicture.asset('assets/images/barcode.svg', height: 290,),
-              const SizedBox(height: 10,),
+              
               ButtonLong(
                 onPressed: (){
                   Navigator.pushNamed(context, '/scanBarcode');
                 }, 
                 text: 'Scan Barcode'
               ),
-              const SizedBox(height: 10,)
               
             ],
           ),

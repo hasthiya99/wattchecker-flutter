@@ -4,7 +4,6 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/screens/compare_screen.dart';
 import 'package:wattchecker/screens/home_screen.dart';
 import 'package:wattchecker/screens/profile_screen.dart';
-import 'package:wattchecker/screens/scan_screen.dart';
 import 'package:wattchecker/screens/tips_screen.dart';
 
 class LandingPage extends StatefulWidget {
@@ -17,14 +16,6 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
 
   int currentIndex = 0;
-
-  final List<Widget> screens = [
-    const HomeScreen(),
-    const CompareScreen(),
-    const ScanScreen(),
-    const TipsScreen(),
-    const ProfileScreen()
-  ];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomeScreen();
@@ -42,12 +33,9 @@ class _LandingPageState extends State<LandingPage> {
         shape: const CircleBorder(),
         backgroundColor: fabButtonColor,
         onPressed: (){
-          setState(() {
-            currentScreen = const ScanScreen();
-            currentIndex = 2;
-          });
+          Navigator.pushNamed(context, '/scanScreen');
         },
-        child: SvgPicture.asset('assets/icons/barcode.svg',),
+        child: SvgPicture.asset('assets/icons/barcode_btn.svg',),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
@@ -109,9 +97,9 @@ class _LandingPageState extends State<LandingPage> {
                 ],
               ),
             ),
-            Align(
+            const Align(
               alignment: Alignment.bottomCenter,
-              child: Text('Scan', style: TextStyle(color: currentIndex==2? navButtonTrue : navButtonFalse),)),
+              child: Text('Scan', style: TextStyle(color: navButtonFalse),)),
             Expanded(
               flex: 1,
               child: Row(
@@ -124,7 +112,7 @@ class _LandingPageState extends State<LandingPage> {
                     onPressed: (){
                       setState(() {
                         currentScreen = const TipsScreen();
-                        currentIndex = 3;
+                        currentIndex = 2;
                       });
                     },
                     child: Column(
@@ -132,7 +120,7 @@ class _LandingPageState extends State<LandingPage> {
                       children: [
                         SvgPicture.asset(
                           'assets/icons/tips.svg', 
-                          colorFilter: ColorFilter.mode(currentIndex == 3? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(currentIndex == 2? navButtonTrue : navButtonFalse, BlendMode.srcIn),
                           height: 25,
                         ),
                         Text('Tips', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==3? navButtonTrue : navButtonFalse),)
@@ -146,7 +134,7 @@ class _LandingPageState extends State<LandingPage> {
                     onPressed: (){
                       setState(() {
                         currentScreen = const ProfileScreen();
-                        currentIndex = 4;
+                        currentIndex = 3;
                       });
                     },
                     child: Column(
@@ -154,7 +142,7 @@ class _LandingPageState extends State<LandingPage> {
                       children: [
                         SvgPicture.asset(
                           'assets/icons/user.svg', 
-                          colorFilter: ColorFilter.mode(currentIndex == 4? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(currentIndex == 3? navButtonTrue : navButtonFalse, BlendMode.srcIn),
                           height: 25,
                         ),
                         Text('You', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==4? navButtonTrue : navButtonFalse),)

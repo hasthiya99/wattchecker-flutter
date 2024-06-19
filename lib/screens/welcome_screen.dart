@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/widgets/buttons.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -50,18 +51,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 style: TextStyle(fontFamily: 'Lexend', fontSize: 16, color: textBlack,),
                 textAlign: TextAlign.center,
               ),
-              
-              ElevatedButton(
-                    onPressed: (){
-                      Navigator.pushReplacementNamed(context, '/landing');
-                    }, 
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(appGreen),
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                      minimumSize: MaterialStateProperty.all(Size(ScreenSize().width(context)*0.8, 50))
-                    ),
-                    child: const Text('Continue', style: TextStyle(fontFamily: 'Inter', fontSize: 16, color: appWhite, fontWeight: FontWeight.bold),),
-                  )
+
+              ButtonLong(
+                onPressed: () => Navigator.pushNamed(context, '/landing'),
+                text: 'Continue',      
+              )
             ],
           ),
         ),
