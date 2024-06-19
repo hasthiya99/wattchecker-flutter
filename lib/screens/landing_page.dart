@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/screens/compare_screen.dart';
@@ -77,7 +76,10 @@ class _LandingPageState extends State<LandingPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/home.svg', color: currentIndex == 0? navButtonTrue : navButtonFalse ,height: 25,),
+                        SvgPicture.asset('assets/icons/home.svg', 
+                          height: 25, 
+                          colorFilter: ColorFilter.mode(currentIndex == 0? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                        ),
                         Text('Home', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==0? navButtonTrue : navButtonFalse)),
                       ],
                     ),
@@ -95,7 +97,11 @@ class _LandingPageState extends State<LandingPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/compare.svg', color: currentIndex == 1? navButtonTrue : navButtonFalse ,height: 25,),
+                        SvgPicture.asset(
+                          'assets/icons/compare.svg', 
+                          colorFilter: ColorFilter.mode(currentIndex == 1? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                          height: 25,
+                        ),
                         Text('Compare', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==1? navButtonTrue : navButtonFalse),)
                       ],
                     ),
@@ -124,7 +130,11 @@ class _LandingPageState extends State<LandingPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/tips.svg', color: currentIndex == 3? navButtonTrue : navButtonFalse , height: 25,),
+                        SvgPicture.asset(
+                          'assets/icons/tips.svg', 
+                          colorFilter: ColorFilter.mode(currentIndex == 3? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                          height: 25,
+                        ),
                         Text('Tips', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==3? navButtonTrue : navButtonFalse),)
                       ],
                     ),
@@ -142,7 +152,11 @@ class _LandingPageState extends State<LandingPage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/user.svg', color: currentIndex == 4? navButtonTrue : navButtonFalse ,height: 25,),
+                        SvgPicture.asset(
+                          'assets/icons/user.svg', 
+                          colorFilter: ColorFilter.mode(currentIndex == 4? navButtonTrue : navButtonFalse, BlendMode.srcIn),
+                          height: 25,
+                        ),
                         Text('You', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==4? navButtonTrue : navButtonFalse),)
                       ],
                     ),
