@@ -5,6 +5,8 @@ const Color appCream = Color(0xffE5AB79);
 const Color appWhite = Color(0xfff6FFFC);
 const Color appBlack = Color(0xff1B1B1B);
 
+const Color textBlack = Color(0xff363636);
+const Color textGrey = Color(0xff898989);
 
 const Color fabButtonColor = Color(0xff005243);
 const Color navButtonTrue = Color(0xff191919);
