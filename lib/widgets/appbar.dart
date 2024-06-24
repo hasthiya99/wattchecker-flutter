@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class StandardAppBar extends StatelessWidget implements PreferredSizeWidget{
+class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   const StandardAppBar({super.key, required this.title});
 
@@ -11,14 +11,19 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget{
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back,),
+        icon: const Icon(
+          Icons.arrow_back,
+        ),
         onPressed: () {
           Navigator.pop(context);
         },
       ),
-      title: Text(title, style: const TextStyle(fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w600),),
+      title: Text(
+        title,
+        style: const TextStyle(
+            fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.bold),
+      ),
       centerTitle: false,
-
     );
   }
 }
