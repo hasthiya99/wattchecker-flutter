@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wattchecker/screens/detailsenterscreen.dart';
 import 'package:wattchecker/screens/landing_page.dart';
 import 'package:wattchecker/screens/scan_barcode.dart';
 import 'package:wattchecker/screens/scan_screen.dart';
@@ -16,16 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: const DetailsEnterScreen(),
       routes: {
-        '/landing' : (context) =>  const LandingPage(),
-        '/scanScreen' : (context) =>  const ScanScreen(),
-        '/scanBarcode' : (context) =>  const ScanBarcode(),
+        '/landing': (context) => const LandingPage(),
+        '/scanScreen': (context) => const ScanScreen(),
+        '/scanBarcode': (context) => const ScanBarcode(),
       },
     );
   }
