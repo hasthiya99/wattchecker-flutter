@@ -10,6 +10,7 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,
@@ -29,8 +30,8 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final String title;
-  const FeaturePageAppBar({super.key, required this.title});
+  final String? title;
+  const FeaturePageAppBar({super.key, this.title});
 
   @override
   Size get preferredSize => const Size.fromHeight(160.0);
@@ -50,6 +51,7 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: null,
           leading: IconButton(
@@ -62,7 +64,7 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
             },
           ),
           title: Text(
-            title,
+            title!,
             style: const TextStyle(
                 fontFamily: 'Lexend',
                 fontSize: 16,
@@ -77,7 +79,8 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                   height: 50), // Add space between title and search bar
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 20.0, ),
+                  horizontal: 20.0,
+                ),
                 child: Row(
                   children: [
                     Expanded(
@@ -104,7 +107,8 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
                               fontWeight: FontWeight.w500,
                               fontSize: 14,
                             ),
-                            prefixIcon: const Icon(Icons.search, size: 16, color: Colors.black),
+                            prefixIcon: const Icon(Icons.search,
+                                size: 16, color: Colors.black),
                             border: InputBorder.none,
                             contentPadding: const EdgeInsets.all(10),
                           ),
