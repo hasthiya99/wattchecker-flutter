@@ -7,11 +7,11 @@ class ProductCard extends StatefulWidget {
   final DateTime scanDate;
 
   const ProductCard({
-    Key? key,
+    super.key,
     required this.productName,
     required this.imageUrl,
     required this.scanDate,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductCard> createState() => _ProductCardState();

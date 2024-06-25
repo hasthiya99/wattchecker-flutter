@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/productcard.dart';
 
-class RecentlyScan extends StatefulWidget {
-  const RecentlyScan({super.key});
+class RecentScans extends StatefulWidget {
+  const RecentScans({super.key});
 
   @override
-  State<RecentlyScan> createState() => _RecentlyScanState();
+  State<RecentScans> createState() => _RecentScansState();
 }
 
-class _RecentlyScanState extends State<RecentlyScan> {
+class _RecentScansState extends State<RecentScans> {
   @override
   Widget build(BuildContext context) {
     List<ProductCard> productCards = [
@@ -62,7 +62,7 @@ class _RecentlyScanState extends State<RecentlyScan> {
     ];
 
     return Scaffold(
-      appBar: FeaturePageAppBar(
+      appBar: const FeaturePageAppBar(
         title: '',
       ),
       body: Padding(
