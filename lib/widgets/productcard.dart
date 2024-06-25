@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:wattchecker/constants/colors.dart';
 
@@ -31,32 +30,42 @@ class _ProductCardState extends State<ProductCard> {
 
     return Column(
       children: [
-        SizedBox(
-          height: screenHeight * 0.25,
-          width: screenWidth * 0.4,
+        Container(
+          decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.08),
+                  spreadRadius: 0,
+                  offset: const Offset(0,4)
+                )
+            ]
+          ),
           child: ClipRRect(
             borderRadius: const BorderRadius.all(
               Radius.circular(10.0),
             ),
-            child: Image.asset(
-              widget.imageUrl,
-              fit: BoxFit.cover,
+            child: Container(
+              height: screenHeight * 0.25,
+              width: screenWidth * 0.4,
+              color: Colors.white,
+              child: Image.asset(
+                widget.imageUrl,
+              ),
             ),
           ),
         ),
         SizedBox(
           width: screenWidth * 0.4,
-          child: Flexible(
-            child: Text(
-              widget.productName,
-              style: const TextStyle(
-                  color: textBlack,
-                  fontSize: 14,
-                  fontFamily: 'Mulish',
-                  fontWeight: FontWeight.w600),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2, // Set the maximum number of lines
-            ),
+          child: Text(
+            widget.productName,
+            style: const TextStyle(
+                color: textBlack,
+                fontSize: 14,
+                fontFamily: 'Mulish',
+                fontWeight: FontWeight.w600),
+            overflow: TextOverflow.ellipsis,
+            //maxLines: 2, // Set the maximum number of lines
           ),
         ),
         SizedBox(
@@ -69,7 +78,7 @@ class _ProductCardState extends State<ProductCard> {
                 fontFamily: 'Mulish',
               ),
             overflow: TextOverflow.ellipsis,
-            maxLines: 2, // Set the maximum number of lines
+            //maxLines: 2, // Set the maximum number of lines
           ),
         ),
       ],

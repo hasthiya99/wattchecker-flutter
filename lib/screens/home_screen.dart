@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
+import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/widgets/productcard.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
 import 'package:wattchecker/widgets/videocard.dart';
@@ -14,13 +18,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<ProductCard> products = []; // Initialize as an empty list
+  List<ScannedDevice> products = []; // Initialize as an empty list
 
   @override
   void initState() {
     super.initState();
     // Initialize products list with dummy data
-    products = getDummyProducts();
+    products = scannedDevices;
   }
 
   @override
@@ -30,92 +34,96 @@ class _HomeScreenState extends State<HomeScreen> {
     return  SingleChildScrollView(
         child: Column(
           children: [
-            ClipPath(
-              clipper: BottomRightRoundedClipper(),
+            Container(
+              height: 300,
+              decoration: const BoxDecoration(
+                color: appGreen,
+                borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
+              ),
               child: Stack(
-                  children: [
-                    Image.asset(
-                      'assets/images/feature_appbar.png',
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                    Positioned(
-                      top: 50,
-                      left: 20,
-                      right: 20,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Hi,Samadhi',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Inter',
+                children: [
+                  Positioned(
+                    left: -120,
+                    bottom: 0,
+                    child: SvgPicture.asset('assets/images/appbar_pattern.svg', width: 250,height: 250,)
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 30,),
+                        const Text(
+                          'Hi,Samadhi',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(top: 8, bottom: 8, right: 8),
+                          child: SizedBox(
+                            width: screenWidth,
+                            child: const Text(
+                              'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Inter',
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(top: 8, bottom: 8, right: 8),
-                            child: SizedBox(
-                              width: screenWidth,
-                              child: const Text(
-                                'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w400),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey.withOpacity(0.5),
-                                        spreadRadius: 1,
-                                        blurRadius: 5,
-                                        offset: const Offset(
-                                            0, 3), // changes position of shadow
-                                      ),
-                                    ],
-                                  ),
-                                  child: const TextField(
-                                    decoration: InputDecoration(
-                                      hintText: 'Search for product',
-                                      hintStyle: TextStyle(
-                                        fontFamily: 'Mulish',
-                                        color: Color(0xFFB4BDC4),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14,
-                                      ),
-                                      prefixIcon: Icon(Icons.search,
-                                          size: 16, color: Colors.black),
-                                      border: InputBorder.none,
-                                      contentPadding: EdgeInsets.all(10),
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 3), // changes position of shadow
                                     ),
+                                  ],
+                                ),
+                                child: const TextField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Search for product',
+                                    hintStyle: TextStyle(
+                                      fontFamily: 'Mulish',
+                                      color: Color(0xFFB4BDC4),
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                    ),
+                                    prefixIcon: Icon(Icons.search,
+                                        size: 16, color: Colors.black),
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.all(10),
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ),
-
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 200),
               child: Column(
+                mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -140,20 +148,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   const SizedBox(height: 10),
             
-                  // Use a conditional widget to handle null products
-                  products.isEmpty
-                      ? const CircularProgressIndicator(color: appBlack,) // Show loading indicator or handle as per your UI
-                      : SizedBox(
+                  //Use a conditional widget to handle null products
+                  if 
+                    (products.isEmpty) const CircularProgressIndicator(color: appBlack,) 
+                  else 
+                    SizedBox(
                           height: screenHeight * 0.3,
+                          width: screenWidth,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: products.length,
                             itemBuilder: (context, index) {
                               return Padding(
-                                padding: const EdgeInsets.only(right: 10),
-                                child: SizedBox(
-                                  width: screenWidth * 0.4,
-                                  child: products[index],
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: ProductCard(
+                                  productName: products[index].device.deviceName, 
+                                  imageUrl: products[index].device.imageUrl, 
+                                  scanDate: products[index].scannedTime
                                 ),
                               );
                             },
@@ -245,27 +256,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 200,)
           ],
         ),
       );
   }
-}
-
-class BottomRightRoundedClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height);
-    path.lineTo(
-        size.width - 30, size.height); // Move the path left for the curve
-    path.quadraticBezierTo(size.width, size.height, size.width,
-        size.height - 30); // Bottom-right rounded corner
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/productcard.dart';
 
@@ -11,56 +13,11 @@ class RecentScans extends StatefulWidget {
 }
 
 class _RecentScansState extends State<RecentScans> {
+
+  List<ScannedDevice> devices = scannedDevices;
+
   @override
   Widget build(BuildContext context) {
-    List<ProductCard> productCards = [
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/laptop.webp',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/laptop.webp',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      ProductCard(
-        productName: 'Product Name',
-        imageUrl: 'assets/images/fridgenew.jpg',
-        scanDate: DateTime.now(),
-      ),
-      // Add more ProductCard widgets here as needed
-    ];
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -81,9 +38,13 @@ class _RecentScansState extends State<RecentScans> {
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    return productCards[index];
+                    return ProductCard(
+                      productName: devices[index].device.deviceName, 
+                      imageUrl: devices[index].device.imageUrl, 
+                      scanDate: devices[index].scannedTime
+                    );
                   },
-                  childCount: productCards.length,
+                  childCount: devices.length,
                 ),
               ),
             ),
