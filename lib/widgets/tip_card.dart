@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wattchecker/constants/styles.dart';
 
 class TipCard extends StatelessWidget {
   final IconData icon;
@@ -25,12 +26,7 @@ class TipCard extends StatelessWidget {
           color: backgroundColor,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              spreadRadius: 0,
-              blurRadius: 10,
-              offset: const Offset(0, 4), // changes position of shadow
-            ),
+            defaultShadow(),
           ]),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

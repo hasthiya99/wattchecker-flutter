@@ -35,3 +35,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class DeviceDetails {
+  const DeviceDetails();
+}

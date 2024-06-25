@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
+import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/device_info.dart';
 
 class AnnualEnergyUsageCard extends StatelessWidget {
@@ -17,12 +18,7 @@ class AnnualEnergyUsageCard extends StatelessWidget {
             color: greenCardColor,
             borderRadius: const BorderRadius.all(Radius.circular(14)),
             boxShadow: [
-              BoxShadow(
-                blurRadius: 10,
-                color: Colors.black.withOpacity(0.08),
-                spreadRadius: 0,
-                offset: const Offset(0,4)
-              )
+              defaultShadow(),
             ]
           ),
           child: Padding(
