@@ -1,24 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wattchecker/constants/colors.dart';
+import 'package:wattchecker/constants/styles.dart';
+import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/screens/device_details_screen.dart';
 
-class ProductCard extends StatefulWidget {
-  final String productName;
-  final String imageUrl;
-  final DateTime scanDate;
+class ScannedDeviceCard extends StatelessWidget {
+  final ScannedDevice scannedDevice;
 
-  const ProductCard({
+  const ScannedDeviceCard({
     super.key,
-    required this.productName,
-    required this.imageUrl,
-    required this.scanDate,
+    required this.scannedDevice
   });
 
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -26,31 +20,31 @@ class _ProductCardState extends State<ProductCard> {
 
     // Format date using intl package
     String formattedDate =
-        DateFormat('MMMM dd, yyyy', 'en_US').format(widget.scanDate);
+        DateFormat('MMMM dd, yyyy', 'en_US').format(scannedDevice.scannedTime);
 
     return Column(
       children: [
-        Container(
-          decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-                  blurRadius: 10,
-                  color: Colors.black.withOpacity(0.08),
-                  spreadRadius: 0,
-                  offset: const Offset(0,4)
-                )
-            ]
-          ),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10.0),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceDetailsScreen(device: scannedDevice.device)));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+            boxShadow: [
+              defaultShadow(),
+              ]
             ),
-            child: Container(
-              height: screenHeight * 0.25,
-              width: screenWidth * 0.4,
-              color: Colors.white,
-              child: Image.asset(
-                widget.imageUrl,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10.0),
+              ),
+              child: Container(
+                height: screenHeight * 0.25,
+                width: screenWidth * 0.4,
+                color: Colors.white,
+                child: Image.asset(
+                  scannedDevice.device.imageUrl,
+                ),
               ),
             ),
           ),
@@ -58,7 +52,7 @@ class _ProductCardState extends State<ProductCard> {
         SizedBox(
           width: screenWidth * 0.4,
           child: Text(
-            widget.productName,
+            scannedDevice.device.deviceName,
             style: const TextStyle(
                 color: textBlack,
                 fontSize: 14,

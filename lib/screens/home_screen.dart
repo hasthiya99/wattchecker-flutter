@@ -3,8 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/scanned_device.dart';
-import 'package:wattchecker/widgets/productcard.dart';
+import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
 import 'package:wattchecker/widgets/videocard.dart';
 
@@ -85,13 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.5),
-                                      spreadRadius: 1,
-                                      blurRadius: 5,
-                                      offset: const Offset(
-                                          0, 3), // changes position of shadow
-                                    ),
+                                    defaultShadow()
                                   ],
                                 ),
                                 child: const TextField(
@@ -160,10 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 20.0),
-                                child: ProductCard(
-                                  productName: products[index].device.deviceName, 
-                                  imageUrl: products[index].device.imageUrl, 
-                                  scanDate: products[index].scannedTime
+                                child: ScannedDeviceCard(
+                                  scannedDevice: products[index],
                                 ),
                               );
                             },
