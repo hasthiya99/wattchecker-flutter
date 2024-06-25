@@ -20,7 +20,7 @@ class ReusableTextBox extends StatefulWidget {
   });
 
   @override
-  _ReusableTextBoxState createState() => _ReusableTextBoxState();
+  State<ReusableTextBox> createState() => _ReusableTextBoxState();
 }
 
 class _ReusableTextBoxState extends State<ReusableTextBox> {

@@ -14,7 +14,7 @@ class AnnualEnergyUsageCard extends StatelessWidget {
         child: Container(
           height: 120,
           decoration: BoxDecoration(
-            color: energyUsageCardColor,
+            color: greenCardColor,
             borderRadius: const BorderRadius.all(Radius.circular(14)),
             boxShadow: [
               BoxShadow(

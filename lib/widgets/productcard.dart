@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wattchecker/constants/colors.dart';
 
 class ProductCard extends StatefulWidget {
   final String productName;
@@ -7,11 +8,11 @@ class ProductCard extends StatefulWidget {
   final DateTime scanDate;
 
   const ProductCard({
-    Key? key,
+    super.key,
     required this.productName,
     required this.imageUrl,
     required this.scanDate,
-  }) : super(key: key);
+  });
 
   @override
   State<ProductCard> createState() => _ProductCardState();
@@ -29,51 +30,56 @@ class _ProductCardState extends State<ProductCard> {
 
     return Column(
       children: [
-        Row(
-          children: [
-            SizedBox(
+        Container(
+          decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                  blurRadius: 10,
+                  color: Colors.black.withOpacity(0.08),
+                  spreadRadius: 0,
+                  offset: const Offset(0,4)
+                )
+            ]
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+            child: Container(
               height: screenHeight * 0.25,
               width: screenWidth * 0.4,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-                child: Image.asset(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
-                ),
+              color: Colors.white,
+              child: Image.asset(
+                widget.imageUrl,
               ),
             ),
-          ],
+          ),
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: screenWidth * 0.4,
-              child: Text(
-                widget.productName,
-                style: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Mulish',
-                    fontWeight: FontWeight.w600),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2, // Set the maximum number of lines
-              ),
-            ),
-          ],
+        SizedBox(
+          width: screenWidth * 0.4,
+          child: Text(
+            widget.productName,
+            style: const TextStyle(
+                color: textBlack,
+                fontSize: 14,
+                fontFamily: 'Mulish',
+                fontWeight: FontWeight.w600),
+            overflow: TextOverflow.ellipsis,
+            //maxLines: 2, // Set the maximum number of lines
+          ),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                formattedDate,
-                style: const TextStyle(
-                    fontSize: 15, color: Colors.grey, fontFamily: 'Mulish'),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2, // Set the maximum number of lines
+        SizedBox(
+          width: screenWidth *0.4,
+          child: Text(
+            formattedDate,
+            style: const TextStyle(
+                fontSize: 10, 
+                color: textGrey, 
+                fontFamily: 'Mulish',
               ),
-            ),
-          ],
+            overflow: TextOverflow.ellipsis,
+            //maxLines: 2, // Set the maximum number of lines
+          ),
         ),
       ],
     );
