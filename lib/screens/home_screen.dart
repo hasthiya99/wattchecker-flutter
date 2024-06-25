@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
-import 'package:wattchecker/screens/recent_scans.dart';
-import 'package:wattchecker/screens/tips_screen.dart';
 import 'package:wattchecker/widgets/productcard.dart';
+import 'package:wattchecker/widgets/tip_card.dart';
 import 'package:wattchecker/widgets/videocard.dart';
 
 
@@ -133,11 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.arrow_forward,
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const RecentScans(),
-                            ),
-                          );
+                          Navigator.pushNamed(context, '/recentScans');
                         },
                       ),
                     ],
@@ -146,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
             
                   // Use a conditional widget to handle null products
                   products.isEmpty
-                      ? const CircularProgressIndicator() // Show loading indicator or handle as per your UI
+                      ? const CircularProgressIndicator(color: appBlack,) // Show loading indicator or handle as per your UI
                       : SizedBox(
                           height: screenHeight * 0.3,
                           child: ListView.builder(
@@ -179,11 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Icons.arrow_forward,
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const TipsScreen(),
-                            ),
-                          );
+                          Navigator.pushNamed(context, '/quickTips');
                         },
                       ),
                     ],
@@ -196,32 +188,42 @@ class _HomeScreenState extends State<HomeScreen> {
                     maxLines: 2, // Set the maximum number of lines
                   ),
                   const SizedBox(height: 8),
-                  const GreenTipCard(
+                  const TipCard(
                     icon: Icons.thermostat,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
                     title: 'Tip 01',
                     description:
                         'Adjust fridge temperature by 2°F to save up to 15% on energy usage.',
                   ),
-                  const OrangeTipCard(
+                  const TipCard(
                     icon: Icons.lightbulb,
+                    iconColor: appCream,
+                    backgroundColor: creamCardColor,
                     title: 'Tip 02',
                     description:
                         'Power down those electronics: Standby power drain adds up. Turn them off!',
                   ),
-                  const GreenTipCard(
+                  const TipCard(
                     icon: Icons.power_off,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
                     title: 'Tip 03',
                     description:
                         'Power down those electronics: Standby power drain adds up. Turn them off!',
                   ),
-                  const OrangeTipCard(
+                  const TipCard(
                     icon: Icons.lightbulb,
+                    iconColor: appCream,
+                    backgroundColor: creamCardColor,
                     title: 'Tip 04',
                     description:
                         'Power down those electronics: Standby power drain adds up. Turn them off!',
                   ),
-                  const GreenTipCard(
+                  const TipCard(
                     icon: Icons.thermostat,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
                     title: 'Tip 05',
                     description:
                         'Power down those electronics: Standby power drain adds up. Turn them off!',

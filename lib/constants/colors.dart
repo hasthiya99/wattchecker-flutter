@@ -13,5 +13,5 @@ const Color navButtonTrue = Color(0xff191919);
 const Color navButtonFalse = Color(0xff959595);
 const Color bottomNavBarColor = Color(0xffffffff);
 
-const Color energyUsageCardColor = Color(0xFFF1FDF9);
-const Color anualCostCardColor = Color(0xFFFAEEE4);
+const Color greenCardColor = Color(0xFFF1FDF9);
+const Color creamCardColor = Color(0xFFFAEEE4);

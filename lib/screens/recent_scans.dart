@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/productcard.dart';
 
@@ -61,32 +62,33 @@ class _RecentScansState extends State<RecentScans> {
       // Add more ProductCard widgets here as needed
     ];
 
-    return Scaffold(
-      appBar: const FeaturePageAppBar(
-        title: '',
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: GridView.builder(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 27.0), // Add horizontal padding
-                itemCount: productCards.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: const FeaturePageAppBar(
+          title: 'Recent Scans',
+        ),
+        body: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context) * 0.05, vertical: 20.0),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 8.0, // Space between columns
-                  mainAxisSpacing: 16.0, // Space between rows
-                  childAspectRatio: 0.65, // Adjust as needed
+                  crossAxisSpacing: ScreenSize().width(context) * 0.05,
+                  mainAxisSpacing: 16.0,
+                  childAspectRatio: 0.65,
                 ),
-                itemBuilder: (context, index) {
-                  return productCards[index];
-                },
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return productCards[index];
+                  },
+                  childCount: productCards.length,
+                ),
               ),
             ),
           ],
-        ),
+        )
       ),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:wattchecker/constants/colors.dart';
 
 class ProductCard extends StatefulWidget {
   final String productName;
@@ -29,51 +31,46 @@ class _ProductCardState extends State<ProductCard> {
 
     return Column(
       children: [
-        Row(
-          children: [
-            SizedBox(
-              height: screenHeight * 0.25,
-              width: screenWidth * 0.4,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10.0),
-                ),
-                child: Image.asset(
-                  widget.imageUrl,
-                  fit: BoxFit.cover,
-                ),
-              ),
+        SizedBox(
+          height: screenHeight * 0.25,
+          width: screenWidth * 0.4,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10.0),
             ),
-          ],
+            child: Image.asset(
+              widget.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
-        Row(
-          children: [
-            SizedBox(
-              width: screenWidth * 0.4,
-              child: Text(
-                widget.productName,
-                style: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Mulish',
-                    fontWeight: FontWeight.w600),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2, // Set the maximum number of lines
-              ),
+        SizedBox(
+          width: screenWidth * 0.4,
+          child: Flexible(
+            child: Text(
+              widget.productName,
+              style: const TextStyle(
+                  color: textBlack,
+                  fontSize: 14,
+                  fontFamily: 'Mulish',
+                  fontWeight: FontWeight.w600),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2, // Set the maximum number of lines
             ),
-          ],
+          ),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                formattedDate,
-                style: const TextStyle(
-                    fontSize: 15, color: Colors.grey, fontFamily: 'Mulish'),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2, // Set the maximum number of lines
+        SizedBox(
+          width: screenWidth *0.4,
+          child: Text(
+            formattedDate,
+            style: const TextStyle(
+                fontSize: 10, 
+                color: textGrey, 
+                fontFamily: 'Mulish',
               ),
-            ),
-          ],
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2, // Set the maximum number of lines
+          ),
         ),
       ],
     );

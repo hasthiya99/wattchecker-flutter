@@ -14,7 +14,7 @@ class EstimatedAnnualCostCard extends StatelessWidget {
         child: Container(
           height: 120,
           decoration: BoxDecoration(
-            color: anualCostCardColor,
+            color: creamCardColor,
             borderRadius: const BorderRadius.all(Radius.circular(14)),
             boxShadow: [
               BoxShadow(
