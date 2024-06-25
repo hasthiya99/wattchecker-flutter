@@ -1,9 +1,11 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/widgets/appbar.dart';
+import 'package:wattchecker/widgets/device_details_bottomsheet.dart';
 
 class ScanBarcode extends StatefulWidget {
   const ScanBarcode({super.key});
@@ -19,6 +21,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
 
   QRViewController? qrController;
   Barcode? result;
+
+  bool bottomSheetOpen = false;
   
   @override
   void initState() {
@@ -49,9 +53,26 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         qrController = controller;
       });
       controller.scannedDataStream.listen((scanData) {
-        setState(() {
-          result = scanData;
-        });
+        if (!bottomSheetOpen) { // Check if modal bottom sheet is already showing
+          setState(() {
+            controller.pauseCamera();
+            result = scanData;
+            bottomSheetOpen = true; // Set flag to true
+          });
+          showModalBottomSheet(
+            isScrollControlled: true,
+            backgroundColor: Colors.white,
+            context: context, 
+            builder: (context) {
+              return DeviceDetailsBottomsheet(productId: result?.code ?? '');
+            },
+          ).whenComplete(() {
+            controller.resumeCamera();
+            setState(() {
+              bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+            });
+          });
+        }
       });
     }
 
@@ -66,7 +87,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
               padding: EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
                 'Hold your phone steady and focus on the barcode',
-                style: TextStyle(fontSize: 14, fontFamily: 'Inter', fontWeight: FontWeight.w400),
+                style: TextStyle(fontSize: 14, fontFamily: 'Inter', fontWeight: FontWeight.w400, color: textGrey),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -76,25 +97,45 @@ class _ScanBarcodeState extends State<ScanBarcode> {
             flex: 4,
             child: (cameraController == null || !cameraController!.value.isInitialized)?
                const Center(child: CircularProgressIndicator(color: appBlack,)) :
-             QRView(
-              key: qrKey,
-              onQRViewCreated: onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: appWhite,
-                borderRadius: 10,
-                borderLength: 30,
-                borderWidth: 10,
-                cutOutSize: 300,
-              ),
-            ),
+             Stack(
+                children: [
+                  QRView(
+                    key: qrKey,
+                    onQRViewCreated: onQRViewCreated,
+                    overlay: QrScannerOverlayShape(
+                      borderColor: appWhite,
+                      borderRadius: 10,
+                      borderLength: 30,
+                      borderWidth: 10,
+                      cutOutSize: 300,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05, vertical: 10),
+                      child: IconButton(
+                        onPressed: () async {
+                          qrController?.flipCamera(); 
+                        },
+                        icon: const Icon(Icons.flip_camera_ios, color: Colors.white, size: 30,),
+                      ),
+                    ),
+                  )
+               ],
+             ),
           ),
           Expanded(
             flex: 1,
             child: Center(
-              child: (result != null)
-                  ? Text(
-                      'Barcode Type: ${(result!.format).name}   Data: ${result!.code}')
-                  : const Text('Scan a code'),
+              child: TextButton(
+                onPressed: (){},
+                style: const ButtonStyle(
+                  foregroundColor: MaterialStatePropertyAll(appBlack),
+                  overlayColor: MaterialStatePropertyAll(Color(0x11000000))  
+                ),
+                child: const Text('Enter model number manually'),
+              )
             ),
           ),
           
