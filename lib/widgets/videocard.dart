@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
+import 'package:wattchecker/constants/colors.dart';
 
 class Videocard extends StatefulWidget {
   final String videoName;
@@ -7,11 +8,11 @@ class Videocard extends StatefulWidget {
   final String description;
 
   const Videocard({
-    Key? key,
+    super.key,
     required this.videoName,
     required this.videoUrl,
     required this.description,
-  }) : super(key: key);
+  });
 
   @override
   State<Videocard> createState() => _VideocardState();
@@ -24,23 +25,13 @@ class _VideocardState extends State<Videocard> {
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.network(widget.videoUrl)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
       ..initialize().then((_) {
         setState(() {
           _isInitialized = true;
         });
       });
   }
-  //   @override
-  // void initState() {
-  //   super.initState();
-  //   _controller = VideoPlayerController.network(widget.videoUrl)
-  //     ..initialize().then((_) {
-  //       setState(() {
-  //         _isInitialized = true;
-  //       });
-  //     });
-  // }
 
   @override
   void dispose() {
@@ -92,7 +83,7 @@ class _VideocardState extends State<Videocard> {
                         ),
                       ],
                     )
-                  : const CircularProgressIndicator(),
+                  : const Center(child: CircularProgressIndicator(color: appBlack,)),
             ),
           ],
         ),

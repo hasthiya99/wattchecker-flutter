@@ -12,3 +12,6 @@ const Color fabButtonColor = Color(0xff005243);
 const Color navButtonTrue = Color(0xff191919);
 const Color navButtonFalse = Color(0xff959595);
 const Color bottomNavBarColor = Color(0xffffffff);
+
+const Color greenCardColor = Color(0xFFF1FDF9);
+const Color creamCardColor = Color(0xFFFAEEE4);
