@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const DetailsEnterScreen(),
+      home: const WelcomeScreen(),
       routes: {
         '/landing': (context) => const LandingPage(),
         '/scanScreen': (context) => const ScanScreen(),
