@@ -55,7 +55,7 @@ Device lgdualinverter = Device(
 );
 
 
-List<Device> deviceList = []; 
+List<Device> deviceList = database; 
 
 List<Device> database = [rf29a9675ap, rf32cg5400mtaa, gsb6181ds, qn85a, a90j, lgdualinverter];
 

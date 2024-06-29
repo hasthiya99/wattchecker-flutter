@@ -37,7 +37,8 @@ class DeviceDetailsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20,),
-              Text(device.deviceName, style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
+              const Text('Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text '
+                , style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
               const SizedBox(height: 40,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -47,7 +48,7 @@ class DeviceDetailsScreen extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: Dash(
                   direction: Axis.horizontal,
                   length: ScreenSize().width(context)*0.9,
