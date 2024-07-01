@@ -5,6 +5,7 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/widgets/appbar.dart';
+import 'package:wattchecker/widgets/comparison_card.dart';
 
 class ComparisonPreview extends StatefulWidget {
   final Device device_1;
@@ -38,11 +39,11 @@ class _ComparisonPreviewState extends State<ComparisonPreview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const StandardAppBar(title: 'Compare Device'),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
-            child: Container(
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
+        child: Column(
+          children: [
+            Container(
               height: ScreenSize().height(context)*0.3,
               decoration: BoxDecoration(
                 color: appGreen.withOpacity(0.08),
@@ -50,8 +51,37 @@ class _ComparisonPreviewState extends State<ComparisonPreview> {
               ),
               child: BarGraph(device_1: device_1, device_2: device_2, device_3: device_3,),
             ),
-          )
-        ],
+            Expanded(
+              child: DefaultTabController(
+                length: 3, 
+                child: Column(
+                  children: [
+                    const SizedBox(height: 40,),
+                    TabBar(
+                      indicatorColor: appGreen,
+                      labelColor: appGreen,
+                      unselectedLabelColor: appGreen.withOpacity(0.5),
+                      tabs: const [
+                        Tab(text: 'Device 1',),
+                        Tab(text: 'Device 2',),
+                        Tab(text: 'Device 3',),
+                      ],
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          ComparisonCard(device: device_1),
+                          ComparisonCard(device: device_2),
+                          (device_3!=null)? ComparisonCard(device: device_3!) : const SizedBox()
+                        ]
+                      ),
+                    )
+                  ],
+                )
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
