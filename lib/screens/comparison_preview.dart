@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:wattchecker/bar%20graph/bar_graph.dart';
+import 'package:wattchecker/constants/colors.dart';
+import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 
@@ -32,11 +36,21 @@ class _ComparisonPreviewState extends State<ComparisonPreview> {
     
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: StandardAppBar(title: 'Compare Device'),
+    return Scaffold(
+      appBar: const StandardAppBar(title: 'Compare Device'),
       body: Column(
         children: [
-          
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
+            child: Container(
+              height: ScreenSize().height(context)*0.3,
+              decoration: BoxDecoration(
+                color: appGreen.withOpacity(0.08),
+                borderRadius: const BorderRadius.all(Radius.circular(12))
+              ),
+              child: BarGraph(device_1: device_1, device_2: device_2, device_3: device_3,),
+            ),
+          )
         ],
       ),
     );
