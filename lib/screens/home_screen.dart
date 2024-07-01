@@ -232,6 +232,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         'Power down those electronics: Standby power drain adds up. Turn them off!',
                   ),
                   const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Video Training',
+                        style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onPressed: () {
+                          //Navigate to Video Training
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
                   const Videocard(
                       videoName: 'How to Save Energy In The kitchen',
                       videoUrl:
