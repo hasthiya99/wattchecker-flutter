@@ -93,7 +93,7 @@ class _QuickTipsForYouState extends State<QuickTipsForYou> {
                       description:
                           'Power down those electronics: Standby power drain adds up. Turn them off!',
                     ),
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 70),
                   ],
                 ),
               ),
