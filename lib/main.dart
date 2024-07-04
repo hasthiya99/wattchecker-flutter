@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:wattchecker/screens/detailsenterscreen.dart';
 import 'package:wattchecker/screens/landing_page.dart';
 import 'package:wattchecker/screens/quick_tips.dart';
 import 'package:wattchecker/screens/recent_scans.dart';
@@ -25,12 +26,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: const WelcomeScreen(),
       routes: {
-        '/landing' : (context) =>  const LandingPage(),
-        '/scanScreen' : (context) =>  const ScanProductScreen(),
-        '/scanBarcode' : (context) =>  const ScanBarcode(),
-        '/recentScans' :(context) => const RecentScans(),
-        '/quickTips' :(context) => const QuickTipsForYou(),
-        
+        '/landing': (context) => const LandingPage(),
+        '/DetailsEnterScreen': (context) => const DetailsEnterScreen(),
+        '/scanScreen': (context) => const ScanProductScreen(),
+        '/scanBarcode': (context) => const ScanBarcode(),
+        '/recentScans': (context) => const RecentScans(),
+        '/quickTips': (context) => const QuickTipsForYou(),
       },
     );
   }
