@@ -34,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
       
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
-          backgroundColor: fabButtonColor,
+          backgroundColor: appGreen,
           onPressed: (){
             Navigator.pushNamed(context, '/scanScreen');
           },

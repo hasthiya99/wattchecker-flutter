@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wattchecker/screens/landing_page.dart';
+import 'package:wattchecker/screens/login_screen.dart';
 import 'package:wattchecker/screens/quick_tips.dart';
 import 'package:wattchecker/screens/recent_scans.dart';
 import 'package:wattchecker/screens/scan_barcode.dart';
 import 'package:wattchecker/screens/scan_product.dart';
+import 'package:wattchecker/screens/splash_screen.dart';
 import 'package:wattchecker/screens/welcome_screen.dart';
 
 void main() {
@@ -23,8 +25,9 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WelcomeScreen(),
+      home: const LoginScreen(),
       routes: {
+        '/welcome' : (context) => const WelcomeScreen(),
         '/landing' : (context) =>  const LandingPage(),
         '/scanScreen' : (context) =>  const ScanProductScreen(),
         '/scanBarcode' : (context) =>  const ScanBarcode(),
@@ -34,8 +37,4 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-}
-
-class DeviceDetails {
-  const DeviceDetails();
 }

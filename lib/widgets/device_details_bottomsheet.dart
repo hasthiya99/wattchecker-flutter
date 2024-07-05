@@ -73,7 +73,8 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                                   onPressed: (){
                                     //User should be able to add a new device to the database
                                   }, 
-                                  text: 'Add Product')
+                                  text: 'Add Product',
+                                )
                           ],
                         ),
                       )
@@ -128,7 +129,7 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                               }
                               Navigator.pop(context);
                             }, 
-                            text: 'Save Device'
+                            text: 'Save Device',
                           )
                         ],
                       ),
