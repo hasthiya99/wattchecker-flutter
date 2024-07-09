@@ -26,6 +26,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   void initState() {
     super.initState();
     availableCameras().then((cameras) {
+      if (!mounted) return;
       if (cameras.isNotEmpty) {
         cameraController = CameraController(cameras[0], ResolutionPreset.high);
         cameraController!.initialize().then((_) {

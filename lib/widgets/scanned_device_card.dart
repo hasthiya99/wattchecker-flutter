@@ -24,7 +24,7 @@ class ScannedDeviceCard extends StatelessWidget {
 
     return Column(
       children: [
-        GestureDetector(
+        InkWell(
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => DeviceDetailsScreen(device: scannedDevice.device)));
           },

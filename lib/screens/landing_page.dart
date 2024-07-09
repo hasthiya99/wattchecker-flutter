@@ -4,7 +4,7 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/screens/compare_screen.dart';
 import 'package:wattchecker/screens/home_screen.dart';
 import 'package:wattchecker/screens/profile_screen.dart';
-import 'package:wattchecker/screens/tips_screen.dart';
+import 'package:wattchecker/screens/quick_tips.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -65,7 +65,7 @@ class _LandingPageState extends State<LandingPage> {
                         });
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SvgPicture.asset('assets/icons/home.svg', 
                             height: 25, 
@@ -86,7 +86,7 @@ class _LandingPageState extends State<LandingPage> {
                         });
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SvgPicture.asset(
                             'assets/icons/compare.svg', 
@@ -114,19 +114,19 @@ class _LandingPageState extends State<LandingPage> {
                       minWidth: 40,
                       onPressed: (){
                         setState(() {
-                          currentScreen = const TipsScreen();
+                          currentScreen = const QuickTipsForYou();
                           currentIndex = 2;
                         });
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SvgPicture.asset(
                             'assets/icons/tips.svg', 
                             colorFilter: ColorFilter.mode(currentIndex == 2? navButtonTrue : navButtonFalse, BlendMode.srcIn),
                             height: 25,
                           ),
-                          Text('Tips', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==3? navButtonTrue : navButtonFalse),)
+                          Text('Tips', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==2? navButtonTrue : navButtonFalse),)
                         ],
                       ),
                     ),
@@ -141,14 +141,14 @@ class _LandingPageState extends State<LandingPage> {
                         });
                       },
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SvgPicture.asset(
                             'assets/icons/user.svg', 
                             colorFilter: ColorFilter.mode(currentIndex == 3? navButtonTrue : navButtonFalse, BlendMode.srcIn),
                             height: 25,
                           ),
-                          Text('You', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==4? navButtonTrue : navButtonFalse),)
+                          Text('You', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==3? navButtonTrue : navButtonFalse),)
                         ],
                       ),
                     )
