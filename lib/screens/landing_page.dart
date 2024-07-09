@@ -4,7 +4,7 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/screens/compare_screen.dart';
 import 'package:wattchecker/screens/home_screen.dart';
 import 'package:wattchecker/screens/profile_screen.dart';
-import 'package:wattchecker/screens/quick_tips.dart';
+import 'package:wattchecker/screens/tips_screen.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -114,7 +114,7 @@ class _LandingPageState extends State<LandingPage> {
                       minWidth: 40,
                       onPressed: (){
                         setState(() {
-                          currentScreen = const QuickTipsForYou();
+                          currentScreen = const TipsScreen();
                           currentIndex = 2;
                         });
                       },
