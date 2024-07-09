@@ -19,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.1, vertical: ScreenSize().height(context)*0.05),
+          padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05, vertical: ScreenSize().height(context)*0.05),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
 
               ButtonLong(
-                onPressed: () => Navigator.pushNamed(context, '/landing'),
+                onPressed: () => Navigator.pushNamed(context, '/login'),
                 text: 'Continue',      
               )
             ],

@@ -18,4 +18,26 @@ class Validations{
     return value!.isEmpty ? 'Password is required' : value.length<8? 'Password must be at least 8 characters long': null;
   }
 
+  String? validateName(String? value) {
+    const pattern = r'^[a-zA-Z\s]+$';
+    final regex = RegExp(pattern);
+    if (value == null || value.isEmpty) {
+      return 'Name is required';
+    } else if (!regex.hasMatch(value)) {
+      return 'Name can only contain letters and spaces';
+    }
+    return null;
+  }
+
+  String? validateZipCode(String? value) {
+    const pattern = r'^\d{5}$';
+    final regex = RegExp(pattern);
+    if (value == null || value.isEmpty) {
+      return 'ZIP code is required';
+    } else if (!regex.hasMatch(value)) {
+      return 'ZIP code must be exactly 5 digits';
+    }
+    return null;
+  }
+
 }

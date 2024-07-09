@@ -18,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  bool hidePassword = true;
+
   @override
   void dispose() {
     emailController.dispose();
@@ -42,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   ButtonLong(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/welcome');
+                      Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                     }, 
                     leading: SvgPicture.asset('assets/icons/apple.svg', width: 20,),
                     text: 'Login With Apple', 
@@ -56,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20,),
                   ButtonLong(
                     onPressed: (){
-                      Navigator.pushNamed(context, '/welcome');
+                      Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                     }, 
                     leading: SvgPicture.asset('assets/icons/google.svg', width: 20,),
                     text: 'Login With Google', 
@@ -120,7 +122,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           controller: passwordController,
                           validator: (value) => Validations().validatePassword(value),
+                          obscureText: hidePassword,
                           decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      hidePassword = !hidePassword;
+                                    });
+                                  }, 
+                                  icon: Icon(hidePassword? Icons.visibility_off : Icons.visibility, color: textGrey),
+                                ),
                             hintText: 'Password',
                             hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
                             enabledBorder: OutlineInputBorder(
@@ -147,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: (){
-                          
+                              Navigator.pushNamed(context, '/verifyEmail');
                             }, 
                             style: ButtonStyle(
                               overlayColor: MaterialStateProperty.all(Colors.transparent
@@ -160,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ButtonLong(
                           onPressed: (){
                             if(_formKey.currentState!.validate()){
-                              Navigator.pushNamed(context, '/welcome');
+                              Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                             }
                           }, 
                           text: 'Continue'
@@ -172,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             const Text('New to WattChecker?', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),),
                             TextButton(
                               onPressed: (){
-                                
+                                Navigator.pushNamed(context, '/signup');
                               }, 
                               style: ButtonStyle(
                                 overlayColor: MaterialStateProperty.all(Colors.transparent
