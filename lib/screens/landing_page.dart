@@ -34,7 +34,7 @@ class _LandingPageState extends State<LandingPage> {
       
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
-          backgroundColor: fabButtonColor,
+          backgroundColor: appGreen,
           onPressed: (){
             Navigator.pushNamed(context, '/scanScreen');
           },
@@ -96,7 +96,8 @@ class _LandingPageState extends State<LandingPage> {
                           Text('Compare', style: TextStyle(fontFamily: 'Mulish', color: currentIndex==1? navButtonTrue : navButtonFalse),)
                         ],
                       ),
-                    )
+                    ),
+                    const SizedBox(width: 10,)
                   ],
                 ),
               ),
@@ -108,6 +109,7 @@ class _LandingPageState extends State<LandingPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+                    const SizedBox(width: 10,),
                     MaterialButton(
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,

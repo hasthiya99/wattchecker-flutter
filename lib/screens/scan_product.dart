@@ -70,7 +70,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
               Navigator.pushNamed(context, '/scanBarcode').then((value) => setState(() {}));
           },
           shape: const CircleBorder(),
-          backgroundColor: fabButtonColor,
+          backgroundColor: appGreen,
           child: selectMode? SvgPicture.asset('assets/icons/compare.svg', colorFilter: const ColorFilter.mode(appWhite, BlendMode.srcIn)) : SvgPicture.asset('assets/icons/barcode_btn.svg'),
         ),
       ),
