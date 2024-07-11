@@ -14,9 +14,11 @@ import 'package:wattchecker/screens/signup.dart';
 import 'package:wattchecker/screens/signup_success.dart';
 import 'package:wattchecker/screens/splash_screen.dart';
 import 'package:wattchecker/screens/welcome_screen.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPrefs().init().then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

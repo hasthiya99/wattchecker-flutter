@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,12 +17,15 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   
+  bool isLoading = false;
+  bool btnEnabled = true;
   final formKey = GlobalKey<FormState>();
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController zipCodeController = TextEditingController();
+  TextEditingController utilityRateController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
 
@@ -192,6 +199,37 @@ class _SignUpState extends State<SignUp> {
                         ),
                         const SizedBox(height: 10,),
                         const Padding(
+                          padding: EdgeInsets.only(bottom: 10.0),
+                          child: Text('Electricity Rate', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
+                        ),
+                        TextFormField(
+                          controller: utilityRateController,
+                          validator: (value) => Validations().validateElectricityRate(value),
+                          decoration: InputDecoration(
+                            hintText: 'cents per kilowatt-hour',
+                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: appGrey),
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: appGreen),
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: Colors.red),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            errorStyle: const TextStyle(height: 0), // Hide default error text
+                          ),
+                        ),
+                        const SizedBox(height: 10,),
+                        const Padding(
                             padding: EdgeInsets.only(bottom: 10.0),
                             child: Text('Password', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
                           ),
@@ -277,14 +315,47 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(height: 50),
                   
                   ButtonLong(
-                    onPressed: (){
+                    onPressed: isLoading || !btnEnabled? (){} : () async {
+                      
                       if(formKey.currentState!.validate()){
-                        // Send verification code
-                        Navigator.pushNamed(context, '/signupSuccess');
+                        setState(() {
+                          isLoading = true;
+                        });
+                        ResponseMessage response = await Api().signUp(
+                          firstNameController.text, 
+                          lastNameController.text, 
+                          emailController.text, 
+                          zipCodeController.text, 
+                          utilityRateController.text, 
+                          passwordController.text
+                        );
+                        if(!mounted) return;
+                        setState(() {
+                          isLoading = false;
+                          if(response.success){
+                            btnEnabled = false;
+                          }
+                        });
+                        if(response.success){
+                          Navigator.pushNamed(context, '/signupSuccess');
+                        } else {
+                          showSnackBar(context, response.message);
+                        }
+                        
                       }
                       
                     }, 
-                    text: 'Confirm'
+                    leading: isLoading? const SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ): null,
+                    text: isLoading? '' : 'Confirm'
                   ),
                   const SizedBox(height: 50),
                 ],
