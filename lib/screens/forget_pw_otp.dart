@@ -2,18 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/screens/forgot_pw_reset.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 
 class VerifyOtp extends StatefulWidget {
-  const VerifyOtp({super.key});
+  final String email;
+  const VerifyOtp({super.key, required this.email});
 
   @override
   State<VerifyOtp> createState() => _VerifyOtpState();
 }
 
 class _VerifyOtpState extends State<VerifyOtp> {
-
+  late String email;
   List<TextEditingController> otpControllers = List.generate(6, (index) => TextEditingController());
+
+  @override
+  void initState() {
+    super.initState();
+    email = widget.email;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +86,17 @@ class _VerifyOtpState extends State<VerifyOtp> {
                 const SizedBox(height: 50),
       
                 ButtonLong(
-                  onPressed: (){
-                    // String code = otpControllers.map((controller) => controller.text).join();
-                    // print(code);
-                    Navigator.pushNamed(context, '/resetPassword');
+                  onPressed: () async {
+                    String code = otpControllers.map((controller) => controller.text).join();
+                    if(code.length==6){
+                      ResponseMessage response = await Api().validateOtp(email, code);
+                      if(response.success){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword(email: email)));
+                      } else{
+                        showSnackBar(context, response.message);
+                      }
+                    }
+                    
                   }, 
                   text: 'Continue'
                 ),
