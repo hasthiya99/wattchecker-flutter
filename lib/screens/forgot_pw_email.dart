@@ -79,9 +79,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
                   onPressed: (){
                     if(formKey.currentState!.validate()){
                       // Send verification code
-                      
+                      Navigator.pushNamed(context, '/verifyOtp');
                     }
-                     Navigator.pushNamed(context, '/verifyOtp');
                   }, 
                   text: 'Confirm'
                 )

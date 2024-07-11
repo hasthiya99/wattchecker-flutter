@@ -139,9 +139,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                   onPressed: (){
                     if(formKey.currentState!.validate()){
                       // Send verification code
-                      
+                      Navigator.pushNamed(context, '/resetSuccess');
                     }
-                    Navigator.pushNamed(context, '/resetSuccess');
                   }, 
                   text: 'Confirm'
                 )
