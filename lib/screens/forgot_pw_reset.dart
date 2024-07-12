@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({super.key});
+  final String email;
+  const ResetPassword({super.key, required this.email});
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
 }
 
 class _ResetPasswordState extends State<ResetPassword> {
+
+  late String email;
+  bool isLoading = false;
 
   final formKey = GlobalKey<FormState>();
   TextEditingController passwordController = TextEditingController();
@@ -25,6 +32,12 @@ class _ResetPasswordState extends State<ResetPassword> {
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    email = widget.email;
+    super.initState();
   }
 
   @override
@@ -136,14 +149,34 @@ class _ResetPasswordState extends State<ResetPassword> {
                 const SizedBox(height: 50),
       
                 ButtonLong(
-                  onPressed: (){
+                  onPressed: () async {
                     if(formKey.currentState!.validate()){
-                      // Send verification code
+                      setState(() {
+                        isLoading = true;
+                      });
+                      ResponseMessage response = await Api().resetPassword(email, passwordController.text);
+                      setState(() {
+                        isLoading = false;
+                      });
+                      if(response.success){
+                        Navigator.pushReplacementNamed(context, '/resetSuccess');
+                      } else {
+                        showSnackBar(context, response.message);
+                      }
                       
                     }
-                    Navigator.pushNamed(context, '/resetSuccess');
                   }, 
-                  text: 'Confirm'
+                  leading: isLoading? const SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ): null,
+                    text: isLoading? '' : 'Confirm'
                 )
               ],
             ),

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   bool hidePassword = true;
+
+  bool isLoading = false;
+  bool btnEnabled = true;
 
   @override
   void dispose() {
@@ -169,12 +175,39 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20,),
                         ButtonLong(
-                          onPressed: (){
+                          onPressed: isLoading || !btnEnabled ? (){} : () async {
                             if(_formKey.currentState!.validate()){
-                              Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
+                              setState(() {
+                                isLoading = true;
+                              });
+                              ResponseMessage response = await Api().login(emailController.text, passwordController.text);
+
+                              if (!mounted) return;
+
+                              setState(() {
+                                isLoading = false;
+                                if(response.success){
+                                  btnEnabled = false;
+                                }
+                              });
+                              
+                              showSnackBar(context, response.message);
+                              if(response.success){
+                                Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
+                              }
                             }
                           }, 
-                          text: 'Continue'
+                          leading: isLoading? const SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ): null,
+                          text: isLoading? '': 'Continue'
                         ),
                         const SizedBox(height: 20,),
                         Row(

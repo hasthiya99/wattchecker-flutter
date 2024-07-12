@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:wattchecker/screens/forget_pw_otp.dart';
 import 'package:wattchecker/screens/forgot_pw_email.dart';
-import 'package:wattchecker/screens/forgot_pw_reset.dart';
 import 'package:wattchecker/screens/forgot_pw_success.dart';
 import 'package:wattchecker/screens/landing_page.dart';
 import 'package:wattchecker/screens/login_screen.dart';
@@ -14,9 +12,11 @@ import 'package:wattchecker/screens/signup.dart';
 import 'package:wattchecker/screens/signup_success.dart';
 import 'package:wattchecker/screens/splash_screen.dart';
 import 'package:wattchecker/screens/welcome_screen.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPrefs().init().then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -38,8 +38,6 @@ class MyApp extends StatelessWidget {
         '/signup' :(context) => const SignUp(),
         '/signupSuccess' :(context) => const SignupSuccess(),
         '/verifyEmail' : (context) => const VerifyEmail(),
-        '/verifyOtp' : (context) => const VerifyOtp(),
-        '/resetPassword' : (context) => const ResetPassword(),
         '/resetSuccess' :(context) => const PasswordResetSuccess(),
         '/landing' : (context) =>  const LandingPage(),
         '/scanScreen' : (context) =>  const ScanProductScreen(),

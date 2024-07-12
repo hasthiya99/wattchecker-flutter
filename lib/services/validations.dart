@@ -40,4 +40,17 @@ class Validations{
     return null;
   }
 
+  String? validateElectricityRate(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Electricity rate is required';
+    }
+
+    final number = double.tryParse(value);
+    if (number == null) {
+      return 'Enter a valid electricity rate';
+    }
+
+    return null;
+  }
+
 }

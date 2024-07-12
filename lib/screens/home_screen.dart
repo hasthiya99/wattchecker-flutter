@@ -5,6 +5,7 @@ import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
 import 'package:wattchecker/widgets/videocard.dart';
@@ -19,12 +20,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<ScannedDevice> products = []; // Initialize as an empty list
+  late String firstName;
 
   @override
   void initState() {
-    super.initState();
     // Initialize products list with dummy data
     products = scannedDevices;
+    firstName = SharedPrefs().getStringValue('firstName')??'User';
+
+    super.initState();
   }
 
   @override
@@ -54,9 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 30,),
-                        const Text(
-                          'Hi,Samadhi',
-                          style: TextStyle(
+                        Text(
+                          'Hi, $firstName',
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
