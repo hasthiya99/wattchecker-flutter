@@ -5,6 +5,7 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/screens/add_device.dart';
 import 'package:wattchecker/widgets/annual_energy_usgage_card.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/est_annual_cost_card.dart';
@@ -23,7 +24,7 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
 
   Device? checkProduct(){
     for (Device device in database){
-      if(device.modelNumber == widget.productId.toLowerCase()){
+      if(device.modelNumber == widget.productId.toUpperCase()){
         return device;
       }
     }
@@ -69,12 +70,15 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                                 ],
                               ),
                             ),
-                            ButtonLong(
-                                  onPressed: (){
-                                    //User should be able to add a new device to the database
-                                  }, 
-                                  text: 'Add Product',
-                                )
+                            SizedBox(
+                              width: ScreenSize().width(context)*0.8,
+                              child: ButtonLong(
+                                    onPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevice(modelNumber: widget.productId,)));
+                                    }, 
+                                    text: 'Add Product',
+                                  ),
+                            )
                           ],
                         ),
                       )

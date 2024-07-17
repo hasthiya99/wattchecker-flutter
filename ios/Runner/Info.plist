@@ -37,6 +37,8 @@
 	<string>Permission for using the camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Permission for using the microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>To upload photos, please allow permission to access your photo library.</string>
 	
 	<key>UISupportedInterfaceOrientations</key>
 	<array>

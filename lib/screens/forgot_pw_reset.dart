@@ -155,15 +155,16 @@ class _ResetPasswordState extends State<ResetPassword> {
                         isLoading = true;
                       });
                       ResponseMessage response = await Api().resetPassword(email, passwordController.text);
-                      setState(() {
-                        isLoading = false;
-                      });
-                      if(response.success){
-                        Navigator.pushReplacementNamed(context, '/resetSuccess');
-                      } else {
-                        showSnackBar(context, response.message);
+                      if(context.mounted){
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if(response.success){
+                          Navigator.pushReplacementNamed(context, '/resetSuccess');
+                        } else {
+                          showSnackBar(context, response.message);
+                        }
                       }
-                      
                     }
                   }, 
                   leading: isLoading? const SizedBox(

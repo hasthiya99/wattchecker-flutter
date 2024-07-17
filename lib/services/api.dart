@@ -93,4 +93,27 @@ class Api {
     }
   }
 
+  Future<ResponseMessage> addDevice(FormData data) async{
+    try{
+      Response response = await Dio().post(
+        addDeviceUrl, 
+        data: data, 
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${SharedPrefs().getStringValue('token')}",
+          }
+        ));
+
+      if(response.statusCode == 201 && response.data['status']==true ){
+        return ResponseMessage(success: true, message: 'Device added successfully');
+      } else {
+        return ResponseMessage(success: false, message: 'Failed to add device');
+      }
+    }
+    on DioException {
+      return ResponseMessage(success: false, message: 'Failed to add device');
+    }
+  }
+
 }
