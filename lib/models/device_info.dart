@@ -52,7 +52,9 @@ class Device {
     return Device(
       modelNumber: json['ModelNumber'],
       deviceName: json['Name'],
-      imageUrl: json['imageUrl'] ?? '', // Assuming imageUrl might be optional
+      imageUrl: (json['proImage'] as String?)?.split(',')[0] ?? '',
+
+      // imageUrl: json['imageUrl'] ?? '', // Assuming imageUrl might be optional
       manufacturer: json['Brand'],
       deviceType:
           json['deviceType'] ?? '', // Assuming deviceType might be optional
