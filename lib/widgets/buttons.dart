@@ -5,18 +5,63 @@ import 'package:wattchecker/constants/screensize.dart';
 class ButtonLong extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
-  const ButtonLong({super.key, required this.onPressed, required this.text});
+  final double? textSize;
+  final FontWeight? fontWeight;
+  final Color? textColor;
+  final Color? backgroundColor;
+  final Widget? leading;
+  final double? elevation;
+  final Color? borderColor;
+
+  const ButtonLong(
+    {
+      super.key, 
+      required this.onPressed, 
+      required this.text, 
+      this.textSize, 
+      this.fontWeight,
+      this.textColor, 
+      this.backgroundColor, 
+      this.leading,
+      this.elevation,
+      this.borderColor,
+    }
+  );
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
             onPressed: onPressed, 
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(appGreen),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-              minimumSize: MaterialStateProperty.all(Size(ScreenSize().width(context)*0.8, 50))
+              backgroundColor: MaterialStateProperty.all(backgroundColor??appGreen),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),),
+              minimumSize: MaterialStateProperty.all(Size(ScreenSize().width(context)*0.8, 50)),
+              overlayColor: MaterialStateProperty.all(appBlack.withOpacity(0.05)),
+              elevation: MaterialStateProperty.all(elevation ?? 2),
+              side: MaterialStateProperty.all(BorderSide(color: borderColor?? Colors.transparent)),
+
             ),
-            child: Text(text, style: const TextStyle(fontFamily: 'Inter', fontSize: 16, color: appWhite, fontWeight: FontWeight.bold),),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if(leading != null) Row(
+                  children: [
+                    leading!,
+                    const SizedBox(width: 20),
+                  ],
+                ),
+                Text(
+                  text, 
+                  style: TextStyle(
+                    fontFamily: 'Inter', 
+                    fontSize: textSize ?? 16, 
+                    color: textColor ?? appWhite, 
+                    fontWeight: fontWeight ?? FontWeight.bold
+                  )
+                ),
+              ],
+            ),
           );
   }
 }
