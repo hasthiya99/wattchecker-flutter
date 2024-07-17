@@ -14,7 +14,6 @@ class ScanBarcode extends StatefulWidget {
 }
 
 class _ScanBarcodeState extends State<ScanBarcode> {
-
   CameraController? cameraController;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
@@ -22,7 +21,7 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   Barcode? result;
 
   bool bottomSheetOpen = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -47,13 +46,13 @@ class _ScanBarcodeState extends State<ScanBarcode> {
 
   @override
   Widget build(BuildContext context) {
-
     void onQRViewCreated(QRViewController controller) {
       setState(() {
         qrController = controller;
       });
       controller.scannedDataStream.listen((scanData) {
-        if (!bottomSheetOpen) { // Check if modal bottom sheet is already showing
+        if (!bottomSheetOpen) {
+          // Check if modal bottom sheet is already showing
           setState(() {
             controller.pauseCamera();
             result = scanData;
@@ -62,14 +61,15 @@ class _ScanBarcodeState extends State<ScanBarcode> {
           showModalBottomSheet(
             isScrollControlled: true,
             backgroundColor: Colors.white,
-            context: context, 
+            context: context,
             builder: (context) {
               return DeviceDetailsBottomsheet(productId: result?.code ?? '');
             },
           ).whenComplete(() {
             controller.resumeCamera();
             setState(() {
-              bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+              bottomSheetOpen =
+                  false; // Reset flag when modal bottom sheet is closed
             });
           });
         }
@@ -82,63 +82,75 @@ class _ScanBarcodeState extends State<ScanBarcode> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SizedBox(
-            width: ScreenSize().width(context)*0.7,
+            width: ScreenSize().width(context) * 0.7,
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: 20.0),
               child: Text(
                 'Hold your phone steady and focus on the barcode',
-                style: TextStyle(fontSize: 14, fontFamily: 'Inter', fontWeight: FontWeight.w400, color: textGrey),
+                style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w400,
+                    color: textGrey),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
-            
           Expanded(
             flex: 4,
-            child: (cameraController == null || !cameraController!.value.isInitialized)?
-               const Center(child: CircularProgressIndicator(color: appBlack,)) :
-             Stack(
-                children: [
-                  QRView(
-                    key: qrKey,
-                    onQRViewCreated: onQRViewCreated,
-                    overlay: QrScannerOverlayShape(
-                      borderColor: appWhite,
-                      borderRadius: 10,
-                      borderLength: 30,
-                      borderWidth: 10,
-                      cutOutSize: 300,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05, vertical: 10),
-                      child: IconButton(
-                        onPressed: () async {
-                          qrController?.flipCamera(); 
-                        },
-                        icon: const Icon(Icons.flip_camera_ios, color: Colors.white, size: 30,),
+            child: (cameraController == null ||
+                    !cameraController!.value.isInitialized)
+                ? const Center(
+                    child: CircularProgressIndicator(
+                    color: appBlack,
+                  ))
+                : Stack(
+                    children: [
+                      QRView(
+                        key: qrKey,
+                        onQRViewCreated: onQRViewCreated,
+                        overlay: QrScannerOverlayShape(
+                          borderColor: appWhite,
+                          borderRadius: 10,
+                          borderLength: 30,
+                          borderWidth: 10,
+                          cutOutSize: 300,
+                        ),
                       ),
-                    ),
-                  )
-               ],
-             ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: ScreenSize().width(context) * 0.05,
+                              vertical: 10),
+                          child: IconButton(
+                            onPressed: () async {
+                              qrController?.flipCamera();
+                            },
+                            icon: const Icon(
+                              Icons.flip_camera_ios,
+                              color: Colors.white,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
           ),
           Expanded(
             flex: 1,
             child: Center(
-              child: TextButton(
-                onPressed: (){},
-                style: const ButtonStyle(
+                child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/DetailsEnterScreen');
+              },
+              style: const ButtonStyle(
                   foregroundColor: MaterialStatePropertyAll(appBlack),
-                  overlayColor: MaterialStatePropertyAll(Color(0x11000000))  
-                ),
-                child: const Text('Enter model number manually'),
-              )
-            ),
+                  overlayColor: MaterialStatePropertyAll(Color(0x11000000))),
+              child: const Text('Enter model number manually'),
+            )),
           ),
-          
         ],
       ),
     );
