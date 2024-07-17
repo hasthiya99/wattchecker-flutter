@@ -328,21 +328,22 @@ class _SignUpState extends State<SignUp> {
                           utilityRateController.text, 
                           passwordController.text
                         );
-                        if(!mounted) return;
-                        setState(() {
-                          isLoading = false;
-                          if(response.success){
-                            btnEnabled = false;
-                          }
-                        });
-                        if(response.success){
-                          Navigator.pushNamed(context, '/signupSuccess');
-                        } else {
-                          showSnackBar(context, response.message);
-                        }
-                        
-                      }
                       
+                        if(context.mounted){
+                          setState(() {
+                            isLoading = false;
+                            if (response.success) {
+                              btnEnabled = false;
+                            }
+                          });
+
+                          if (response.success) {
+                            Navigator.pushNamed(context, '/signupSuccess');
+                          } else {
+                            showSnackBar(context, response.message);
+                          }
+                        }
+                      }
                     }, 
                     leading: isLoading? const SizedBox(
                             height: 25,

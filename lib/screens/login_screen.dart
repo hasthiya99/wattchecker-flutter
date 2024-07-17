@@ -182,18 +182,18 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                               ResponseMessage response = await Api().login(emailController.text, passwordController.text);
 
-                              if (!mounted) return;
-
-                              setState(() {
-                                isLoading = false;
+                              if(context.mounted){
+                                setState(() {
+                                  isLoading = false;
+                                  if(response.success){
+                                    btnEnabled = false;
+                                  }
+                                });
+                                
+                                showSnackBar(context, response.message);
                                 if(response.success){
-                                  btnEnabled = false;
+                                  Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                                 }
-                              });
-                              
-                              showSnackBar(context, response.message);
-                              if(response.success){
-                                Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                               }
                             }
                           }, 

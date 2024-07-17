@@ -89,18 +89,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         isLoading = true;
                       });
                       ResponseMessage response = await Api().sendOtp(emailController.text);
-                      setState(() {
-                        isLoading = false;
-                      });
-                      
-                      if(!mounted) return;
-
-                      if(response.success){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtp(email: emailController.text)));
-                      }else{
-                        showSnackBar(context, response.message);
+                      if(context.mounted){  
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if(response.success){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtp(email: emailController.text)));
+                        }else{
+                          showSnackBar(context, response.message);
+                        }
                       }
-                      
                     }
                   }, 
                   leading: isLoading? const SizedBox(

@@ -21,13 +21,12 @@ class Device{
 
   factory Device.fromJson(Map<String, dynamic> json){
     return Device(
-      modelNumber: json['modelNumber'],
-      deviceName: json['deviceName'],
-      imageUrl: json['imageUrl'],
-      manufacturer: json['manufacturer'],
+      modelNumber: json['ModelNumber'],
+      deviceName: json['Name'],
+      imageUrl: json['proImage'],
+      manufacturer: json['Brand'],
       deviceType: json['deviceType'],
-      // powerRating: json['powerRating'],
-      powerRatingPerYear: json['powerRatingPerYear'],
+      powerRatingPerYear: json['EnergyConsumption'],
     );
   }
 }

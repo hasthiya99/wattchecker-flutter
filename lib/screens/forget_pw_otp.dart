@@ -90,10 +90,12 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     String code = otpControllers.map((controller) => controller.text).join();
                     if(code.length==6){
                       ResponseMessage response = await Api().validateOtp(email, code);
-                      if(response.success){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword(email: email)));
-                      } else{
-                        showSnackBar(context, response.message);
+                      if(context.mounted){  
+                        if(response.success){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword(email: email)));
+                        } else{
+                          showSnackBar(context, response.message);
+                        }
                       }
                     }
                     
