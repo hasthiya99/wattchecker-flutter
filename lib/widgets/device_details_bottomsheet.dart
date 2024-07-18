@@ -4,7 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/screens/add_device.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/annual_energy_usgage_card.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/est_annual_cost_card.dart';
@@ -18,22 +22,35 @@ class DeviceDetailsBottomsheet extends StatefulWidget {
 }
 
 class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
+  bool isLoading = true;
 
-  late Device? device;
+  late ResponseDevice responseDevice;
 
-  Device? checkProduct(){
-    for (Device device in database){
-      if(device.modelNumber == widget.productId.toLowerCase()){
-        return device;
+  checkProduct() async {
+    setState(() {
+      isLoading = true;
+    });
+    ResponseDevice response = await Api().getDevice(widget.productId);
+    setState(() {
+      responseDevice = response;
+      isLoading = false;
+    });
+  }
+
+
+  bool isDeviceInList(List<ScannedDevice> list, Device device) {
+    for (var scannedDevice in list) {
+      if (scannedDevice.device == device) {
+        return true;
       }
     }
-    return null;
+    return false;
   }
 
   @override
   void initState() {
     super.initState();
-    device = checkProduct();
+    checkProduct();
   }
 
   @override
@@ -49,91 +66,115 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
             child: IntrinsicHeight(
               child: SizedBox(
                 width: ScreenSize().width(context),
-                child: device == null
-                    ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 50),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                child: isLoading ? const Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                                strokeWidth: 2,
+                              ),
+                            ) 
+                      : responseDevice.success == true ?
+                          Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                          child: Column(
+                            children: [
+                              Image.network(responseDevice.device.imageUrl, height: 200,),
+                              const SizedBox(height: 20,),
+                              Text(responseDevice.device.deviceName, style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
+                              const SizedBox(height: 40,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  SvgPicture.asset('assets/images/no_device.svg', height: 100,),
-                                  const SizedBox(height: 40,),
-                                  const Text('Product not found', style: TextStyle(fontFamily: 'Mulish', fontSize: 14, fontWeight: FontWeight.bold),),
-                                  const SizedBox(height: 10,),
-                                  const Text('We couldn\'t find that product in our database', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),),
-                                  const SizedBox(height: 40,),
+                                  const Text('Model number', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
+                                  Text(responseDevice.device.modelNumber.toUpperCase(), style: const TextStyle(fontFamily: 'Inter', fontSize: 14, color: textBlack, fontWeight: FontWeight.bold),)
                                 ],
                               ),
-                            ),
-                            ButtonLong(
-                                  onPressed: (){
-                                    //User should be able to add a new device to the database
-                                  }, 
-                                  text: 'Add Product',
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                                child: Dash(
+                                  direction: Axis.horizontal,
+                                  length: ScreenSize().width(context)-80,
+                                  dashLength: 5,
+                                  dashColor: textGrey,
+                                ),
+                              ), 
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text('Brand name', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
+                                  Text('${responseDevice.device.manufacturer} ${responseDevice.device.deviceType}', style: const TextStyle(fontFamily: 'Inter', fontSize: 14, color: textBlack, fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                              const SizedBox(height: 30,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AnnualEnergyUsageCard(device: responseDevice.device),
+                                  const SizedBox(width: 20,),
+                                  EstimatedAnnualCostCard(device: responseDevice.device,)
+                                ],
+                              ),
+                              const SizedBox(height: 40,),
+                              ButtonLong(
+                                onPressed: (){
+                                  //User should be able to save the device to the account
+                                  if(!isDeviceInList(scannedDevices, responseDevice.device)) {
+                                    setState(() {
+                                      scannedDevices.add(ScannedDevice(device: responseDevice.device, scannedTime: DateTime.now()));
+                                    });
+                                  }
+                                  Navigator.pop(context);
+                                }, 
+                                text: 'Save Device',
+                              )
+                            ],
+                          ),
+                        )
+                      :
+                        responseDevice.message == 404 ? 
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 50),
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset('assets/images/no_device.svg', height: 100,),
+                                            const SizedBox(height: 40,),
+                                            const Text('Product not found', style: TextStyle(fontFamily: 'Mulish', fontSize: 14, fontWeight: FontWeight.bold),),
+                                            const SizedBox(height: 10,),
+                                            const Text('We couldn\'t find that product in our database', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),),
+                                            const SizedBox(height: 40,),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: ScreenSize().width(context)*0.8,
+                                        child: ButtonLong(
+                                              onPressed: (){
+                                                Navigator.push(
+                                                  context, 
+                                                  MaterialPageRoute(
+                                                    builder: (context) => AddDevice(modelNumber: widget.productId,)
+                                                    )
+                                                  ).then((_) {
+                                                    checkProduct();
+                                                    setState(() {
+                                                      
+                                                    });
+                                                  });
+                                              }, 
+                                              text: 'Add Product',
+                                            ),
+                                      )
+                                    ],
+                                  ),
                                 )
-                          ],
-                        ),
-                      )
-                    : Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                      child: Column(
-                        children: [
-                          Image.asset(device!.imageUrl, height: 200,),
-                          const SizedBox(height: 20,),
-                          Text(device!.deviceName, style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
-                          const SizedBox(height: 40,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Model number', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
-                              Text(device!.modelNumber.toUpperCase(), style: const TextStyle(fontFamily: 'Inter', fontSize: 14, color: textBlack, fontWeight: FontWeight.bold),)
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Dash(
-                              direction: Axis.horizontal,
-                              length: ScreenSize().width(context)-80,
-                              dashLength: 5,
-                              dashColor: textGrey,
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Brand name', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
-                              Text('${device!.manufacturer} ${device!.deviceType}', style: const TextStyle(fontFamily: 'Inter', fontSize: 14, color: textBlack, fontWeight: FontWeight.bold),)
-                            ],
-                          ),
-                          const SizedBox(height: 30,),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              AnnualEnergyUsageCard(device: device),
-                              const SizedBox(width: 20,),
-                              EstimatedAnnualCostCard(device: device,)
-                            ],
-                          ),
-                          const SizedBox(height: 40,),
-                          ButtonLong(
-                            onPressed: (){
-                              //User should be able to save the device to the account
-                              if(!deviceList.contains(device)) {
-                                setState(() {
-                                  deviceList.add(device!);
-                                });
-                              }
-                              Navigator.pop(context);
-                            }, 
-                            text: 'Save Device',
-                          )
-                        ],
-                      ),
-                    ),
+                        :
+                          const Center(child: Text('An error occured. Please try again later', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey)),)
+                        
               ),
             ),
           );

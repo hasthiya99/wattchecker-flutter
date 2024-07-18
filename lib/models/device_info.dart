@@ -21,13 +21,23 @@ class Device{
 
   factory Device.fromJson(Map<String, dynamic> json){
     return Device(
-      modelNumber: json['modelNumber'],
-      deviceName: json['deviceName'],
-      imageUrl: json['imageUrl'],
-      manufacturer: json['manufacturer'],
+      modelNumber: json['ModelNumber'],
+      deviceName: json['Name'],
+      imageUrl: json['proImage'].toString().replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),
+      manufacturer: json['Brand'],
       deviceType: json['deviceType'],
-      // powerRating: json['powerRating'],
-      powerRatingPerYear: json['powerRatingPerYear'],
+      powerRatingPerYear: json['EnergyConsumption'],
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! Device) return false;
+    return modelNumber == other.modelNumber;
+  }
+
+  @override
+  int get hashCode => modelNumber.hashCode;
+  
 }
