@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:wattchecker/constants/api_paths.dart';
-import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/constants/dummy_data.dart';
+import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 
 class Api {
@@ -90,6 +92,43 @@ class Api {
       }
     } on DioException {
       return ResponseMessage(success: false, message: 'Failed to change password');
+    }
+  }
+
+  Future<ResponseMessage> addDevice(FormData data) async{
+    try{
+      Response response = await Dio().post(
+        addDeviceUrl, 
+        data: data, 
+        options: Options(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${SharedPrefs().getStringValue('token')}",
+          }
+        ));
+
+      if(response.statusCode == 201 && response.data['status']==true ){
+        return ResponseMessage(success: true, message: 'Device added successfully');
+      } else {
+        return ResponseMessage(success: false, message: 'Failed to add device');
+      }
+    }
+    on DioException {
+      return ResponseMessage(success: false, message: 'Failed to add device');
+    }
+  }
+
+  Future<ResponseDevice> getDevice(String modelNumber) async {
+    try{
+      Response response = await Dio().get('$getDeviceUrl/$modelNumber');
+      if(response.statusCode == 200 && response.data['status'] == true){
+        return ResponseDevice(success: true, message: response.statusCode!, device: Device.fromJson(response.data['result']['product']));
+      } else {
+        return ResponseDevice(success: false, message: response.statusCode!, device: blankDevice);
+      }
+    }
+    on DioException catch (e){
+      return ResponseDevice(success: false, message: e.response!.statusCode ?? 0, device: blankDevice);
     }
   }
 

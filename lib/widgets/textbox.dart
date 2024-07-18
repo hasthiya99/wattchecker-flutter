@@ -8,6 +8,8 @@ class ReusableTextBox extends StatefulWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
+  final bool enabled;
+
 
   const ReusableTextBox({
     super.key,
@@ -17,6 +19,7 @@ class ReusableTextBox extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.validator,
+    this.enabled = true,
   });
 
   @override
@@ -52,6 +55,7 @@ class _ReusableTextBoxState extends State<ReusableTextBox> {
             ),
           ),
           child: TextFormField(
+            enabled: widget.enabled,
             controller: widget.controller,
             obscureText: widget.obscureText,
             keyboardType: widget.keyboardType,
@@ -82,10 +86,10 @@ class _ReusableTextBoxState extends State<ReusableTextBox> {
         // Add a SizedBox or Padding for the error message
         if (_hasError)
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(bottom :10.0),
             child: Text(
               _errorMessage,
-              style: const TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red, fontSize: 12.0),
             ),
           ),
       ],
