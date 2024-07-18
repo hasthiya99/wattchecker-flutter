@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/response_message.dart';
 import 'package:wattchecker/screens/forgot_pw_reset.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/buttons.dart';
@@ -90,12 +90,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                     String code = otpControllers.map((controller) => controller.text).join();
                     if(code.length==6){
                       ResponseMessage response = await Api().validateOtp(email, code);
-                      if(context.mounted){  
-                        if(response.success){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword(email: email)));
-                        } else{
-                          showSnackBar(context, response.message);
-                        }
+                      if(response.success){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPassword(email: email)));
+                      } else{
+                        showSnackBar(context, response.message);
                       }
                     }
                     

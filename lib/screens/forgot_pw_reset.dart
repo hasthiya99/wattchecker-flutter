@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/response_message.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
@@ -155,16 +155,15 @@ class _ResetPasswordState extends State<ResetPassword> {
                         isLoading = true;
                       });
                       ResponseMessage response = await Api().resetPassword(email, passwordController.text);
-                      if(context.mounted){
-                        setState(() {
-                          isLoading = false;
-                        });
-                        if(response.success){
-                          Navigator.pushReplacementNamed(context, '/resetSuccess');
-                        } else {
-                          showSnackBar(context, response.message);
-                        }
+                      setState(() {
+                        isLoading = false;
+                      });
+                      if(response.success){
+                        Navigator.pushReplacementNamed(context, '/resetSuccess');
+                      } else {
+                        showSnackBar(context, response.message);
                       }
+                      
                     }
                   }, 
                   leading: isLoading? const SizedBox(

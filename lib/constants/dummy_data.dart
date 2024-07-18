@@ -1,9 +1,10 @@
+
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/scanned_device.dart';
 
 Device rf29a9675ap = Device(
   deviceName: "BESPOKE 4-Door Flex",
-  modelNumber: "RF29A9675AP",
+  modelNumber: "rf29a9675ap",
   deviceType: "Refrigerator",
   manufacturer: "Samsung",
   imageUrl: "assets/images/rf29a9675ap.png",
@@ -12,7 +13,7 @@ Device rf29a9675ap = Device(
 
 Device rf32cg5400mtaa = Device(
   deviceName: "Mega Capacity 3-Door French Door",
-  modelNumber: "RF32CG5400MTAA",
+  modelNumber: "rf32cg5400mtaa",
   deviceType: "Refrigerator",
   manufacturer: "Samsung",
   imageUrl: "assets/images/rf32cg5400mtaa.png",
@@ -20,7 +21,7 @@ Device rf32cg5400mtaa = Device(
 );
 Device gsb6181ds = Device(
   deviceName: "613L Dark Grapite Side-by-Side",
-  modelNumber: "GS-B6181DS",
+  modelNumber: "gs-b6181ds",
   deviceType: "Refrigerator",
   manufacturer: "LG",
   imageUrl: "assets/images/gsb6181ds.png",
@@ -28,7 +29,7 @@ Device gsb6181ds = Device(
 );
 Device qn85a = Device(
   deviceName: "85\" QN85A QLED 4K Smart TV",
-  modelNumber: "QN85A",
+  modelNumber: "qn85a",
   deviceType: "TV",
   manufacturer: "Samsung",
   imageUrl: "assets/images/qn85a.AVIF",
@@ -37,7 +38,7 @@ Device qn85a = Device(
 
 Device a90j = Device(
   deviceName: "65\" A90J OLED 4K HDR Smart TV",
-  modelNumber: "A90J",
+  modelNumber: "a90j",
   deviceType: "TV",
   manufacturer: "Sony",
   imageUrl: "assets/images/a90j.webp",
@@ -46,28 +47,23 @@ Device a90j = Device(
 
 Device lgdualinverter = Device(
   deviceName: "LG Dual Inverter Window Air Conditioner",
-  modelNumber: "LW1517IVSM",
+  modelNumber: "lw1517ivsm",
   deviceType: "Air Conditioner",
   manufacturer: "LG",
   imageUrl: "assets/images/lw1517ivsm.png",
   powerRatingPerYear: 600
 );
 
-Device blankDevice = Device(
-  deviceName: "",
-  modelNumber: "",
-  deviceType: "",
-  manufacturer: "",
-  imageUrl: "",
-  powerRatingPerYear: 0
-);
 
+List<Device> deviceList = []; 
+
+List<Device> database = [rf29a9675ap, rf32cg5400mtaa, gsb6181ds, qn85a, a90j, lgdualinverter];
 
 List<ScannedDevice> scannedDevices = [
-  // ScannedDevice(device: rf29a9675ap, scannedTime: DateTime.now(),),
-  // ScannedDevice(device: rf32cg5400mtaa, scannedTime: DateTime.now()),
-  // ScannedDevice(device: gsb6181ds, scannedTime: DateTime.now()),
-  // ScannedDevice(device: qn85a, scannedTime: DateTime.now()),
-  // ScannedDevice(device: a90j, scannedTime: DateTime.now()),
-  // ScannedDevice(device: lgdualinverter, scannedTime: DateTime.now()),
+  ScannedDevice(device: rf29a9675ap, scannedTime: DateTime.now(),),
+  ScannedDevice(device: rf32cg5400mtaa, scannedTime: DateTime.now()),
+  ScannedDevice(device: gsb6181ds, scannedTime: DateTime.now()),
+  ScannedDevice(device: qn85a, scannedTime: DateTime.now()),
+  ScannedDevice(device: a90j, scannedTime: DateTime.now()),
+  ScannedDevice(device: lgdualinverter, scannedTime: DateTime.now()),
 ];
