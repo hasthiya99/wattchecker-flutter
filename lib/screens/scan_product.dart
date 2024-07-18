@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/screens/comparison_preview.dart';
 import 'package:wattchecker/screens/device_details_screen.dart';
 import 'package:wattchecker/widgets/appbar.dart';
@@ -20,10 +20,10 @@ class ScanProductScreen extends StatefulWidget {
 
 class _ScanProductScreenState extends State<ScanProductScreen> {
 
-  List<Device> selectedDevices = [];
+  List<ScannedDevice> selectedDevices = [];
   bool selectMode = false;
 
-  void selectDevice(Device device){
+  void selectDevice(ScannedDevice device){
     if(!selectedDevices.contains(device)){
       if(selectedDevices.length<3){
         setState(() {
@@ -62,9 +62,9 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                   context, MaterialPageRoute(
                     builder: (context) => 
                       ComparisonPreview(
-                        device_1: selectedDevices[0], 
-                        device_2: selectedDevices[1], 
-                        device_3: (selectedDevices.length==3)? selectedDevices[2] : null,)) )
+                        device_1: selectedDevices[0].device, 
+                        device_2: selectedDevices[1].device, 
+                        device_3: (selectedDevices.length==3)? selectedDevices[2].device : null,)) )
               : showSnackBar(context, 'Select 2-3 devices to compare')
             : 
               Navigator.pushNamed(context, '/scanBarcode').then((value) => setState(() {}));
@@ -121,7 +121,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                   InkWell(
                     onTap: () {
                       if(selectMode) {
-                        selectDevice(scannedDevices[index].device);
+                        selectDevice(scannedDevices[index]);
                       } else {
                         Navigator.push(
                           context, MaterialPageRoute(
@@ -130,12 +130,12 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                         );
                       }
                     },
-                    onLongPress: () => selectDevice(scannedDevices[index].device),
+                    onLongPress: () => selectDevice(scannedDevices[index]),
                     child: Stack(
                       children: [
                         DeviceDetailsCard(device: scannedDevices[index].device),
                         Visibility(
-                          visible: selectedDevices.contains(scannedDevices[index].device),
+                          visible: selectedDevices.contains(scannedDevices[index]),
                           child: Positioned(
                             right: 10,
                             bottom: 10,
@@ -194,6 +194,14 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                       minWidth: 40,
                       onPressed: (){
                         //Delete devices
+                        setState(() {
+                          for(ScannedDevice device in selectedDevices){
+                            scannedDevices.remove(device);
+                          }
+                          if(scannedDevices.isEmpty){
+                            selectMode = false;
+                          }
+                        });
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
