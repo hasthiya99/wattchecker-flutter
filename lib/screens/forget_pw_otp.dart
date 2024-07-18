@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/screens/forgot_pw_reset.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/buttons.dart';

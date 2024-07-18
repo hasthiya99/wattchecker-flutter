@@ -54,18 +54,21 @@ Device lgdualinverter = Device(
   powerRatingPerYear: 600
 );
 
+Device blankDevice = Device(
+  deviceName: "",
+  modelNumber: "",
+  deviceType: "",
+  manufacturer: "",
+  imageUrl: "",
+  powerRatingPerYear: 0
+);
 
-List<Device> deviceList = []; 
-
-List<Device> database = [
- // rf29a9675ap, rf32cg5400mtaa, gsb6181ds, qn85a, a90j, lgdualinverter
-  ];
 
 List<ScannedDevice> scannedDevices = [
-  ScannedDevice(device: rf29a9675ap, scannedTime: DateTime.now(),),
-  ScannedDevice(device: rf32cg5400mtaa, scannedTime: DateTime.now()),
-  ScannedDevice(device: gsb6181ds, scannedTime: DateTime.now()),
-  ScannedDevice(device: qn85a, scannedTime: DateTime.now()),
-  ScannedDevice(device: a90j, scannedTime: DateTime.now()),
-  ScannedDevice(device: lgdualinverter, scannedTime: DateTime.now()),
+  // ScannedDevice(device: rf29a9675ap, scannedTime: DateTime.now(),),
+  // ScannedDevice(device: rf32cg5400mtaa, scannedTime: DateTime.now()),
+  // ScannedDevice(device: gsb6181ds, scannedTime: DateTime.now()),
+  // ScannedDevice(device: qn85a, scannedTime: DateTime.now()),
+  // ScannedDevice(device: a90j, scannedTime: DateTime.now()),
+  // ScannedDevice(device: lgdualinverter, scannedTime: DateTime.now()),
 ];

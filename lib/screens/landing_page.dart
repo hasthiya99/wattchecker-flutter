@@ -36,7 +36,9 @@ class _LandingPageState extends State<LandingPage> {
           shape: const CircleBorder(),
           backgroundColor: appGreen,
           onPressed: (){
-            Navigator.pushNamed(context, '/scanScreen');
+            Navigator.pushNamed(context, '/scanScreen').then((_) => setState(() {
+              
+            }));
           },
           child: SvgPicture.asset('assets/icons/barcode_btn.svg',),
         ),
