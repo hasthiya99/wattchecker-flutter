@@ -25,7 +25,7 @@ class DeviceDetailsCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 2,
-              child: Image.network(device.imageUrl),
+              child: Image.asset(device.imageUrl),
             ),
             const SizedBox(width: 10,),
             Expanded(

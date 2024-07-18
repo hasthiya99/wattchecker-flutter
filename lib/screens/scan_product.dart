@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/screens/comparison_preview.dart';
 import 'package:wattchecker/screens/device_details_screen.dart';
 import 'package:wattchecker/widgets/appbar.dart';
@@ -20,10 +20,10 @@ class ScanProductScreen extends StatefulWidget {
 
 class _ScanProductScreenState extends State<ScanProductScreen> {
 
-  List<ScannedDevice> selectedDevices = [];
+  List<Device> selectedDevices = [];
   bool selectMode = false;
 
-  void selectDevice(ScannedDevice device){
+  void selectDevice(Device device){
     if(!selectedDevices.contains(device)){
       if(selectedDevices.length<3){
         setState(() {
@@ -53,7 +53,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
     return Scaffold(
       appBar: const StandardAppBar(title: 'Scan Product',),
       floatingActionButton: Visibility(
-        visible: (scannedDevices.isNotEmpty),
+        visible: (deviceList.isNotEmpty),
         child: FloatingActionButton(
           onPressed: (){
             selectMode?
@@ -62,9 +62,9 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                   context, MaterialPageRoute(
                     builder: (context) => 
                       ComparisonPreview(
-                        device_1: selectedDevices[0].device, 
-                        device_2: selectedDevices[1].device, 
-                        device_3: (selectedDevices.length==3)? selectedDevices[2].device : null,)) )
+                        device_1: selectedDevices[0], 
+                        device_2: selectedDevices[1], 
+                        device_3: (selectedDevices.length==3)? selectedDevices[2] : null,)) )
               : showSnackBar(context, 'Select 2-3 devices to compare')
             : 
               Navigator.pushNamed(context, '/scanBarcode').then((value) => setState(() {}));
@@ -80,7 +80,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05,),
         child: 
-        (scannedDevices.isEmpty)?
+        (deviceList.isEmpty)?
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +104,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
             ),
           )
         : ListView.builder(
-          itemCount: scannedDevices.length,
+          itemCount: deviceList.length,
           itemBuilder: (context, index){
             return Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
@@ -121,21 +121,21 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                   InkWell(
                     onTap: () {
                       if(selectMode) {
-                        selectDevice(scannedDevices[index]);
+                        selectDevice(deviceList[index]);
                       } else {
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => DeviceDetailsScreen(device: scannedDevices[index].device)
+                            builder: (context) => DeviceDetailsScreen(device: deviceList[index])
                           )
                         );
                       }
                     },
-                    onLongPress: () => selectDevice(scannedDevices[index]),
+                    onLongPress: () => selectDevice(deviceList[index]),
                     child: Stack(
                       children: [
-                        DeviceDetailsCard(device: scannedDevices[index].device),
+                        DeviceDetailsCard(device: deviceList[index]),
                         Visibility(
-                          visible: selectedDevices.contains(scannedDevices[index]),
+                          visible: selectedDevices.contains(deviceList[index]),
                           child: Positioned(
                             right: 10,
                             bottom: 10,
@@ -145,7 +145,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                       ],
                     )
                   ),
-                  if(index==scannedDevices.length-1) const SizedBox(height: 100,)
+                  if(index==deviceList.length-1) const SizedBox(height: 100,)
                 ],
               ),
             );
@@ -194,14 +194,6 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                       minWidth: 40,
                       onPressed: (){
                         //Delete devices
-                        setState(() {
-                          for(ScannedDevice device in selectedDevices){
-                            scannedDevices.remove(device);
-                          }
-                          if(scannedDevices.isEmpty){
-                            selectMode = false;
-                          }
-                        });
                       },
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

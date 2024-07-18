@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/response_message.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
@@ -328,22 +328,21 @@ class _SignUpState extends State<SignUp> {
                           utilityRateController.text, 
                           passwordController.text
                         );
-                      
-                        if(context.mounted){
-                          setState(() {
-                            isLoading = false;
-                            if (response.success) {
-                              btnEnabled = false;
-                            }
-                          });
-
-                          if (response.success) {
-                            Navigator.pushNamed(context, '/signupSuccess');
-                          } else {
-                            showSnackBar(context, response.message);
+                        if(!mounted) return;
+                        setState(() {
+                          isLoading = false;
+                          if(response.success){
+                            btnEnabled = false;
                           }
+                        });
+                        if(response.success){
+                          Navigator.pushNamed(context, '/signupSuccess');
+                        } else {
+                          showSnackBar(context, response.message);
                         }
+                        
                       }
+                      
                     }, 
                     leading: isLoading? const SizedBox(
                             height: 25,

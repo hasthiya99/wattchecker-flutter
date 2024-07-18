@@ -42,7 +42,7 @@ class ScannedDeviceCard extends StatelessWidget {
                 height: screenHeight * 0.25,
                 width: screenWidth * 0.4,
                 color: Colors.white,
-                child: Image.network(
+                child: Image.asset(
                   scannedDevice.device.imageUrl,
                 ),
               ),
