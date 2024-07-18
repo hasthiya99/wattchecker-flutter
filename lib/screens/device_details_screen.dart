@@ -33,7 +33,7 @@ class DeviceDetailsScreen extends StatelessWidget {
                     ],
                     color: Colors.white
                   ),
-                  child: Image.network(device.imageUrl)
+                  child: Image.asset(device.imageUrl)
                 ),
               ),
               const SizedBox(height: 20,),
