@@ -1,4 +1,3 @@
-
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/scanned_device.dart';
 
