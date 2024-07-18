@@ -4,6 +4,7 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
@@ -18,10 +19,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<ScannedDevice> products = []; // Initialize as an empty list
   late String firstName;
 
   @override
   void initState() {
+    // Initialize products list with dummy data
+    products = scannedDevices;
     firstName = SharedPrefs().getStringValue('firstName')??'User';
 
     super.initState();
@@ -144,22 +148,19 @@ class _HomeScreenState extends State<HomeScreen> {
             
                   //Use a conditional widget to handle null products
                   if 
-                    (scannedDevices.isEmpty) 
-                    const Text('No scanned devices yet',
-                      style: TextStyle(fontSize: 13, color: Colors.grey, fontFamily: 'Inter')
-                    ) 
+                    (products.isEmpty) const CircularProgressIndicator(color: appBlack,) 
                   else 
                     SizedBox(
                           height: screenHeight * 0.3,
                           width: screenWidth,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: scannedDevices.length,
+                            itemCount: products.length,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.only(right: 20.0),
                                 child: ScannedDeviceCard(
-                                  scannedDevice: scannedDevices[index],
+                                  scannedDevice: products[index],
                                 ),
                               );
                             },
