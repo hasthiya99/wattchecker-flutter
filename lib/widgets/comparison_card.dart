@@ -20,7 +20,7 @@ class ComparisonCard extends StatelessWidget {
             children: [
               Expanded(
                 flex: 1,
-                child: Image.asset(device.imageUrl,)
+                child: Image.network(device.imageUrl,)
               ),
               const SizedBox(width: 10,),
               Expanded(

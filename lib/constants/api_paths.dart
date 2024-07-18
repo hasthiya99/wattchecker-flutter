@@ -6,3 +6,4 @@ String validateOtpUrl = 'https://watch.hasthiya.org/user/validateOTP';
 String resetPasswordUrl = 'https://watch.hasthiya.org/user/ChangePasswordWithEmail';
 
 String addDeviceUrl = 'https://watch.hasthiya.org/api/products/addProduct';
+String getDeviceUrl = 'https://watch.hasthiya.org/api/products/getProductByModelNumber';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   ButtonLong(
                     onPressed: (){
-                      Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
+                      //Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                     }, 
                     leading: SvgPicture.asset('assets/icons/apple.svg', width: 20,),
                     text: 'Login With Apple', 
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20,),
                   ButtonLong(
                     onPressed: (){
-                      Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
+                      //Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
                     }, 
                     leading: SvgPicture.asset('assets/icons/google.svg', width: 20,),
                     text: 'Login With Google', 

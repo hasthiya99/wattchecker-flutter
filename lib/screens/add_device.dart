@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/services/image_helper.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
@@ -22,6 +22,7 @@ class AddDevice extends StatefulWidget {
 }
 
 class _AddDeviceState extends State<AddDevice> {
+
   final _formKey = GlobalKey<FormState>();
   bool edit = true;
   final TextEditingController deviceNameController = TextEditingController();

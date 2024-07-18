@@ -53,7 +53,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
     return Scaffold(
       appBar: const StandardAppBar(title: 'Scan Product',),
       floatingActionButton: Visibility(
-        visible: (deviceList.isNotEmpty),
+        visible: (scannedDevices.isNotEmpty),
         child: FloatingActionButton(
           onPressed: (){
             selectMode?
@@ -80,7 +80,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05,),
         child: 
-        (deviceList.isEmpty)?
+        (scannedDevices.isEmpty)?
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +104,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
             ),
           )
         : ListView.builder(
-          itemCount: deviceList.length,
+          itemCount: scannedDevices.length,
           itemBuilder: (context, index){
             return Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
@@ -121,21 +121,21 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                   InkWell(
                     onTap: () {
                       if(selectMode) {
-                        selectDevice(deviceList[index]);
+                        selectDevice(scannedDevices[index].device);
                       } else {
                         Navigator.push(
                           context, MaterialPageRoute(
-                            builder: (context) => DeviceDetailsScreen(device: deviceList[index])
+                            builder: (context) => DeviceDetailsScreen(device: scannedDevices[index].device)
                           )
                         );
                       }
                     },
-                    onLongPress: () => selectDevice(deviceList[index]),
+                    onLongPress: () => selectDevice(scannedDevices[index].device),
                     child: Stack(
                       children: [
-                        DeviceDetailsCard(device: deviceList[index]),
+                        DeviceDetailsCard(device: scannedDevices[index].device),
                         Visibility(
-                          visible: selectedDevices.contains(deviceList[index]),
+                          visible: selectedDevices.contains(scannedDevices[index].device),
                           child: Positioned(
                             right: 10,
                             bottom: 10,
@@ -145,7 +145,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                       ],
                     )
                   ),
-                  if(index==deviceList.length-1) const SizedBox(height: 100,)
+                  if(index==scannedDevices.length-1) const SizedBox(height: 100,)
                 ],
               ),
             );

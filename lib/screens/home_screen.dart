@@ -148,7 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
             
                   //Use a conditional widget to handle null products
                   if 
-                    (products.isEmpty) const CircularProgressIndicator(color: appBlack,) 
+                    (products.isEmpty) 
+                    const Text('No scanned devices yet',
+                      style: TextStyle(fontSize: 13, color: Colors.grey, fontFamily: 'Inter')
+                    ) 
                   else 
                     SizedBox(
                           height: screenHeight * 0.3,
