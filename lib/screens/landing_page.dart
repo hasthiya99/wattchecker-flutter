@@ -36,7 +36,24 @@ class _LandingPageState extends State<LandingPage> {
           shape: const CircleBorder(),
           backgroundColor: appGreen,
           onPressed: (){
-            Navigator.pushNamed(context, '/scanScreen');
+            Navigator.pushNamed(context, '/scanScreen').then((_) => setState((){
+              switch (currentIndex) {
+                case 0:
+                  currentScreen = const HomeScreen();
+                  break;
+                case 1:
+                  currentScreen = const CompareScreen();
+                  break;
+                case 2:
+                  currentScreen = const TipsScreen();
+                  break;
+                case 3:
+                  currentScreen = const ProfileScreen();
+                  break;
+                default:
+                  currentScreen = const HomeScreen();
+              }
+            }));
           },
           child: SvgPicture.asset('assets/icons/barcode_btn.svg',),
         ),

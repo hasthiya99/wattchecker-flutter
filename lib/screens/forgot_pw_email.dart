@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/models/response_message.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/screens/forget_pw_otp.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
@@ -89,18 +89,16 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         isLoading = true;
                       });
                       ResponseMessage response = await Api().sendOtp(emailController.text);
-                      setState(() {
-                        isLoading = false;
-                      });
-                      
-                      if(!mounted) return;
-
-                      if(response.success){
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtp(email: emailController.text)));
-                      }else{
-                        showSnackBar(context, response.message);
+                      if(context.mounted){  
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if(response.success){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtp(email: emailController.text)));
+                        }else{
+                          showSnackBar(context, response.message);
+                        }
                       }
-                      
                     }
                   }, 
                   leading: isLoading? const SizedBox(
