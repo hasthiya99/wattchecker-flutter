@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:dio/dio.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/services/api.dart';
