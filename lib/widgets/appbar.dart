@@ -131,3 +131,64 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 }
+
+
+class AppBarWithoutSearch extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+  const AppBarWithoutSearch({super.key, required this.title});
+
+  @override
+  Size get preferredSize => const Size.fromHeight(110.0);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: preferredSize.height,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(20)),
+        color: appGreen
+      ),
+      child: Stack(
+        children: [
+          SvgPicture.asset('assets/images/appbar_pattern.svg', ),
+          AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            elevation: null,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            title: Text(
+              title,
+              style: const TextStyle(
+                  fontFamily: 'Lexend',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white),
+            ),
+            centerTitle: false,
+            flexibleSpace: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                    height: 50), // Add space between title and search bar
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20.0,
+                  ),
+                  
+                ),
+              ],
+            ),
+          ),
+        ]
+      ),
+    );
+  }
+}

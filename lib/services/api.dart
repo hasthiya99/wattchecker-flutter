@@ -4,6 +4,7 @@ import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
+import 'package:wattchecker/widgets/gift_card.dart';
 
 class Api {
 
@@ -129,6 +130,21 @@ class Api {
     }
     on DioException catch (e){
       return ResponseDevice(success: false, message: e.response!.statusCode ?? 0, device: blankDevice);
+    }
+  }
+
+  Future<List<Gift>> getAllGifts() async {
+    try {
+      Response response = await Dio().get('https://watch.hasthiya.org/gift/getAllGifts');
+      print(response.data);
+      if (response.statusCode == 200 ) {
+        List<dynamic> giftsJson = response.data['result']['result'];
+        return giftsJson.map((json) => Gift.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load gifts');
+      }
+    } on DioException catch (e) {
+      throw Exception(e.message);
     }
   }
 
