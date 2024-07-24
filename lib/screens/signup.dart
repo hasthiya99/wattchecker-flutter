@@ -317,31 +317,36 @@ class _SignUpState extends State<SignUp> {
                     onPressed: isLoading || !btnEnabled? (){} : () async {
                       
                       if(formKey.currentState!.validate()){
-                        setState(() {
-                          isLoading = true;
-                        });
-                        ResponseMessage response = await Api().signUp(
-                          firstNameController.text, 
-                          lastNameController.text, 
-                          emailController.text, 
-                          zipCodeController.text, 
-                          utilityRateController.text, 
-                          passwordController.text
-                        );
-                      
-                        if(context.mounted){
+                        
+                        if(passwordController.text == confirmPasswordController.text){
                           setState(() {
-                            isLoading = false;
-                            if (response.success) {
-                              btnEnabled = false;
-                            }
+                            isLoading = true;
                           });
+                          ResponseMessage response = await Api().signUp(
+                            firstNameController.text, 
+                            lastNameController.text, 
+                            emailController.text, 
+                            zipCodeController.text, 
+                            utilityRateController.text, 
+                            passwordController.text
+                          );
+                        
+                          if(context.mounted){
+                            setState(() {
+                              isLoading = false;
+                              if (response.success) {
+                                btnEnabled = false;
+                              }
+                            });
 
-                          if (response.success) {
-                            Navigator.pushNamed(context, '/signupSuccess');
-                          } else {
-                            showSnackBar(context, response.message);
+                            if (response.success) {
+                              Navigator.pushNamed(context, '/signupSuccess');
+                            } else {
+                              showSnackBar(context, response.message);
+                            }
                           }
+                        } else {
+                          showSnackBar(context, 'Passwords do not match');
                         }
                       }
                     }, 

@@ -26,7 +26,7 @@ class Device{
       imageUrl: json['proImage'].toString().replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),
       manufacturer: json['Brand'],
       deviceType: json['deviceType'],
-      powerRatingPerYear: json['EnergyConsumption'],
+      powerRatingPerYear: json['ProductWatt'],
     );
   }
 
