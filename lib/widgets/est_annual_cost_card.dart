@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 
 class EstimatedAnnualCostCard extends StatelessWidget {
   final Device? device;
@@ -35,7 +36,7 @@ class EstimatedAnnualCostCard extends StatelessWidget {
                     
                     const Text('\$', style: TextStyle(fontFamily: 'Lexend', fontSize: 14, color: textGrey,),),
                     const SizedBox(width: 5,),
-                    Text(device!.powerRatingPerYear.toString(), style: const TextStyle(fontFamily: 'Lexend', fontSize: 24, color: textBlack, fontWeight: FontWeight.w700),),
+                    Text((device!.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toStringAsFixed(2), style: const TextStyle(fontFamily: 'Lexend', fontSize: 24, color: textBlack, fontWeight: FontWeight.w700),),
                     
                   ],
                 ),

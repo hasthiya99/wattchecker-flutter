@@ -151,19 +151,23 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ButtonLong(
                   onPressed: () async {
                     if(formKey.currentState!.validate()){
-                      setState(() {
-                        isLoading = true;
-                      });
-                      ResponseMessage response = await Api().resetPassword(email, passwordController.text);
-                      if(context.mounted){
+                      if(passwordController.text == confirmPasswordController.text){
                         setState(() {
-                          isLoading = false;
+                        isLoading = true;
                         });
-                        if(response.success){
-                          Navigator.pushReplacementNamed(context, '/resetSuccess');
-                        } else {
-                          showSnackBar(context, response.message);
+                        ResponseMessage response = await Api().resetPassword(email, passwordController.text);
+                        if(context.mounted){
+                          setState(() {
+                            isLoading = false;
+                          });
+                          if(response.success){
+                            Navigator.pushReplacementNamed(context, '/resetSuccess');
+                          } else {
+                            showSnackBar(context, response.message);
+                          }
                         }
+                      } else {
+                        showSnackBar(context, 'Passwords do not match');
                       }
                     }
                   }, 

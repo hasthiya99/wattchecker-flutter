@@ -73,13 +73,14 @@ class FeaturePageAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             centerTitle: false,
             flexibleSpace: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const SizedBox(
-                    height: 50), // Add space between title and search bar
+                // const SizedBox(
+                //     height: 50), // Add space between title and search bar
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 20.0,
+                    vertical: 20
                   ),
                   child: Row(
                     children: [

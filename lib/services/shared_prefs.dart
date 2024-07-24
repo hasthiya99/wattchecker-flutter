@@ -40,6 +40,14 @@ class SharedPrefs {
     return _prefs.getBool(key);
   }
 
+  Future<void> setDoubleValue(String key, double value) async {
+    await _prefs.setDouble(key, value);
+  }
+
+  double? getDoubleValue(String key) {
+    return _prefs.getDouble(key);
+  }
+
   //Clear SharedPrefferences
   void clearData(){
     _prefs.clear();

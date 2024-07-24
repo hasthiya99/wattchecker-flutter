@@ -6,6 +6,7 @@ import 'package:wattchecker/bar%20graph/bottom_tiles.dart';
 import 'package:wattchecker/bar%20graph/makegroup_data.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 
 class BarGraph extends StatefulWidget {
   final Device device_1;
@@ -21,13 +22,15 @@ class _BarGraphState extends State<BarGraph> {
 
   late List<BarChartGroupData> rawBarGroups;
   late List<BarChartGroupData> showingBarGroups;
+  late double utilityRate;
 
   @override
   void initState() {
     super.initState();
-    final barGroup1 = makeGroupData(0, widget.device_1.powerRatingPerYear.toDouble(), widget.device_1.powerRatingPerYear*1.2);
-    final barGroup2 = makeGroupData(1, widget.device_2.powerRatingPerYear.toDouble(), widget.device_2.powerRatingPerYear*1.2);
-    final barGroup3 = makeGroupData(2, widget.device_3!=null? widget.device_3!.powerRatingPerYear.toDouble() : 0, widget.device_3!=null? widget.device_3!.powerRatingPerYear*1.2 : 0);
+    utilityRate = SharedPrefs().getDoubleValue('utilityRate') ?? 1;
+    final barGroup1 = makeGroupData(0, widget.device_1.powerRatingPerYear.toDouble(), widget.device_1.powerRatingPerYear*utilityRate);
+    final barGroup2 = makeGroupData(1, widget.device_2.powerRatingPerYear.toDouble(), widget.device_2.powerRatingPerYear*utilityRate);
+    final barGroup3 = makeGroupData(2, widget.device_3!=null? widget.device_3!.powerRatingPerYear.toDouble() : 0, widget.device_3!=null? widget.device_3!.powerRatingPerYear*utilityRate : 0);
 
     final items = [
       barGroup1,

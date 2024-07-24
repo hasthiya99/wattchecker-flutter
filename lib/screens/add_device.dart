@@ -159,7 +159,7 @@ class _AddDeviceState extends State<AddDevice> {
                             'Name' : deviceNameController.text,
                             'Brand' : manufacturerController.text,
                             'ModelNumber' : modelNumberController.text,
-                            'EnergyConsumption' : powerRatingController.text,
+                            'ProductWatt' : powerRatingController.text,
                             'deviceType' : deviceTypeController.text,
                             'proImage' : MultipartFile.fromBytes(
                               imageBytes,
