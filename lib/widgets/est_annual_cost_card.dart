@@ -36,7 +36,7 @@ class EstimatedAnnualCostCard extends StatelessWidget {
                     
                     const Text('\$', style: TextStyle(fontFamily: 'Lexend', fontSize: 14, color: textGrey,),),
                     const SizedBox(width: 5,),
-                    Text((device!.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toString(), style: const TextStyle(fontFamily: 'Lexend', fontSize: 24, color: textBlack, fontWeight: FontWeight.w700),),
+                    Text((device!.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toStringAsFixed(2), style: const TextStyle(fontFamily: 'Lexend', fontSize: 24, color: textBlack, fontWeight: FontWeight.w700),),
                     
                   ],
                 ),

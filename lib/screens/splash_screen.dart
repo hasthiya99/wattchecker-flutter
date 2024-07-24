@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
+import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 
@@ -29,6 +30,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   if (context.mounted) {
     if (validToken) {
+      UserModel? user = await Api().getUserById(SharedPrefs().getIntValue('id')!);
+      if(user != null){
+        SharedPrefs().setStringValue('firstName', user.firstName);
+        SharedPrefs().setStringValue('lastName', user.lastName);
+        SharedPrefs().setDoubleValue('utilityRate', user.utility);
+      }
       Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
       });

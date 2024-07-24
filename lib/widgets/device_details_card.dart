@@ -66,7 +66,7 @@ class DeviceDetailsCard extends StatelessWidget {
                         child: Text('Estimated cost', style: TextStyle(fontFamily: 'Mulish', fontSize: 12),textAlign: TextAlign.start,),),
                       Expanded(
                         flex: 2,
-                        child: Text('\$${(device.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toString()}', style: const TextStyle(fontFamily: 'Mulish', fontWeight: FontWeight.bold, fontSize: 12),textAlign: TextAlign.start))
+                        child: Text('\$${(device.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toStringAsFixed(2)}', style: const TextStyle(fontFamily: 'Mulish', fontWeight: FontWeight.bold, fontSize: 12),textAlign: TextAlign.start))
                     ],
                   ),
                 ],

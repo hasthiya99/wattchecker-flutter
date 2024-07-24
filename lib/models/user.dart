@@ -4,7 +4,7 @@ class UserModel {
   final String firstName;
   final String lastName;
   final String zipCode;
-  final String utility;
+  final double utility;
 
   UserModel({
     required this.id,
@@ -22,7 +22,7 @@ class UserModel {
       firstName: json['firstName'],
       lastName: json['lastName'],
       zipCode: json['zipCode'],
-      utility: json['utility'],
+      utility: double.parse(json['utility']),
     );
   }
 }

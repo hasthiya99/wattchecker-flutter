@@ -3,6 +3,7 @@ import 'package:wattchecker/constants/api_paths.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/gift_card.dart';
 
@@ -16,7 +17,7 @@ class Api {
       });
 
       if (response.statusCode == 200 && response.data['success'] == true){
-
+        SharedPrefs().setIntValue('id', response.data['userId']);
         SharedPrefs().setStringValue('firstName', response.data['firstName']);
         SharedPrefs().setStringValue('lastName', response.data['lastName']);
         SharedPrefs().setStringValue('token', response.data['token']);
@@ -72,6 +73,19 @@ class Api {
     }
     on DioException{
       return false;
+    }
+  }
+
+  Future<UserModel?> getUserById(int id) async {
+    try{
+      Response response = await Dio().get('$getUserUrl/$id');
+      if(response.statusCode == 200 && response.data['success'] == true){
+        return UserModel.fromJson(response.data['user']);
+      } else {
+        return null;
+      }
+    } on DioException {
+      return null;
     }
   }
 
