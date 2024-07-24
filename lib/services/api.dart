@@ -149,7 +149,7 @@ class Api {
     try{
       Response response = await Dio().get('$getDeviceUrl/$modelNumber');
       if(response.statusCode == 200 && response.data['status'] == true){
-        return ResponseDevice(success: true, message: response.statusCode!, device: Device.fromJson(response.data['result']['product']));
+        return ResponseDevice(success: true, message: response.statusCode!, device: Device.fromJson(response.data['result']));
       } else {
         return ResponseDevice(success: false, message: response.statusCode!, device: blankDevice);
       }

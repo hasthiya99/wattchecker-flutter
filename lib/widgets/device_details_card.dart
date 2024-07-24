@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 
 class DeviceDetailsCard extends StatelessWidget {
   final Device device;
@@ -65,7 +66,7 @@ class DeviceDetailsCard extends StatelessWidget {
                         child: Text('Estimated cost', style: TextStyle(fontFamily: 'Mulish', fontSize: 12),textAlign: TextAlign.start,),),
                       Expanded(
                         flex: 2,
-                        child: Text('\$${device.powerRatingPerYear.toString()}', style: const TextStyle(fontFamily: 'Mulish', fontWeight: FontWeight.bold, fontSize: 12),textAlign: TextAlign.start))
+                        child: Text('\$${(device.powerRatingPerYear*SharedPrefs().getDoubleValue('utilityRate')!).toString()}', style: const TextStyle(fontFamily: 'Mulish', fontWeight: FontWeight.bold, fontSize: 12),textAlign: TextAlign.start))
                     ],
                   ),
                 ],
