@@ -1,4 +1,5 @@
 class Device{
+  int productId;
   String modelNumber;
   String deviceName;
   String imageUrl;
@@ -10,6 +11,7 @@ class Device{
   //Either one of powerRating or powerRatingPerYear or both must be provided
 
   Device({
+    required this.productId,
     required this.modelNumber,
     required this.deviceName,
     required this.imageUrl,
@@ -21,6 +23,7 @@ class Device{
 
   factory Device.fromJson(Map<String, dynamic> json){
     return Device(
+      productId: json['ProductID'],
       modelNumber: json['ModelNumber'],
       deviceName: json['Name'],
       imageUrl: json['proImage'].toString().replaceAll('"', '').replaceAll('[', '').replaceAll(']', ''),

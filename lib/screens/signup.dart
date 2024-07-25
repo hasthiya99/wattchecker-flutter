@@ -314,7 +314,7 @@ class _SignUpState extends State<SignUp> {
                   const SizedBox(height: 50),
                   
                   ButtonLong(
-                    onPressed: isLoading || !btnEnabled? (){} : () async {
+                    onPressed:!btnEnabled? (){} : () async {
                       
                       if(formKey.currentState!.validate()){
                         
@@ -350,17 +350,8 @@ class _SignUpState extends State<SignUp> {
                         }
                       }
                     }, 
-                    leading: isLoading? const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ): null,
-                    text: isLoading? '' : 'Confirm'
+                    isLoading: isLoading,
+                    text:'Confirm'
                   ),
                   const SizedBox(height: 50),
                 ],

@@ -12,6 +12,7 @@ class ButtonLong extends StatelessWidget {
   final Widget? leading;
   final double? elevation;
   final Color? borderColor;
+  final bool? isLoading;
 
   const ButtonLong(
     {
@@ -25,13 +26,14 @@ class ButtonLong extends StatelessWidget {
       this.leading,
       this.elevation,
       this.borderColor,
+      this.isLoading,
     }
   );
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-            onPressed: onPressed, 
+            onPressed: (isLoading!=null && isLoading == true)? (){} : onPressed, 
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(backgroundColor??appGreen),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),),
@@ -41,27 +43,44 @@ class ButtonLong extends StatelessWidget {
               side: MaterialStateProperty.all(BorderSide(color: borderColor?? Colors.transparent)),
 
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if(leading != null) Row(
+            child:
+              (isLoading!=null && isLoading == true)? 
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    leading!,
-                    const SizedBox(width: 20),
+                    SizedBox(
+                      width: 25,
+                      height: 25,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-                Text(
-                  text, 
-                  style: TextStyle(
-                    fontFamily: 'Inter', 
-                    fontSize: textSize ?? 16, 
-                    color: textColor ?? appWhite, 
-                    fontWeight: fontWeight ?? FontWeight.bold
-                  )
-                ),
-              ],
-            ),
+                )
+              : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  if(leading != null) Row(
+                    children: [
+                      leading!,
+                      const SizedBox(width: 20),
+                    ],
+                  ),
+                  Text(
+                    text, 
+                    style: TextStyle(
+                      fontFamily: 'Inter', 
+                      fontSize: textSize ?? 16, 
+                      color: textColor ?? appWhite, 
+                      fontWeight: fontWeight ?? FontWeight.bold
+                    )
+                  ),
+                ],
+              ),
           );
   }
 }

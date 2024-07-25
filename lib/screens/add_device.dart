@@ -148,7 +148,7 @@ class _AddDeviceState extends State<AddDevice> {
                   
                   const SizedBox(height: 40), // Add some spacing before the button
                   ButtonLong(
-                    onPressed: (!isLoading)? ()async {
+                    onPressed: ()async {
                       if (_formKey.currentState!.validate() && image!=null) {
                         setState(() {
                           isLoading = true;
@@ -178,18 +178,9 @@ class _AddDeviceState extends State<AddDevice> {
                           }
                         }
                       }
-                    } : (){},
-                    text: !isLoading? 'Submit' : '',
-                    leading: isLoading? const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ): null,
+                    },
+                    text: 'Submit',
+                    isLoading: isLoading,
                   ),
                 ],
               ),

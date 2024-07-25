@@ -171,17 +171,8 @@ class _ResetPasswordState extends State<ResetPassword> {
                       }
                     }
                   }, 
-                  leading: isLoading? const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ): null,
-                    text: isLoading? '' : 'Confirm'
+                  isLoading: isLoading,
+                  text: 'Confirm'
                 )
               ],
             ),

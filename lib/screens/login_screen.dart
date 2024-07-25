@@ -24,7 +24,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool hidePassword = true;
 
   bool isLoading = false;
-  bool btnEnabled = true;
 
   @override
   void dispose() {
@@ -175,21 +174,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(height: 20,),
                         ButtonLong(
-                          onPressed: isLoading || !btnEnabled ? (){} : () async {
+                          onPressed:() async {
                             if(_formKey.currentState!.validate()){
                               setState(() {
                                 isLoading = true;
                               });
                               ResponseMessage response = await Api().login(emailController.text, passwordController.text);
-
                               if(context.mounted){
                                 setState(() {
                                   isLoading = false;
-                                  if(response.success){
-                                    btnEnabled = false;
-                                  }
                                 });
-                                
                                 showSnackBar(context, response.message);
                                 if(response.success){
                                   Navigator.pushNamedAndRemoveUntil(context, '/landing', (route) => false);
@@ -197,17 +191,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             }
                           }, 
-                          leading: isLoading? const SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                                strokeWidth: 2,
-                              ),
-                            ),
-                          ): null,
-                          text: isLoading? '': 'Continue'
+                          isLoading: isLoading,
+                          text:'Continue'
                         ),
                         const SizedBox(height: 20,),
                         Row(

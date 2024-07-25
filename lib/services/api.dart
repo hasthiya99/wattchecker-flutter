@@ -173,6 +173,22 @@ class Api {
     }
   }
 
+  Future<ResponseMessage> addDeviceToAccount(int deviceId) async {
+    try{
+      Response response = await Dio().post(addDeviceToAccountUrl, data: {
+        'userId' : SharedPrefs().getIntValue('id'),
+        'productId' : deviceId
+      });
+      if(response.statusCode == 201 && response.data['status']==true){
+        return ResponseMessage(success: true, message: 'Device saved');
+      } else {
+        return ResponseMessage(success: false, message: 'Failed to save device');
+      }
+    } on DioException {
+      return ResponseMessage(success: false, message: 'Failed to save device');
+    }
+  }
+
   Future<List<Gift>> getAllGifts() async {
     try {
       Response response = await Dio().get('https://watch.hasthiya.org/gift/getAllGifts');
@@ -187,5 +203,7 @@ class Api {
       throw Exception(e.message);
     }
   }
+
+
 
 }

@@ -21,184 +21,186 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    print('init');
     super.initState();
     firstName = SharedPrefs().getStringValue('firstName')??'User';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
-          return <Widget>[
-            createSilverAppBar1(),
-            createSilverAppBar2()
-          ];
-        },
-        body: ListView(
-          children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 200),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Recent Scan',
-                      style: TextStyle(
-                          fontFamily: 'Lexend',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_forward,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
+            return <Widget>[
+              createSilverAppBar1(),
+              createSilverAppBar2()
+            ];
+          },
+          body: ListView(
+            children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 200),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Recent Scan',
+                        style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/recentScans');
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-          
-                //Use a conditional widget to handle null products
-                if 
-                  (scannedDevices.isEmpty) 
-                  const Text('No scanned devices yet',
-                    style: TextStyle(fontSize: 13, color: Colors.grey, fontFamily: 'Inter')
-                  ) 
-                else 
-                  SizedBox(
-                        height: ScreenSize().height(context) * 0.3,
-                        width: ScreenSize().width(context),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: scannedDevices.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 20.0),
-                              child: ScannedDeviceCard(
-                                scannedDevice: scannedDevices[index],
-                              ),
-                            );
-                          },
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
                         ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/recentScans');
+                        },
                       ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Quick Tips for You',
-                      style: TextStyle(
-                          fontFamily: 'Lexend',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_forward,
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+            
+                  //Use a conditional widget to handle null products
+                  if 
+                    (scannedDevices.isEmpty) 
+                    const Text('No scanned devices yet',
+                      style: TextStyle(fontSize: 13, color: Colors.grey, fontFamily: 'Inter')
+                    ) 
+                  else 
+                    SizedBox(
+                          height: ScreenSize().height(context) * 0.3,
+                          width: ScreenSize().width(context),
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: scannedDevices.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 20.0),
+                                child: ScannedDeviceCard(
+                                  scannedDevice: scannedDevices[index],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Quick Tips for You',
+                        style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/quickTips');
-                      },
-                    ),
-                  ],
-                ),
-                const Text(
-                  'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
-                  style: TextStyle(
-                      fontSize: 13, color: Colors.grey, fontFamily: 'Inter'),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2, // Set the maximum number of lines
-                ),
-                const SizedBox(height: 8),
-                const TipCard(
-                  icon: Icons.thermostat,
-                  iconColor: appGreen,
-                  backgroundColor: greenCardColor,
-                  title: 'Tip 01',
-                  description:
-                      'Adjust fridge temperature by 2°F to save up to 15% on energy usage.',
-                ),
-                const TipCard(
-                  icon: Icons.lightbulb,
-                  iconColor: appCream,
-                  backgroundColor: creamCardColor,
-                  title: 'Tip 02',
-                  description:
-                      'Power down those electronics: Standby power drain adds up. Turn them off!',
-                ),
-                const TipCard(
-                  icon: Icons.power_off,
-                  iconColor: appGreen,
-                  backgroundColor: greenCardColor,
-                  title: 'Tip 03',
-                  description:
-                      'Power down those electronics: Standby power drain adds up. Turn them off!',
-                ),
-                const TipCard(
-                  icon: Icons.lightbulb,
-                  iconColor: appCream,
-                  backgroundColor: creamCardColor,
-                  title: 'Tip 04',
-                  description:
-                      'Power down those electronics: Standby power drain adds up. Turn them off!',
-                ),
-                const TipCard(
-                  icon: Icons.thermostat,
-                  iconColor: appGreen,
-                  backgroundColor: greenCardColor,
-                  title: 'Tip 05',
-                  description:
-                      'Power down those electronics: Standby power drain adds up. Turn them off!',
-                ),
-                const SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Video Training',
-                      style: TextStyle(
-                          fontFamily: 'Lexend',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    IconButton(
-                      icon: const Icon(
-                        Icons.arrow_forward,
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/quickTips');
+                        },
                       ),
-                      onPressed: () {
-                        //Navigate to Video Training
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                const Videocard(
-                    videoName: 'How to Save Energy In The kitchen',
-                    videoUrl:
-                        'https://videos.pexels.com/video-files/6996473/6996473-uhd_2560_1440_30fps.mp4',
+                    ],
+                  ),
+                  const Text(
+                    'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
+                    style: TextStyle(
+                        fontSize: 13, color: Colors.grey, fontFamily: 'Inter'),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2, // Set the maximum number of lines
+                  ),
+                  const SizedBox(height: 8),
+                  const TipCard(
+                    icon: Icons.thermostat,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
+                    title: 'Tip 01',
                     description:
-                        'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text'),
-                const SizedBox(height: 8),
-                const Videocard(
-                    videoName: 'How to Save Energy In The kitchen',
-                    videoUrl:
-                        'https://media.istockphoto.com/id/1292468199/video/close-up-hands-turn-on-and-off-light-pushing-the-button.mp4?s=mp4-640x640-is&k=20&c=TojXNKbbDFvvvPibG7SYcQPARvuUHVK7frONfv6Uck0=',
+                        'Adjust fridge temperature by 2°F to save up to 15% on energy usage.',
+                  ),
+                  const TipCard(
+                    icon: Icons.lightbulb,
+                    iconColor: appCream,
+                    backgroundColor: creamCardColor,
+                    title: 'Tip 02',
                     description:
-                        'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text')
-              ],
+                        'Power down those electronics: Standby power drain adds up. Turn them off!',
+                  ),
+                  const TipCard(
+                    icon: Icons.power_off,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
+                    title: 'Tip 03',
+                    description:
+                        'Power down those electronics: Standby power drain adds up. Turn them off!',
+                  ),
+                  const TipCard(
+                    icon: Icons.lightbulb,
+                    iconColor: appCream,
+                    backgroundColor: creamCardColor,
+                    title: 'Tip 04',
+                    description:
+                        'Power down those electronics: Standby power drain adds up. Turn them off!',
+                  ),
+                  const TipCard(
+                    icon: Icons.thermostat,
+                    iconColor: appGreen,
+                    backgroundColor: greenCardColor,
+                    title: 'Tip 05',
+                    description:
+                        'Power down those electronics: Standby power drain adds up. Turn them off!',
+                  ),
+                  const SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Video Training',
+                        style: TextStyle(
+                            fontFamily: 'Lexend',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                        ),
+                        onPressed: () {
+                          //Navigate to Video Training
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  const Videocard(
+                      videoName: 'How to Save Energy In The kitchen',
+                      videoUrl:
+                          'https://videos.pexels.com/video-files/6996473/6996473-uhd_2560_1440_30fps.mp4',
+                      description:
+                          'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text'),
+                  const SizedBox(height: 8),
+                  const Videocard(
+                      videoName: 'How to Save Energy In The kitchen',
+                      videoUrl:
+                          'https://media.istockphoto.com/id/1292468199/video/close-up-hands-turn-on-and-off-light-pushing-the-button.mp4?s=mp4-640x640-is&k=20&c=TojXNKbbDFvvvPibG7SYcQPARvuUHVK7frONfv6Uck0=',
+                      description:
+                          'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text')
+                ],
+              ),
             ),
-          ),
-          ],
-        )
+            ],
+          )
+        ),
       ),
     );
   }
@@ -255,11 +257,16 @@ class _HomeScreenState extends State<HomeScreen> {
   SliverAppBar createSilverAppBar2() {
     return SliverAppBar(
       backgroundColor: appGreen,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(20),
+        ),
+      ),
       pinned: true,
 
-      bottom: const PreferredSize(                       // Add this code
-                preferredSize: Size.fromHeight(10.0),      // Add this code
-                child: Text(''),                           // Add this code
+      bottom: const PreferredSize(                      
+                preferredSize: Size.fromHeight(10.0),     
+                child: Text(''),
               ),   
       flexibleSpace: SafeArea(
         child: Padding(

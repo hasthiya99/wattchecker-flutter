@@ -3,6 +3,7 @@ import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/scanned_device.dart';
 
 Device rf29a9675ap = Device(
+  productId: 1,
   deviceName: "BESPOKE 4-Door Flex",
   modelNumber: "RF29A9675AP",
   deviceType: "Refrigerator",
@@ -12,6 +13,7 @@ Device rf29a9675ap = Device(
 );
 
 Device rf32cg5400mtaa = Device(
+  productId: 2,
   deviceName: "Mega Capacity 3-Door French Door",
   modelNumber: "RF32CG5400MTAA",
   deviceType: "Refrigerator",
@@ -20,6 +22,7 @@ Device rf32cg5400mtaa = Device(
   powerRatingPerYear: 785
 );
 Device gsb6181ds = Device(
+  productId: 3,
   deviceName: "613L Dark Grapite Side-by-Side",
   modelNumber: "GS-B6181DS",
   deviceType: "Refrigerator",
@@ -28,6 +31,7 @@ Device gsb6181ds = Device(
   powerRatingPerYear: 569
 );
 Device qn85a = Device(
+  productId: 4,
   deviceName: "85\" QN85A QLED 4K Smart TV",
   modelNumber: "QN85A",
   deviceType: "TV",
@@ -37,6 +41,7 @@ Device qn85a = Device(
 );
 
 Device a90j = Device(
+  productId: 5,
   deviceName: "65\" A90J OLED 4K HDR Smart TV",
   modelNumber: "A90J",
   deviceType: "TV",
@@ -46,6 +51,7 @@ Device a90j = Device(
 );
 
 Device lgdualinverter = Device(
+  productId: 6,
   deviceName: "LG Dual Inverter Window Air Conditioner",
   modelNumber: "LW1517IVSM",
   deviceType: "Air Conditioner",
@@ -55,6 +61,7 @@ Device lgdualinverter = Device(
 );
 
 Device blankDevice = Device(
+  productId: 0,
   deviceName: "",
   modelNumber: "",
   deviceType: "",
