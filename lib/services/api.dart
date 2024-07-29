@@ -3,6 +3,7 @@ import 'package:wattchecker/constants/api_paths.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/gift_card.dart';
@@ -186,6 +187,22 @@ class Api {
       }
     } on DioException {
       return ResponseMessage(success: false, message: 'Failed to save device');
+    }
+  }
+
+  Future<ResponseScans> getScannedDevices() async {
+    List<ScannedDevice> scannedDevices = [];
+    try{
+      Response response = await Dio().get('$getSavedDevicesUrl/${SharedPrefs().getIntValue('id')}');
+      if(response.statusCode == 200 && response.data['status']==true){
+        List<dynamic> devicesJson = response.data['result'];
+        scannedDevices = devicesJson.map((json) => ScannedDevice.fromJson(json)).toList();
+        return ResponseScans(success: true, scannedDevices: scannedDevices);
+      } else {
+        return ResponseScans(success: false, scannedDevices: scannedDevices);
+      }
+    } on DioException {
+      return ResponseScans(success: false, scannedDevices: scannedDevices);
     }
   }
 

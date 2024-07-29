@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    print('init');
     super.initState();
     firstName = SharedPrefs().getStringValue('firstName')??'User';
   }

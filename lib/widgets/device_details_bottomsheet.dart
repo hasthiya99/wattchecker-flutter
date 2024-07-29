@@ -8,10 +8,12 @@ import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/screens/add_device.dart';
+import 'package:wattchecker/screens/device_details_screen.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/annual_energy_usgage_card.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/est_annual_cost_card.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 
 class DeviceDetailsBottomsheet extends StatefulWidget {
   final String productId; 
@@ -23,7 +25,7 @@ class DeviceDetailsBottomsheet extends StatefulWidget {
 
 class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
   bool isLoading = true;
-
+  bool saveBtnLoading = false;
   late ResponseDevice responseDevice;
 
   checkProduct() async {
@@ -115,14 +117,25 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                               ),
                               const SizedBox(height: 40,),
                               ButtonLong(
-                                onPressed: (){
-                                  //User should be able to save the device to the account
+                                isLoading: saveBtnLoading,
+                                onPressed: () {
+                                  setState(() {
+                                    saveBtnLoading = true;
+                                  });
                                   if(!isDeviceInList(scannedDevices, responseDevice.device)) {
                                     setState(() {
                                       scannedDevices.add(ScannedDevice(device: responseDevice.device, scannedTime: DateTime.now()));
                                     });
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> DeviceDetailsScreen(device: responseDevice.device)));
+                                  } else {
+                                    Navigator.pop(context);
+                                    showSnackBar(context, 'Device is already saved');
                                   }
-                                  Navigator.pop(context);
+                                  setState(() {
+                                    saveBtnLoading = false;
+                                  },);
+                                  // Navigator.pop(context);
+                                  
                                 }, 
                                 text: 'Save Device',
                               )
