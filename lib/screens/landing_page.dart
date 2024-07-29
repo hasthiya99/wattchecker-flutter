@@ -20,8 +20,19 @@ class _LandingPageState extends State<LandingPage> {
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomeScreen();
 
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future<void> _navigateToScanScreen(BuildContext context) async {
-    await Navigator.pushNamed(context, '/scanScreen');
+    setState(() {
+      currentScreen = const Center(child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+        strokeWidth: 2,
+      ));
+    });
+    await Navigator.pushNamed(context, '/scanScreen').then((_) => 
     setState(() {
       switch (currentIndex) {
         case 0:
@@ -39,7 +50,8 @@ class _LandingPageState extends State<LandingPage> {
         default:
           currentScreen = const HomeScreen();
       }
-    });
+    })
+    );
   }
 
   @override
@@ -57,7 +69,9 @@ class _LandingPageState extends State<LandingPage> {
         floatingActionButton: FloatingActionButton(
           shape: const CircleBorder(),
           backgroundColor: appGreen,
-          onPressed: ()=> _navigateToScanScreen(context),
+          onPressed: (){
+             _navigateToScanScreen(context);
+            },
           child: SvgPicture.asset('assets/icons/barcode_btn.svg',),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

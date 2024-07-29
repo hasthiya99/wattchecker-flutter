@@ -174,13 +174,13 @@ class AppBarWithoutSearch extends StatelessWidget implements PreferredSizeWidget
                   color: Colors.white),
             ),
             centerTitle: false,
-            flexibleSpace: Column(
+            flexibleSpace: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(
+                SizedBox(
                     height: 50), // Add space between title and search bar
                 Padding(
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 20.0,
                   ),
                   

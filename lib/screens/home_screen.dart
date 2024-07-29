@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
+import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/screens/recent_scans.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
@@ -18,12 +21,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
 
   late String firstName;
+  late bool recentScansLoading;
+  List<ScannedDevice> scannedDevices = [];
 
   @override
   void initState() {
-    print('init');
     super.initState();
     firstName = SharedPrefs().getStringValue('firstName')??'User';
+    getRecentScans();
+  }
+
+  void getRecentScans() async {
+    setState(() {
+      recentScansLoading = true;
+    });
+    ResponseScans response = await Api().getScannedDevices();
+    scannedDevices = response.scannedDevices;
+    setState(() {
+      recentScansLoading = false;
+    });
   }
 
   @override
@@ -57,12 +73,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
+                      if (recentScansLoading) const Padding(
+                        padding: EdgeInsets.only(right: 15.0),
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                                  strokeWidth: 2,
+                              ),
+                        ),
+                      ) 
+                      else IconButton(
                         icon: const Icon(
                           Icons.arrow_forward,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/recentScans');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RecentScans(scannedDevices: scannedDevices,)));
                         },
                       ),
                     ],

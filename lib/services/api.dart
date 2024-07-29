@@ -209,7 +209,6 @@ class Api {
   Future<List<Gift>> getAllGifts() async {
     try {
       Response response = await Dio().get('https://watch.hasthiya.org/gift/getAllGifts');
-      print(response.data);
       if (response.statusCode == 200 ) {
         List<dynamic> giftsJson = response.data['result']['result'];
         return giftsJson.map((json) => Gift.fromJson(json)).toList();
