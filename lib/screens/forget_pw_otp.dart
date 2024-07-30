@@ -18,12 +18,14 @@ class VerifyOtp extends StatefulWidget {
 
 class _VerifyOtpState extends State<VerifyOtp> {
   late String email;
+  late bool resendOtp;
   List<TextEditingController> otpControllers = List.generate(6, (index) => TextEditingController());
 
   @override
   void initState() {
     super.initState();
     email = widget.email;
+    resendOtp = false;
   }
 
   @override
@@ -108,16 +110,37 @@ class _VerifyOtpState extends State<VerifyOtp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text('Didn\'t recieve the verification code?', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),),
-                    TextButton(
-                      onPressed: (){
-                        
+                    ElevatedButton(
+                      onPressed: ()async{
+                        if(!resendOtp){
+                          setState(() {
+                            resendOtp = true;
+                          });
+                          ResponseMessage response = await Api().sendOtp(email);
+                          if(context.mounted){
+                            setState(() {
+                              resendOtp = false;
+                            });
+                            showSnackBar(context, response.message);
+                          }
+                        }
                       }, 
                       style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(Colors.transparent
-                        )
+                        overlayColor: MaterialStateProperty.all(Colors.transparent),
+                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        shadowColor: MaterialStateProperty.all(Colors.transparent),
+                        surfaceTintColor: MaterialStateProperty.all(Colors.transparent),
                       ),
-                      child: const Text('Resend', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, fontWeight: FontWeight.bold, color: textBlack, decoration: TextDecoration.underline),),
-                    ),
+                      child: resendOtp? const SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(textBlack),
+                        ),
+                      ) :
+                       const Text('Resend', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, fontWeight: FontWeight.bold, color: textBlack, decoration: TextDecoration.underline),),
+                    )
                   ],
                 )
               ],
