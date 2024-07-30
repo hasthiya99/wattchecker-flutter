@@ -21,6 +21,40 @@ class _LandingPageState extends State<LandingPage> {
   Widget currentScreen = const HomeScreen();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  Future<void> _navigateToScanScreen(BuildContext context) async {
+    setState(() {
+      currentScreen = const Center(child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+        strokeWidth: 2,
+      ));
+    });
+    await Navigator.pushNamed(context, '/scanScreen').then((_) => 
+    setState(() {
+      switch (currentIndex) {
+        case 0:
+          currentScreen = const HomeScreen();
+          break;
+        case 1:
+          currentScreen = const CompareScreen();
+          break;
+        case 2:
+          currentScreen = const TipsScreen();
+          break;
+        case 3:
+          currentScreen = const ProfileScreen();
+          break;
+        default:
+          currentScreen = const HomeScreen();
+      }
+    })
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -36,25 +70,8 @@ class _LandingPageState extends State<LandingPage> {
           shape: const CircleBorder(),
           backgroundColor: appGreen,
           onPressed: (){
-            Navigator.pushNamed(context, '/scanScreen').then((_) => setState((){
-              switch (currentIndex) {
-                case 0:
-                  currentScreen = const HomeScreen();
-                  break;
-                case 1:
-                  currentScreen = const CompareScreen();
-                  break;
-                case 2:
-                  currentScreen = const TipsScreen();
-                  break;
-                case 3:
-                  currentScreen = const ProfileScreen();
-                  break;
-                default:
-                  currentScreen = const HomeScreen();
-              }
-            }));
-          },
+             _navigateToScanScreen(context);
+            },
           child: SvgPicture.asset('assets/icons/barcode_btn.svg',),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

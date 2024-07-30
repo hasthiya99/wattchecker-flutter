@@ -11,8 +11,8 @@ class ScannedDevice{
 
   factory ScannedDevice.fromJson(Map<String, dynamic> json){
     return ScannedDevice(
-      device: json['device'], 
-      scannedTime: json['scannedTime']
+      device: Device.fromJson(json), 
+      scannedTime: DateTime.parse(json['UserProduct']['viewedAt'])
     );
   }
 }

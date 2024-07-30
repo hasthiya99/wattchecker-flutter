@@ -8,3 +8,5 @@ String resetPasswordUrl = 'https://watch.hasthiya.org/user/ChangePasswordWithEma
 
 String addDeviceUrl = 'https://watch.hasthiya.org/api/products/addProduct';
 String getDeviceUrl = 'https://watch.hasthiya.org/api/products/getProductByModelNumber';
+String addDeviceToAccountUrl = 'https://watch.hasthiya.org/userProduct/adduserProduct';
+String getSavedDevicesUrl = 'https://watch.hasthiya.org/userProduct/getuserRecentProduct';

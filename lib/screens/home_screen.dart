@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
+import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/screens/recent_scans.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
 import 'package:wattchecker/widgets/videocard.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -18,104 +19,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   late String firstName;
+  late bool recentScansLoading;
+  List<ScannedDevice> scannedDevices = [];
 
   @override
   void initState() {
-    firstName = SharedPrefs().getStringValue('firstName')??'User';
-
     super.initState();
+    firstName = SharedPrefs().getStringValue('firstName')??'User';
+    getRecentScans();
+  }
+
+  void getRecentScans() async {
+    setState(() {
+      recentScansLoading = true;
+    });
+    ResponseScans response = await Api().getScannedDevices();
+    if(!mounted)return;
+    scannedDevices = response.scannedDevices;
+    setState(() {
+      recentScansLoading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
-    return  SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 300,
-              decoration: const BoxDecoration(
-                color: appGreen,
-                borderRadius: BorderRadius.only(bottomRight: Radius.circular(20))
-              ),
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: -120,
-                    bottom: 0,
-                    child: SvgPicture.asset('assets/images/appbar_pattern.svg', width: 250,height: 250,)
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 30,),
-                        Text(
-                          'Hi, $firstName',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(top: 8, bottom: 8, right: 8),
-                          child: SizedBox(
-                            width: screenWidth,
-                            child: const Text(
-                              'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Inter',
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
-                                  boxShadow: [
-                                    defaultShadow()
-                                  ],
-                                ),
-                                child: const TextField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Search for product',
-                                    hintStyle: TextStyle(
-                                      fontFamily: 'Mulish',
-                                      color: Color(0xFFB4BDC4),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14,
-                                    ),
-                                    prefixIcon: Icon(Icons.search,
-                                        size: 16, color: Colors.black),
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.all(10),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
+            return <Widget>[
+              createSilverAppBar1(),
+              createSilverAppBar2()
+            ];
+          },
+          body: ListView(
+            children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 200),
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 200),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,12 +74,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             fontSize: 16,
                             fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
+                      if (recentScansLoading) const Padding(
+                        padding: EdgeInsets.only(right: 15.0),
+                        child: SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+                                  strokeWidth: 2,
+                              ),
+                        ),
+                      ) 
+                      else IconButton(
                         icon: const Icon(
                           Icons.arrow_forward,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/recentScans');
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RecentScans(scannedDevices: scannedDevices,)));
                         },
                       ),
                     ],
@@ -150,8 +105,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ) 
                   else 
                     SizedBox(
-                          height: screenHeight * 0.3,
-                          width: screenWidth,
+                          height: ScreenSize().height(context) * 0.3,
+                          width: ScreenSize().width(context),
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: scannedDevices.length,
@@ -272,8 +227,111 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-          ],
+            ],
+          )
         ),
-      );
+      ),
+    );
+  }
+
+
+  SliverAppBar createSilverAppBar1() {
+    return SliverAppBar(
+      backgroundColor: appGreen,
+      expandedHeight: 130,
+      floating: false,
+      elevation: 0,
+      flexibleSpace: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            return FlexibleSpaceBar(
+              collapseMode: CollapseMode.parallax,
+              background: Padding(
+                padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hi, $firstName',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8, bottom: 8, right: 8),
+                      child: SizedBox(
+                        width: ScreenSize().width(context),
+                        child: const Text(
+                          'Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text Lorem Ipsum is simply dummy text',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Inter',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
+  }
+
+  SliverAppBar createSilverAppBar2() {
+    return SliverAppBar(
+      backgroundColor: appGreen,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(20),
+        ),
+      ),
+      pinned: true,
+
+      bottom: const PreferredSize(                      
+                preferredSize: Size.fromHeight(10.0),     
+                child: Text(''),
+              ),   
+      flexibleSpace: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      defaultShadow()
+                    ],
+                  ),
+                  child: const TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search for product',
+                      hintStyle: TextStyle(
+                        fontFamily: 'Mulish',
+                        color: Color(0xFFB4BDC4),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 14,
+                      ),
+                      prefixIcon: Icon(Icons.search,
+                          size: 16, color: Colors.black),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

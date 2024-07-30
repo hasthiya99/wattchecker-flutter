@@ -1,4 +1,5 @@
 import 'package:wattchecker/models/device_info.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 
 class ResponseMessage{
   final bool success;
@@ -13,4 +14,11 @@ class ResponseDevice{
   final Device device;
 
   ResponseDevice({required this.success, required this.message, required this.device});
+}
+
+class ResponseScans{
+  final bool success;
+  final List<ScannedDevice> scannedDevices;
+
+  ResponseScans({required this.success, required this.scannedDevices});
 }

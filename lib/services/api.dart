@@ -3,6 +3,7 @@ import 'package:wattchecker/constants/api_paths.dart';
 import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/models/device_info.dart';
 import 'package:wattchecker/models/api_response.dart';
+import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/gift_card.dart';
@@ -173,10 +174,41 @@ class Api {
     }
   }
 
+  Future<ResponseMessage> addDeviceToAccount(int deviceId) async {
+    try{
+      Response response = await Dio().post(addDeviceToAccountUrl, data: {
+        'userId' : SharedPrefs().getIntValue('id'),
+        'productId' : deviceId
+      });
+      if(response.statusCode == 201 && response.data['status']==true){
+        return ResponseMessage(success: true, message: 'Device saved');
+      } else {
+        return ResponseMessage(success: false, message: 'Failed to save device');
+      }
+    } on DioException {
+      return ResponseMessage(success: false, message: 'Failed to save device');
+    }
+  }
+
+  Future<ResponseScans> getScannedDevices() async {
+    List<ScannedDevice> scannedDevices = [];
+    try{
+      Response response = await Dio().get('$getSavedDevicesUrl/${SharedPrefs().getIntValue('id')}');
+      if(response.statusCode == 200 && response.data['status']==true){
+        List<dynamic> devicesJson = response.data['result'];
+        scannedDevices = devicesJson.map((json) => ScannedDevice.fromJson(json)).toList();
+        return ResponseScans(success: true, scannedDevices: scannedDevices);
+      } else {
+        return ResponseScans(success: false, scannedDevices: scannedDevices);
+      }
+    } on DioException {
+      return ResponseScans(success: false, scannedDevices: scannedDevices);
+    }
+  }
+
   Future<List<Gift>> getAllGifts() async {
     try {
       Response response = await Dio().get('https://watch.hasthiya.org/gift/getAllGifts');
-      print(response.data);
       if (response.statusCode == 200 ) {
         List<dynamic> giftsJson = response.data['result']['result'];
         return giftsJson.map((json) => Gift.fromJson(json)).toList();
@@ -187,5 +219,7 @@ class Api {
       throw Exception(e.message);
     }
   }
+
+
 
 }

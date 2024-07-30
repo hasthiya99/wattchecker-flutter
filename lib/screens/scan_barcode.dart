@@ -24,6 +24,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
   Barcode? result;
 
   bool bottomSheetOpen = false;
+
+  final _formKey = GlobalKey<FormState>();
   
   @override
   void initState() {
@@ -136,7 +138,6 @@ class _ScanBarcodeState extends State<ScanBarcode> {
               child: Center(
                 child: TextButton(
                   onPressed: (){
-                    qrController!.pauseCamera();
                     showDialog(context: context, builder: (context) {
                       return AlertDialog(
                         
@@ -146,15 +147,24 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                         title: const Text('Enter model number manually', 
                           style: TextStyle(fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w500),
                         ),
-                        content: TextField(
-                          controller: modelNumberController,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter model number',
-                            hintStyle: TextStyle(fontFamily: 'Mulish', color: Color(0xFFB4BDC4), fontWeight: FontWeight.w500, fontSize: 14),
-                            border: UnderlineInputBorder(borderSide: BorderSide(color: appGrey)),
-                            focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appBlack)),
+                        content: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            controller: modelNumberController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter model number';
+                              }
+                              return null;
+                            },
+                            decoration: const InputDecoration(
+                              hintText: 'Enter model number',
+                              hintStyle: TextStyle(fontFamily: 'Mulish', color: Color(0xFFB4BDC4), fontWeight: FontWeight.w500, fontSize: 14),
+                              border: UnderlineInputBorder(borderSide: BorderSide(color: appGrey)),
+                              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: appBlack)),
+                            ),
+                            cursorColor: appGrey,
                           ),
-                          cursorColor: appGrey,
                         ),
                         actions: [
                           TextButton(
@@ -169,25 +179,27 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                           ),
                           TextButton(
                             onPressed: () {
-                              qrController!.pauseCamera();
-                              if (!bottomSheetOpen) { // Check if modal bottom sheet is already showing
-                                setState(() {
-                                  bottomSheetOpen = true; // Set flag to true
-                                });
-                                showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  backgroundColor: Colors.white,
-                                  context: context, 
-                                  builder: (context) {
-                                    return DeviceDetailsBottomsheet(productId: modelNumberController.text);
-                                  },
-                                ).whenComplete(() {
-                                  Navigator.pop(context);
-                                  qrController!.resumeCamera();
+                              if (_formKey.currentState!.validate()){
+                                qrController!.pauseCamera();
+                                if (!bottomSheetOpen) { // Check if modal bottom sheet is already showing
                                   setState(() {
-                                    bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+                                    bottomSheetOpen = true; // Set flag to true
                                   });
-                                });
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    backgroundColor: Colors.white,
+                                    context: context, 
+                                    builder: (context) {
+                                      return DeviceDetailsBottomsheet(productId: modelNumberController.text);
+                                    },
+                                  ).whenComplete(() {
+                                    Navigator.pop(context);
+                                    qrController!.resumeCamera();
+                                    setState(() {
+                                      bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+                                    });
+                                  });
+                                }
                               }
                             },
                             style:const ButtonStyle(
