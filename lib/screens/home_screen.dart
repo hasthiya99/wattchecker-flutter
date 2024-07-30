@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       recentScansLoading = true;
     });
     ResponseScans response = await Api().getScannedDevices();
+    if(!mounted)return;
     scannedDevices = response.scannedDevices;
     setState(() {
       recentScansLoading = false;

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/scanned_device.dart';
 import 'package:wattchecker/screens/comparison_preview.dart';
 import 'package:wattchecker/screens/device_details_screen.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/device_details_card.dart';
@@ -22,7 +23,9 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
 
   List<ScannedDevice> selectedDevices = [];
   bool selectMode = false;
-
+  bool recentScansLoading = false;
+  List<ScannedDevice> scannedDevices = [];
+  
   void selectDevice(ScannedDevice device){
     if(!selectedDevices.contains(device)){
       if(selectedDevices.length<3){
@@ -48,12 +51,33 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
     }
   }
 
+  void getRecentScans() async {
+    setState(() {
+      recentScansLoading = true;
+    });
+    ResponseScans response = await Api().getScannedDevices();
+    scannedDevices = response.scannedDevices;
+    setState(() {
+      recentScansLoading = false;
+    });
+  }
+
+  void scanBarcode() async {
+    await Navigator.pushNamed(context, '/scanBarcode').then((_) => getRecentScans());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRecentScans();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const StandardAppBar(title: 'Scan Product',),
       floatingActionButton: Visibility(
-        visible: (scannedDevices.isNotEmpty),
+        visible: (scannedDevices.isNotEmpty && !recentScansLoading),
         child: FloatingActionButton(
           onPressed: (){
             selectMode?
@@ -67,7 +91,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                         device_3: (selectedDevices.length==3)? selectedDevices[2].device : null,)) )
               : showSnackBar(context, 'Select 2-3 devices to compare')
             : 
-              Navigator.pushNamed(context, '/scanBarcode').then((value) => setState(() {}));
+              scanBarcode();
           },
           shape: const CircleBorder(),
           backgroundColor: appGreen,
@@ -77,7 +101,12 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
       floatingActionButtonLocation: selectMode? FloatingActionButtonLocation.centerDocked :FloatingActionButtonLocation.endDocked,
       resizeToAvoidBottomInset: false,
       extendBody: true,
-      body: Padding(
+      body: recentScansLoading?
+        const Center(child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
+          strokeWidth: 2,
+        ))
+        : Padding(
         padding: EdgeInsets.symmetric(horizontal: ScreenSize().width(context)*0.05,),
         child: 
         (scannedDevices.isEmpty)?
@@ -94,7 +123,7 @@ class _ScanProductScreenState extends State<ScanProductScreen> {
                 const SizedBox(height: 10,),
                 ButtonLong(
                   onPressed: (){
-                    Navigator.pushNamed(context, '/scanBarcode').then((value) => setState(() {}));
+                    scanBarcode();
                   }, 
                   text: 'Scan Barcode'
                 ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/dummy_data.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/device_info.dart';
@@ -79,7 +79,25 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
                           child: Column(
                             children: [
-                              Image.network(responseDevice.device.imageUrl, height: 200,),
+                              Image.network(
+                                responseDevice.device.imageUrl, 
+                                height: 200,
+                                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                  if (loadingProgress == null) {
+                                    return child;
+                                  } else {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        height: 200,
+                                        width: 200,
+                                        color: Colors.white,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
                               const SizedBox(height: 20,),
                               Text(responseDevice.device.deviceName, style: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),),
                               const SizedBox(height: 40,),
@@ -118,18 +136,21 @@ class _DeviceDetailsBottomsheetState extends State<DeviceDetailsBottomsheet> {
                               const SizedBox(height: 40,),
                               ButtonLong(
                                 isLoading: saveBtnLoading,
-                                onPressed: () {
+                                onPressed: () async{
                                   setState(() {
                                     saveBtnLoading = true;
                                   });
-                                  if(!isDeviceInList(scannedDevices, responseDevice.device)) {
-                                    setState(() {
-                                      scannedDevices.add(ScannedDevice(device: responseDevice.device, scannedTime: DateTime.now()));
-                                    });
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> DeviceDetailsScreen(device: responseDevice.device)));
-                                  } else {
-                                    Navigator.pop(context);
-                                    showSnackBar(context, 'Device is already saved');
+
+                                  ResponseMessage response = await Api().addDeviceToAccount(responseDevice.device.productId);
+                                  if(!mounted) return;
+                                  if(context.mounted){
+                                    if (response.success){
+                                      showSnackBar(context, 'Device saved successfully');
+                                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => DeviceDetailsScreen(device:responseDevice.device)));
+                                    } else {
+                                      Navigator.pop(context);
+                                      showSnackBar(context, 'Failed to save device');
+                                    }
                                   }
                                   setState(() {
                                     saveBtnLoading = false;
