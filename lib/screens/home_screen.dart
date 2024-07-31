@@ -4,7 +4,7 @@ import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/scanned_device.dart';
-import 'package:wattchecker/screens/drawer.dart';
+import 'package:wattchecker/widgets/drawer.dart';
 import 'package:wattchecker/screens/recent_scans.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         body: NestedScrollView(
             headerSliverBuilder: (BuildContext context, bool innerBoxScrolled) {
               return <Widget>[createSilverAppBar1(), createSilverAppBar2()];
@@ -245,6 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverAppBar createSilverAppBar1() {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: appGreen,
       expandedHeight: 130,
       floating: false,
@@ -260,14 +261,37 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Hi, $firstName',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Inter',
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //const Icon(Icons.menu, color: Colors.white,),
+                    Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        borderRadius: BorderRadius.circular(0), // Square corners
+                        color: Colors.transparent, // Set background color if needed
+                      ),
+                      child: IconButton(
+                        onPressed: () => Scaffold.of(context).openDrawer(),
+                        icon: const Icon(Icons.menu, color: Colors.white,),
+                        padding: EdgeInsets.zero,
+                        iconSize: 35,
+                        constraints: const BoxConstraints(),
+                      ),
+                    ),
+                    const SizedBox(width: 15),
+                    Text(
+                      'Hi, $firstName',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Inter',
+                      ),
+                    ),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 8, right: 8),
@@ -293,6 +317,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   SliverAppBar createSilverAppBar2() {
     return SliverAppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: appGreen,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/styles.dart';
 import 'package:wattchecker/screens/updateuser.dart';
 import 'package:wattchecker/widgets/creditcard.dart';
-import 'package:wattchecker/widgets/gift_card.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({super.key});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -59,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               onPressed: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Updateuser()));
+                    MaterialPageRoute(builder: (context) => const Updateuser()));
               },
               child: const Text(
                 'Edit',
@@ -67,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            Creditcard(
+            const Creditcard(
               icon: Icons.bolt,
               iconColor: appCream,
               backgroundColor: creamCardColor,
@@ -118,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fontSize: 16,
                         color: Colors.grey.shade800),
                   ),
-                  Spacer(), // Pushes the icon to the right corner
+                  const Spacer(), // Pushes the icon to the right corner
                   Icon(
                     Icons.chevron_right, // Greater than icon
                     color: Colors.blue.shade900, // Blue color for the icon
@@ -151,7 +149,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: 16,
                           color: Colors.grey.shade800),
                     ),
-                    Spacer(), // Pushes the icon to the right corner
+                    const Spacer(), // Pushes the icon to the right corner
                     Icon(
                       Icons.chevron_right, // Greater than icon
                       color: Colors.blue.shade900, // Blue color for the icon
@@ -181,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontSize: 16,
                           color: Colors.grey.shade800),
                     ),
-                    Spacer(), // Pushes the icon to the right corner
+                    const Spacer(), // Pushes the icon to the right corner
                     Icon(
                       Icons.chevron_right, // Greater than icon
                       color: Colors.blue.shade900, // Blue color for the icon

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 
 class AppDrawer extends StatelessWidget {
+  const AppDrawer({super.key});
+  
+
   @override
   Widget build(BuildContext context) {
+
+    String firstName = SharedPrefs().getStringValue('firstName') ?? 'User';
+    String lastName = SharedPrefs().getStringValue('lastName') ?? 'Name';
+    String email = SharedPrefs().getStringValue('email') ?? '';
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -17,27 +24,27 @@ class AppDrawer extends StatelessWidget {
                 const SizedBox(height: 70),
                 Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 30,
                       backgroundImage: AssetImage(
-                          'assets/images/your_image.png'), // Replace with your image path
+                          'assets/images/pfp.png'), // Replace with your image path
                     ),
                     const SizedBox(width: 10),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'User Name', // You can dynamically set the user's name here
-                          style: TextStyle(
+                        Text(
+                          '$firstName $lastName', // You can dynamically set the user's name here
+                          style: const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Lexend',
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
-                        const Text(
-                          'UserName@gmail.com', // You can dynamically set the user's name here
-                          style: TextStyle(
+                        Text(
+                          email, // You can dynamically set the user's name here
+                          style:const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Lexend',
                               fontSize: 16,
@@ -52,14 +59,14 @@ class AppDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.history, color: Colors.white),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.history, color: Colors.white),
               ),
-              title: Text(
+              title: const Text(
                 'History',
                 style: TextStyle(
                   fontFamily: 'Lexend',
@@ -67,39 +74,39 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                //Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
               leading: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.check, color: Colors.white),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.check, color: Colors.white),
               ),
-              title: Text('Saved Products'),
+              title: const Text('Saved Products'),
               onTap: () {
-                Navigator.pushNamed(context, '/profile');
+                //Navigator.pushNamed(context, '/profile');
               },
             ),
             ListTile(
               leading: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.settings, color: Colors.white),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.settings, color: Colors.white),
               ),
-              title: Text('Settings'),
+              title: const Text('Settings'),
               onTap: () {
-                Navigator.pushNamed(context, '/settings');
+                //Navigator.pushNamed(context, '/settings');
               },
             ),
             ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundColor: Colors.orange,
                 child: CircleAvatar(
                   radius: 12,
@@ -115,13 +122,13 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              title: Text('Support'),
+              title: const Text('Support'),
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                //Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 backgroundColor: Colors.orange,
                 child: CircleAvatar(
                   radius: 12,
@@ -137,35 +144,35 @@ class AppDrawer extends StatelessWidget {
                   ),
                 ),
               ),
-              title: Text('About'),
+              title: const Text('About'),
               onTap: () {
-                Navigator.pushNamed(context, '/home');
+                //Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
               leading: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.card_giftcard, color: Colors.white),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.card_giftcard, color: Colors.white),
               ),
-              title: Text('Gift'),
+              title: const Text('Gift'),
               onTap: () {
-                Navigator.pushNamed(context, '/settings');
+                //Navigator.pushNamed(context, '/settings');
               },
             ),
             ListTile(
               leading: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.orange,
                   shape: BoxShape.circle,
                 ),
-                padding: EdgeInsets.all(8),
-                child: Icon(Icons.logout, color: Colors.white),
+                padding: const EdgeInsets.all(8),
+                child: const Icon(Icons.logout, color: Colors.white),
               ),
-              title: Text('Logout'),
+              title: const Text('Logout'),
               onTap: () {
                 SharedPrefs().clearData();
                 Navigator.pushReplacementNamed(

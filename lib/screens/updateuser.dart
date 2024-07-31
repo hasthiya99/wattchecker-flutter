@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
-import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 
 class Updateuser extends StatefulWidget {
