@@ -8,6 +8,7 @@ const Color appGrey = Color(0xff969595);
 
 const Color textBlack = Color(0xff363636);
 const Color textGrey = Color(0xff898989);
+const Color textBlue = Color(0xff4949C5);
 
 const Color navButtonTrue = Color(0xff191919);
 const Color navButtonFalse = Color(0xff959595);
