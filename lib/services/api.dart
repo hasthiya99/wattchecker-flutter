@@ -21,6 +21,7 @@ class Api {
         SharedPrefs().setIntValue('id', response.data['userId']);
         SharedPrefs().setStringValue('firstName', response.data['firstName']);
         SharedPrefs().setStringValue('lastName', response.data['lastName']);
+        SharedPrefs().setStringValue('email', response.data['email']);
         SharedPrefs().setStringValue('token', response.data['token']);
         SharedPrefs().setDoubleValue('utilityRate', double.parse(response.data['utility']));
         SharedPrefs().setBoolValue('isLoggedIn', true);
