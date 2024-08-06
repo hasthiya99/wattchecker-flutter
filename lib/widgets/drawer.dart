@@ -1,16 +1,20 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
-  
 
   @override
   Widget build(BuildContext context) {
+    final prefs =
+        SharedPrefs(); // Assuming you have a method to access shared prefs
+    String firstName = prefs.getStringValue('firstName') ?? 'User';
+    String lastName = prefs.getStringValue('lastName') ?? 'Name';
+    String email = prefs.getStringValue('email') ?? '';
+    String? imageUrl =
+        prefs.getStringValue('imageUrl'); // Get imageUrl from SharedPrefs
 
-    String firstName = SharedPrefs().getStringValue('firstName') ?? 'User';
-    String lastName = SharedPrefs().getStringValue('lastName') ?? 'Name';
-    String email = SharedPrefs().getStringValue('email') ?? '';
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -24,10 +28,12 @@ class AppDrawer extends StatelessWidget {
                 const SizedBox(height: 70),
                 Row(
                   children: [
-                    const CircleAvatar(
+                    CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage(
-                          'assets/images/pfp.png'), // Replace with your image path
+                      backgroundImage: imageUrl != null
+                          ? FileImage(File(imageUrl))
+                          : AssetImage('assets/images/pfp.png')
+                              as ImageProvider,
                     ),
                     const SizedBox(width: 10),
                     Column(
@@ -35,7 +41,7 @@ class AppDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '$firstName $lastName', // You can dynamically set the user's name here
+                          '$firstName $lastName',
                           style: const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Lexend',
@@ -43,8 +49,8 @@ class AppDrawer extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          email, // You can dynamically set the user's name here
-                          style:const TextStyle(
+                          email,
+                          style: const TextStyle(
                               color: Colors.black,
                               fontFamily: 'Lexend',
                               fontSize: 16,
@@ -74,7 +80,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                //Navigator.pushNamed(context, '/home');
+                // Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
@@ -88,7 +94,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Saved Products'),
               onTap: () {
-                //Navigator.pushNamed(context, '/profile');
+                // Navigator.pushNamed(context, '/profile');
               },
             ),
             ListTile(
@@ -102,7 +108,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Settings'),
               onTap: () {
-                //Navigator.pushNamed(context, '/settings');
+                // Navigator.pushNamed(context, '/settings');
               },
             ),
             ListTile(
@@ -124,7 +130,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Support'),
               onTap: () {
-                //Navigator.pushNamed(context, '/home');
+                // Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
@@ -146,7 +152,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('About'),
               onTap: () {
-                //Navigator.pushNamed(context, '/home');
+                // Navigator.pushNamed(context, '/home');
               },
             ),
             ListTile(
@@ -160,7 +166,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Gift'),
               onTap: () {
-                //Navigator.pushNamed(context, '/settings');
+                // Navigator.pushNamed(context, '/settings');
               },
             ),
             ListTile(
@@ -174,9 +180,33 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Logout'),
               onTap: () {
-                SharedPrefs().clearData();
-                Navigator.pushReplacementNamed(
-                    context, '/welcome'); // Handle logout
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Confirm Logout'),
+                      content: const Text('Are you sure you want to logout?'),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('Cancel'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('Logout'),
+                          onPressed: () async {
+                            // Clear all SharedPreferences data except for the image path
+                            await SharedPrefs.clearExceptImage();
+
+                            // Navigate to the welcome page
+                            Navigator.pushReplacementNamed(context, '/welcome');
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
             ),
           ],

@@ -2,6 +2,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPrefs {
   static final SharedPrefs _instance = SharedPrefs._internal();
+  static const String _profilePictureKey = 'profile_picture';
+
+  // Clear all SharedPreferences data except for the image path
+  static Future<void> clearExceptImage() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? imagePath = prefs.getString(_profilePictureKey);
+
+    // Clear all keys except for the profile picture key
+    final keys = prefs.getKeys();
+    for (String key in keys) {
+      if (key != _profilePictureKey) {
+        await prefs.remove(key);
+      }
+    }
+
+    // Restore the image path
+    if (imagePath != null) {
+      await prefs.setString(_profilePictureKey, imagePath);
+    }
+  }
 
   factory SharedPrefs() {
     return _instance;
@@ -49,12 +69,11 @@ class SharedPrefs {
   }
 
   //Clear SharedPrefferences
-  void clearData(){
+  void clearData() {
     _prefs.clear();
   }
 
-  void clearString(String key){
+  void clearString(String key) {
     _prefs.remove(key);
   }
-
 }

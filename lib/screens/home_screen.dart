@@ -27,8 +27,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    firstName = SharedPrefs().getStringValue('firstName') ?? 'User';
+    recentScansLoading = false;
+    initSharedPrefs();
     getRecentScans();
+  }
+
+  Future<void> initSharedPrefs() async {
+    await SharedPrefs().init();
+    setState(() {
+      firstName = SharedPrefs().getStringValue('firstName') ?? 'User';
+    });
+  }
+
+  void updateFirstName(String newFirstName) async {
+    await SharedPrefs().setStringValue('firstName', newFirstName);
+    setState(() {
+      firstName = newFirstName;
+    });
   }
 
   void getRecentScans() async {
@@ -37,11 +52,34 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     ResponseScans response = await Api().getScannedDevices();
     if (!mounted) return;
-    scannedDevices = response.scannedDevices;
     setState(() {
+      scannedDevices = response.scannedDevices;
       recentScansLoading = false;
     });
   }
+
+  // late String firstName;
+  // late bool recentScansLoading;
+  // List<ScannedDevice> scannedDevices = [];
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   firstName = SharedPrefs().getStringValue('firstName') ?? 'User';
+  //   getRecentScans();
+  // }
+
+  // void getRecentScans() async {
+  //   setState(() {
+  //     recentScansLoading = true;
+  //   });
+  //   ResponseScans response = await Api().getScannedDevices();
+  //   if (!mounted) return;
+  //   scannedDevices = response.scannedDevices;
+  //   setState(() {
+  //     recentScansLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -270,12 +308,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 35,
                       decoration: BoxDecoration(
                         shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(0), // Square corners
-                        color: Colors.transparent, // Set background color if needed
+                        borderRadius:
+                            BorderRadius.circular(0), // Square corners
+                        color: Colors
+                            .transparent, // Set background color if needed
                       ),
                       child: IconButton(
                         onPressed: () => Scaffold.of(context).openDrawer(),
-                        icon: const Icon(Icons.menu, color: Colors.white,),
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                        ),
                         padding: EdgeInsets.zero,
                         iconSize: 35,
                         constraints: const BoxConstraints(),
