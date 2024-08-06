@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wattchecker/screens/forgot_pw_email.dart';
 import 'package:wattchecker/screens/forgot_pw_success.dart';
+import 'package:wattchecker/screens/gifts_for_you.dart';
 import 'package:wattchecker/screens/landing_page.dart';
 import 'package:wattchecker/screens/login_screen.dart';
 import 'package:wattchecker/screens/quick_tips.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/scanScreen' : (context) =>  const ScanProductScreen(),
         '/scanBarcode' : (context) =>  const ScanBarcode(),
         '/quickTips' :(context) => const QuickTipsForYou(),
+        '/gifts' :(context) => const GiftsForYou(),
       },
     );
   }
