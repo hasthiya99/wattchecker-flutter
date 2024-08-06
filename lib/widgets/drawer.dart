@@ -160,7 +160,7 @@ class AppDrawer extends StatelessWidget {
               ),
               title: const Text('Gift'),
               onTap: () {
-                //Navigator.pushNamed(context, '/settings');
+                Navigator.pushNamed(context, '/gifts');
               },
             ),
             ListTile(
