@@ -41,7 +41,7 @@ class Creditcard extends StatelessWidget {
             child: Container(
               padding:
                   const EdgeInsets.all(8), // Adjust inner padding as needed
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white, // Background color of the inner circle
               ),

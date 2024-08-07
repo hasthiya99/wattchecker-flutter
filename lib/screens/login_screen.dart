@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, '/verifyEmail');
                             }, 
                             style: ButtonStyle(
-                              overlayColor: MaterialStateProperty.all(Colors.transparent
+                              overlayColor: WidgetStateProperty.all(Colors.transparent
                               )
                             ),
                             child: const Text('Forgot password?', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey, decoration: TextDecoration.underline),),
@@ -204,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushNamed(context, '/signup');
                               }, 
                               style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all(Colors.transparent
+                                overlayColor: WidgetStateProperty.all(Colors.transparent
                                 )
                               ),
                               child: const Text('Create an account', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, fontWeight: FontWeight.bold, color: textBlack, decoration: TextDecoration.underline),),

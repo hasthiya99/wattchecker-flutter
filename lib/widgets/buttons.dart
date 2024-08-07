@@ -35,12 +35,12 @@ class ButtonLong extends StatelessWidget {
     return ElevatedButton(
             onPressed: (isLoading!=null && isLoading == true)? (){} : onPressed, 
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(backgroundColor??appGreen),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),),
-              minimumSize: MaterialStateProperty.all(Size(ScreenSize().width(context)*0.8, 50)),
-              overlayColor: MaterialStateProperty.all(appBlack.withOpacity(0.05)),
-              elevation: MaterialStateProperty.all(elevation ?? 2),
-              side: MaterialStateProperty.all(BorderSide(color: borderColor?? Colors.transparent)),
+              backgroundColor: WidgetStateProperty.all(backgroundColor??appGreen),
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),),
+              minimumSize: WidgetStateProperty.all(Size(ScreenSize().width(context)*0.8, 50)),
+              overlayColor: WidgetStateProperty.all(appBlack.withOpacity(0.05)),
+              elevation: WidgetStateProperty.all(elevation ?? 2),
+              side: WidgetStateProperty.all(BorderSide(color: borderColor?? Colors.transparent)),
 
             ),
             child:

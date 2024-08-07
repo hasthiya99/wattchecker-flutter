@@ -64,19 +64,22 @@ class _ScanBarcodeState extends State<ScanBarcode> {
             result = scanData;
             bottomSheetOpen = true; // Set flag to true
           });
-          showModalBottomSheet(
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
-            context: context, 
-            builder: (context) {
-              return DeviceDetailsBottomsheet(productId: result?.code ?? '');
-            },
-          ).whenComplete(() {
-            controller.resumeCamera();
-            setState(() {
-              bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+          if(context.mounted) 
+          {
+            showModalBottomSheet(
+              isScrollControlled: true,
+              backgroundColor: Colors.white,
+              context: context, 
+              builder: (context) {
+                return DeviceDetailsBottomsheet(productId: result?.code ?? '');
+              },
+            ).whenComplete(() {
+              controller.resumeCamera();
+              setState(() {
+                bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+              });
             });
-          });
+          }
         }
       });
     }
@@ -172,8 +175,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                               Navigator.pop(context);
                             },
                             style:const ButtonStyle(
-                              foregroundColor: MaterialStatePropertyAll(appBlack),
-                              overlayColor: MaterialStatePropertyAll(Color(0x11000000))  
+                              foregroundColor: WidgetStatePropertyAll(appBlack),
+                              overlayColor: WidgetStatePropertyAll(Color(0x11000000))  
                             ),
                             child: const Text('Cancel'),
                           ),
@@ -193,18 +196,21 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                                       return DeviceDetailsBottomsheet(productId: modelNumberController.text);
                                     },
                                   ).whenComplete(() {
-                                    Navigator.pop(context);
-                                    qrController!.resumeCamera();
-                                    setState(() {
-                                      bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
-                                    });
+                                    if(context.mounted)
+                                    {
+                                      Navigator.pop(context);
+                                      qrController!.resumeCamera();
+                                      setState(() {
+                                        bottomSheetOpen = false; // Reset flag when modal bottom sheet is closed
+                                      });
+                                    }
                                   });
                                 }
                               }
                             },
                             style:const ButtonStyle(
-                              foregroundColor: MaterialStatePropertyAll(appBlack),
-                              overlayColor: MaterialStatePropertyAll(Color(0x11000000))  
+                              foregroundColor: WidgetStatePropertyAll(appBlack),
+                              overlayColor: WidgetStatePropertyAll(Color(0x11000000))  
                             ),
                             child: const Text('Submit'),
                           ),
@@ -213,8 +219,8 @@ class _ScanBarcodeState extends State<ScanBarcode> {
                     }).then((_) => qrController!.resumeCamera());
                   },
                   style: const ButtonStyle(
-                    foregroundColor: MaterialStatePropertyAll(appBlack),
-                    overlayColor: MaterialStatePropertyAll(Color(0x11000000))  
+                    foregroundColor: WidgetStatePropertyAll(appBlack),
+                    overlayColor: WidgetStatePropertyAll(Color(0x11000000))  
                   ),
                   child: const Text('Enter model number manually'),
                 )
