@@ -3,24 +3,17 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/constants/styles.dart';
-import 'package:wattchecker/models/api_response.dart';
-import 'package:wattchecker/models/scanned_device.dart';
-import 'package:wattchecker/widgets/drawer.dart';
-import 'package:wattchecker/screens/recent_scans.dart';
-import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
-import 'package:wattchecker/widgets/scanned_device_card.dart';
 import 'package:wattchecker/widgets/tip_card.dart';
-import 'package:wattchecker/widgets/videocard.dart';
 
 class TipsScreen extends StatefulWidget {
   const TipsScreen({super.key});
 
   @override
-  State<TipsScreen> createState() => _HomeScreenState();
+  State<TipsScreen> createState() => _TipsScreenState();
 }
 
-class _HomeScreenState extends State<TipsScreen> {
+class _TipsScreenState extends State<TipsScreen> {
   late String firstName;
 
   @override
