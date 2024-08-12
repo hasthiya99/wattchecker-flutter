@@ -5,6 +5,7 @@ import 'package:wattchecker/screens/compare_screen.dart';
 import 'package:wattchecker/screens/home_screen.dart';
 import 'package:wattchecker/screens/profile_screen.dart';
 import 'package:wattchecker/screens/tips_screen.dart';
+import 'package:wattchecker/screens/updateuser.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -44,7 +45,7 @@ class _LandingPageState extends State<LandingPage> {
               currentScreen = const TipsScreen();
               break;
             case 3:
-              currentScreen = ProfileScreen();
+              currentScreen = UserDetailsScreen();
               break;
             default:
               currentScreen = const HomeScreen();
@@ -209,7 +210,7 @@ class _LandingPageState extends State<LandingPage> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = ProfileScreen();
+                          currentScreen = UserDetailsScreen();
                           currentIndex = 3;
                         });
                       },

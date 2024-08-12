@@ -1,789 +1,205 @@
-// import 'package:dio/dio.dart';
-// import 'package:flutter/material.dart';
-// import 'package:wattchecker/constants/colors.dart';
-// import 'package:wattchecker/constants/screensize.dart';
-// import 'package:wattchecker/models/user.dart';
-// import 'package:wattchecker/widgets/buttons.dart';
-
-// class Updateuser extends StatefulWidget {
-//   const Updateuser({super.key});
-
-//   @override
-//   State<Updateuser> createState() => _UpdateuserState();
-// }
-
-// class _UpdateuserState extends State<Updateuser> {
-//   bool isLoading = false;
-//   final formKey = GlobalKey<FormState>();
-
-//   TextEditingController firstNameController = TextEditingController();
-//   TextEditingController lastNameController = TextEditingController();
-//   TextEditingController emailController = TextEditingController();
-//   TextEditingController zipCodeController = TextEditingController();
-//   TextEditingController utilityRateController = TextEditingController();
-//   TextEditingController passwordController = TextEditingController();
-//   TextEditingController confirmPasswordController = TextEditingController();
-
-//   final ApiService apiService = ApiService();
-
-//   void _submit() async {
-//     if (formKey.currentState?.validate() ?? false) {
-//       setState(() {
-//         isLoading = true;
-//       });
-
-//        UserModel user =  UserModel(
-//         firstName: firstNameController.text,
-//         lastName: lastNameController.text,
-//         email: emailController.text,
-//         zipCode:zipCodeController.text,
-//         utility:utilityRateController.text,
-//       );
-
-//       await apiService.updateUser(
-//           context, 'user-id', user as User); // Pass context here
-
-//       setState(() {
-//         isLoading = false;
-//       });
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: () => FocusScope.of(context).unfocus(),
-//       child: Scaffold(
-//         body: SingleChildScrollView(
-//           child: SafeArea(
-//             child: Padding(
-//               padding: EdgeInsets.symmetric(
-//                 horizontal: ScreenSize().width(context) * 0.05,
-//               ),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   const SizedBox(height: 20),
-//                   const Text(
-//                     'Edit Your account',
-//                     style: TextStyle(
-//                       fontFamily: 'Inter',
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.bold,
-//                       color: appGreen,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 10),
-//                   const Text(
-//                     'Lorem Ipsum is simply dummy text.',
-//                     style: TextStyle(
-//                       fontFamily: 'Inter',
-//                       fontSize: 14,
-//                       color: textGrey,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 20),
-//                   Form(
-//                     key: formKey,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         const Padding(
-//                           padding: EdgeInsets.only(bottom: 10.0),
-//                           child: Text(
-//                             'Name',
-//                             style: TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textBlack,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                         Row(
-//                           children: [
-//                             Expanded(
-//                               flex: 1,
-//                               child: TextFormField(
-//                                 controller: firstNameController,
-//                                 decoration: InputDecoration(
-//                                   hintText: 'First name',
-//                                   hintStyle: const TextStyle(
-//                                     fontFamily: 'Mulish',
-//                                     fontSize: 12,
-//                                     color: textGrey,
-//                                   ),
-//                                   enabledBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: appGrey),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   focusedBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: appGreen),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   contentPadding: const EdgeInsets.symmetric(
-//                                       horizontal: 20, vertical: 10),
-//                                   errorBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: Colors.red),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   focusedErrorBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: Colors.red),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   errorStyle: const TextStyle(height: 0),
-//                                 ),
-//                               ),
-//                             ),
-//                             const SizedBox(width: 10),
-//                             Expanded(
-//                               flex: 1,
-//                               child: TextFormField(
-//                                 controller: lastNameController,
-//                                 decoration: InputDecoration(
-//                                   hintText: 'Last name',
-//                                   hintStyle: const TextStyle(
-//                                     fontFamily: 'Mulish',
-//                                     fontSize: 12,
-//                                     color: textGrey,
-//                                   ),
-//                                   enabledBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: appGrey),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   focusedBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: appGreen),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   contentPadding: const EdgeInsets.symmetric(
-//                                       horizontal: 20, vertical: 10),
-//                                   errorBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: Colors.red),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   focusedErrorBorder: OutlineInputBorder(
-//                                     borderSide:
-//                                         const BorderSide(color: Colors.red),
-//                                     borderRadius: BorderRadius.circular(10),
-//                                   ),
-//                                   errorStyle: const TextStyle(height: 0),
-//                                 ),
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                         const SizedBox(height: 10),
-//                         const Padding(
-//                           padding: EdgeInsets.only(bottom: 10.0),
-//                           child: Text(
-//                             'Email',
-//                             style: TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textBlack,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                         TextFormField(
-//                           controller: emailController,
-//                           decoration: InputDecoration(
-//                             hintText: 'Enter your email',
-//                             hintStyle: const TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textGrey,
-//                             ),
-//                             enabledBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGrey),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGreen),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             contentPadding: const EdgeInsets.symmetric(
-//                                 horizontal: 20, vertical: 10),
-//                             errorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedErrorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             errorStyle: const TextStyle(height: 0),
-//                           ),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         const Padding(
-//                           padding: EdgeInsets.only(bottom: 10.0),
-//                           child: Text(
-//                             'Zip code',
-//                             style: TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textBlack,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                         TextFormField(
-//                           controller: zipCodeController,
-//                           decoration: InputDecoration(
-//                             hintText: 'Enter your zip code',
-//                             hintStyle: const TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textGrey,
-//                             ),
-//                             enabledBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGrey),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGreen),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             contentPadding: const EdgeInsets.symmetric(
-//                                 horizontal: 20, vertical: 10),
-//                             errorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedErrorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             errorStyle: const TextStyle(height: 0),
-//                           ),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         const Padding(
-//                           padding: EdgeInsets.only(bottom: 10.0),
-//                           child: Text(
-//                             'Utility Rate',
-//                             style: TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textBlack,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-//                         TextFormField(
-//                           controller: utilityRateController,
-//                           decoration: InputDecoration(
-//                             hintText: 'Enter your utility rate',
-//                             hintStyle: const TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textGrey,
-//                             ),
-//                             enabledBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGrey),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: appGreen),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             contentPadding: const EdgeInsets.symmetric(
-//                                 horizontal: 20, vertical: 10),
-//                             errorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             focusedErrorBorder: OutlineInputBorder(
-//                               borderSide: const BorderSide(color: Colors.red),
-//                               borderRadius: BorderRadius.circular(10),
-//                             ),
-//                             errorStyle: const TextStyle(height: 0),
-//                           ),
-//                         ),
-//                         const SizedBox(height: 10),
-//                         const Padding(
-//                           padding: EdgeInsets.only(bottom: 10.0),
-//                           child: Text(
-//                             'Password',
-//                             style: TextStyle(
-//                               fontFamily: 'Mulish',
-//                               fontSize: 12,
-//                               color: textBlack,
-//                               fontWeight: FontWeight.bold,
-//                             ),
-//                           ),
-//                         ),
-
-//                         const SizedBox(height: 50),
-//                         ButtonLong(
-//                           onPressed: _submit,
-//                           backgroundColor: appGreen,
-//                           textColor: Colors.white,
-//                           isLoading: isLoading,
-//                           text: 'Submit',
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class ApiService {
-//   final Dio _dio = Dio();
-
-//   Future<void> updateUser(
-//       BuildContext context, String userId, User user) async {
-//     final String apiUrl = 'http://watch.hasthiya.org/user/updateUser/$userId';
-
-//     try {
-//       final response = await _dio.put(
-//         apiUrl,
-//         data: user.toJson(),
-//         options: Options(
-//           headers: {
-//             'Content-Type': 'application/json',
-//           },
-//         ),
-//       );
-
-//       if (response.statusCode == 200) {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('User updated successfully'),
-
-//           ),
-//         );
-//       } else {
-//         ScaffoldMessenger.of(context).showSnackBar(
-//           SnackBar(
-//             content: Text('Failed to update user: ${response.statusCode}'),
-
-//           ),
-//         );
-//       }
-//     } catch (e) {
-//       ScaffoldMessenger.of(context).showSnackBar(
-//         SnackBar(
-//           content: Text('Error: $e'),
-//           backgroundColor: Colors.red,
-//         ),
-//       );
-//     }
-//   }
-// }
-
-// class User {
-//   String firstName;
-//   String lastName;
-//   String email;
-
-//   User({
-//     required this.firstName,
-//     required this.lastName,
-//     required this.email,
-//   });
-
-//   // Convert a User into a Map object for JSON
-//   Map<String, dynamic> toJson() => {
-//         'firstName': firstName,
-//         'lastName': lastName,
-//         'email': email,
-//       };
-
-//   // Convert a Map object into a User object
-//   factory User.fromJson(Map<String, dynamic> json) => User(
-//         firstName: json['firstName'],
-//         lastName: json['lastName'],
-//         email: json['email'],
-//       );
-// }
-import 'package:dio/dio.dart';
+import 'dart:io'; // Import for File
 import 'package:flutter/material.dart';
-import 'package:wattchecker/constants/colors.dart';
-import 'package:wattchecker/constants/screensize.dart';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/models/user.dart';
-import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/appbar.dart';
 
-class Updateuser extends StatefulWidget {
-  const Updateuser({super.key});
-
+class UserDetailsScreen extends StatefulWidget {
   @override
-  State<Updateuser> createState() => _UpdateuserState();
+  _UserDetailsScreenState createState() => _UserDetailsScreenState();
 }
 
-class _UpdateuserState extends State<Updateuser> {
-  bool isLoading = false;
-  final formKey = GlobalKey<FormState>();
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  late Future<UserModel?> userFuture;
+  String? _imageUrl;
+  late SharedPreferences _prefs;
 
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController zipCodeController = TextEditingController();
-  TextEditingController utilityRateController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    userFuture = getUserDetails();
+    _loadImage();
+  }
 
-  final ApiService apiService = ApiService();
+  // Load the saved image path from SharedPreferences
+  Future<void> _loadImage() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageUrl = _prefs.getString('profile_picture');
+    });
+  }
 
-  void _submit() async {
-    if (formKey.currentState?.validate() ?? false) {
-      setState(() {
-        isLoading = true;
-      });
+  Future<void> _updateProfilePicture(String path) async {
+    await _prefs.setString('profile_picture', path);
+    setState(() {
+      _imageUrl = path;
+    });
+  }
 
-      // Convert utility rate to double
-      double? utilityRate;
-      try {
-        utilityRate = double.parse(utilityRateController.text);
-      } catch (e) {
-        utilityRate = null;
+  Future<UserModel?> getUserDetails() async {
+    try {
+      // Retrieve user ID from shared preferences
+      int? userId = await SharedPrefs().getIntValue('id');
+
+      if (userId == null) {
+        print('User ID is null');
+        return null; // Handle case where user ID is not found
       }
 
-      // Handle null utilityRate case if needed
-      UserModel user = UserModel(
-        firstName: firstNameController.text,
-        lastName: lastNameController.text,
-        email: emailController.text,
-        zipCode: zipCodeController.text,
-        utility: utilityRate ?? 0.0, // Provide a default value if null
-      );
+      // Construct the API URL with the user ID
+      String url = 'http://watch.hasthiya.org/user/getUser/$userId';
+      print('Making request to URL: $url');
 
-      await apiService.updateUser(
-        context,
-        'user-id', // Replace 'user-id' with actual user ID
-        user,
-      );
+      // Make the API request
+      Response response = await Dio().get(url);
 
-      setState(() {
-        isLoading = false;
-      });
+      // Print the status code and response data
+      print('Status Code: ${response.statusCode}');
+      print('Response Data: ${response.data}');
+
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        // Access the nested 'user' data
+        return UserModel.fromJson(response.data['user']);
+      } else {
+        print('Error in response: ${response.data}');
+        return null; // Handle error case
+      }
+    } on DioException catch (e) {
+      print('Error fetching user details: ${e.message}');
+      return null;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: ScreenSize().width(context) * 0.05,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Edit Your account',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: appGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Lorem Ipsum is simply dummy text.',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 14,
-                      color: textGrey,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Form(
-                    key: formKey,
+    return Scaffold(
+      appBar: AppBarWithoutSearch(
+        title: 'Profile',
+      ),
+      body: FutureBuilder<UserModel?>(
+        future: userFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            UserModel? user = snapshot.data;
+            return user != null
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Name',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        // Add CircleAvatar here
+                        Center(
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundImage: _imageUrl != null
+                                ? FileImage(File(_imageUrl!))
+                                : AssetImage('assets/images/pfp.png')
+                                    as ImageProvider,
                           ),
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                controller: firstNameController,
-                                decoration: InputDecoration(
-                                  hintText: 'First name',
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Mulish',
-                                    fontSize: 12,
-                                    color: textGrey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              flex: 1,
-                              child: TextFormField(
-                                controller: lastNameController,
-                                decoration: InputDecoration(
-                                  hintText: 'Last name',
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Mulish',
-                                    fontSize: 12,
-                                    color: textGrey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Email',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        SizedBox(
+                            height: 16), // Space between avatar and details
+                        Text(
+                          'First Name:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0),
+                        Text(
+                          '${user.firstName}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Zip code',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Last Name:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        TextFormField(
-                          controller: zipCodeController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter your zip code',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0),
+                        Text(
+                          '${user.lastName}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Utility Rate',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Email:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        TextFormField(
-                          controller: utilityRateController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter utility rate',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0),
+                        Text(
+                          '${user.email}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Inter',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Zipcode:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
                           ),
                         ),
-                        const SizedBox(height: 20),
-                        ButtonLong(
-                          onPressed: _submit,
-                          backgroundColor: appGreen,
-                          textColor: Colors.white,
-                          isLoading: isLoading,
-                          text: 'Submit',
+                        Text(
+                          '${user.zipCode}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Utility Rate:',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Inter',
+                          ),
+                        ),
+                        Text(
+                          '${user.utility}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.normal,
+                            fontFamily: 'Inter',
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+                  )
+                : Center(child: Text('No user data available.'));
+          } else {
+            return Center(child: Text('No user data available.'));
+          }
+        },
       ),
     );
-  }
-}
-
-class ApiService {
-  final Dio _dio = Dio();
-
-  Future<void> updateUser(
-      BuildContext context, String userId, UserModel user) async {
-    try {
-      Response response = await _dio.put(
-        'http://watch.hasthiya.org/user/updateUser/$userId',
-        data: user.toJson(),
-      );
-
-      if (response.statusCode == 200) {
-        // Handle successful response
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('User updated successfully!')),
-        );
-      } else {
-        // Handle non-200 responses
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${response.statusCode}')),
-        );
-      }
-    } catch (e) {
-      // Handle exceptions
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-    }
   }
 }

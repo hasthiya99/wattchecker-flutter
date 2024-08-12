@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/screens/forgot_pw_email.dart';
 import 'package:wattchecker/screens/forgot_pw_success.dart';
+import 'package:wattchecker/screens/gifts_for_you.dart';
 import 'package:wattchecker/screens/landing_page.dart';
 import 'package:wattchecker/screens/login_screen.dart';
 import 'package:wattchecker/screens/profile_screen.dart';
 import 'package:wattchecker/screens/quick_tips.dart';
 import 'package:wattchecker/screens/scan_barcode.dart';
 import 'package:wattchecker/screens/scan_product.dart';
+import 'package:wattchecker/screens/setting.dart';
 import 'package:wattchecker/screens/signup.dart';
 import 'package:wattchecker/screens/signup_success.dart';
 import 'package:wattchecker/screens/splash_screen.dart';
 import 'package:wattchecker/screens/welcome_screen.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPrefs().init().then((value) => runApp(const MyApp()));
 }
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         '/scanScreen': (context) => const ScanProductScreen(),
         '/scanBarcode': (context) => const ScanBarcode(),
         '/quickTips': (context) => const QuickTipsForYou(),
+        '/gifts': (context) => const GiftsForYou(),
+        '/SettingsPage': (context) => SettingsPage(),
+        '/profile': (context) => ProfileScreen(),
       },
     );
   }
