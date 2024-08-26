@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/user.dart';
+import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 
 class Updateuser extends StatefulWidget {
-  const Updateuser({super.key});
+  final UserModel user;
+  const Updateuser({super.key, required this.user});
 
   @override
   State<Updateuser> createState() => _SignUpState();
@@ -38,10 +41,21 @@ class _SignUpState extends State<Updateuser> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    firstNameController.text = widget.user.firstName;
+    lastNameController.text = widget.user.lastName;
+    emailController.text = widget.user.email;
+    zipCodeController.text = widget.user.zipCode;
+    utilityRateController.text = widget.user.utility.toString();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        appBar: const StandardAppBar(title: 'Edit Your Account', textColor: appWhite, backgroundColor: appGreen,),
         body: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -51,25 +65,25 @@ class _SignUpState extends State<Updateuser> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Edit Your account',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: appGreen,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    'Lorem Ipsum is simply dummy text.',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 14,
-                      color: textGrey,
-                    ),
-                  ),
+                  // const SizedBox(height: 20),
+                  // const Text(
+                  //   'Edit Your account',
+                  //   style: TextStyle(
+                  //     fontFamily: 'Inter',
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: appGreen,
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 10),
+                  // const Text(
+                  //   'Lorem Ipsum is simply dummy text.',
+                  //   style: TextStyle(
+                  //     fontFamily: 'Inter',
+                  //     fontSize: 14,
+                  //     color: textGrey,
+                  //   ),
+                  // ),
                   const SizedBox(height: 20),
                   Form(
                     key: formKey,
@@ -278,6 +292,8 @@ class _SignUpState extends State<Updateuser> {
                         ),
                         TextFormField(
                           controller: utilityRateController,
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true, signed: false),
                           decoration: InputDecoration(
                             hintText: 'cents per kilowatt-hour',
                             hintStyle: const TextStyle(

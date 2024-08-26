@@ -5,7 +5,9 @@ import 'package:wattchecker/constants/styles.dart';
 
 class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const StandardAppBar({super.key, required this.title});
+  final Color? textColor;
+  final Color? backgroundColor;
+  const StandardAppBar({super.key, required this.title, this.textColor, this.backgroundColor});
 
   @override
   Size get preferredSize => const Size.fromHeight(60.0);
@@ -14,9 +16,11 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      backgroundColor: backgroundColor,
       leading: IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back,
+          color: textColor?? Colors.black,
         ),
         onPressed: () {
           Navigator.pop(context);
@@ -24,8 +28,8 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Text(
         title,
-        style: const TextStyle(
-            fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w600),
+        style: TextStyle(
+            fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w600, color: textColor?? Colors.black),
       ),
       centerTitle: false,
     );

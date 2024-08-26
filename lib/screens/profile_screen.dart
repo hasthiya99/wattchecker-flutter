@@ -4,8 +4,9 @@ import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/scanned_device.dart';
+import 'package:wattchecker/models/user.dart';
 import 'package:wattchecker/screens/recent_scans.dart';
-import 'package:wattchecker/screens/updateuser.dart';
+import 'package:wattchecker/screens/update_user.dart';
 import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/shared_prefs.dart';
 import 'package:wattchecker/widgets/creditcard.dart';
@@ -21,12 +22,26 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   late bool recentScansLoading;
+  late UserModel user;
   List<ScannedDevice> scannedDevices = [];
 
   @override
   void initState() {
     super.initState();
+    user = initUser();
     getRecentScans();
+  }
+
+  UserModel initUser(){
+    return UserModel(
+      id: SharedPrefs().getIntValue('id') ?? 0,
+      firstName: SharedPrefs().getStringValue('firstName') ?? '',
+      lastName: SharedPrefs().getStringValue('lastName') ?? '',
+      email: SharedPrefs().getStringValue('email') ?? '',
+      utility: SharedPrefs().getDoubleValue('utilityRate') ?? 0.0,
+      zipCode: '00000'
+    );
+
   }
 
   void getRecentScans() async {
@@ -120,7 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       onPressed: () {
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const Updateuser()));
+                            MaterialPageRoute(builder: (context) => Updateuser(user: user,)));
                       },
                       child: const Text(
                         'Edit',
@@ -178,12 +193,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: scannedDevices.length,
+                  itemCount: (scannedDevices.length>3)? 3: scannedDevices.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: DeviceDetailsCard(device: scannedDevices[index].device),
+                      child: DeviceDetailsCard(device: scannedDevices.reversed.toList()[index].device),
                     );
                   },
                 ),
