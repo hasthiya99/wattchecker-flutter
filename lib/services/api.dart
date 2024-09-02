@@ -138,6 +138,49 @@ class Api {
     }
   }
 
+  Future<ResponseMessage> updateProfile(String firstName, String lastName, String email) async{
+    try{
+      int userId = SharedPrefs().getIntValue('id') ?? 0;
+      Response response = await Dio().put('$updateProfileUrl/$userId',
+        data: {
+          'email' : email,
+          'firstName' : firstName,
+          'lastName' : lastName
+        }
+      );
+      if (response.statusCode == 200  && response.data['result']['status'] == true){
+        SharedPrefs().setStringValue('firstName', firstName);
+        SharedPrefs().setStringValue('lastName', lastName);
+        SharedPrefs().setStringValue('email', email);
+        return ResponseMessage(success: true, message: 'Successfully updated');
+      } 
+      else {
+        return ResponseMessage(success: false, message: 'Failed to update.');
+      }
+    } on DioException{
+      return ResponseMessage(success: false, message: 'Failed to update.');
+    }
+  }
+
+  Future<ResponseMessage> updateUtilityRate(double utilityRate) async{
+    try{
+      int userId = SharedPrefs().getIntValue('id') ?? 0;
+      Response response = await Dio().put('$updateUtilityUrl/$userId', 
+        data: {
+          'utility' : utilityRate.toString()
+        }
+      );
+      if(response.statusCode ==200 && response.data['result']['status'] == true){
+        SharedPrefs().setDoubleValue('utilityRate', utilityRate);
+        return ResponseMessage(success: true, message: 'Successfully updated');
+      }else {
+        return ResponseMessage(success: false, message: 'Failed to update.');
+      }
+    } on DioException{
+      return ResponseMessage(success: false, message: 'Failed to update.');
+    }
+  }
+
   Future<ResponseMessage> addDevice(FormData data) async{
     try{
       Response response = await Dio().post(

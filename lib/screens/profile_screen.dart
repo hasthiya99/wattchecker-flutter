@@ -66,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text('My Profile',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Inter',
               )),

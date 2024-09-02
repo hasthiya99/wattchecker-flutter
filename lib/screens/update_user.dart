@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
+import 'package:wattchecker/models/api_response.dart';
 import 'package:wattchecker/models/user.dart';
+import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/snackbar.dart';
 import 'package:wattchecker/widgets/textbox.dart';
 
 class Updateuser extends StatefulWidget {
@@ -19,6 +22,7 @@ class _SignUpState extends State<Updateuser> {
   bool isLoading = false;
   bool btnEnabled = true;
   final formKey = GlobalKey<FormState>();
+  final rateKey = GlobalKey<FormState>();
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -50,6 +54,17 @@ class _SignUpState extends State<Updateuser> {
     emailController.text = widget.user.email;
     zipCodeController.text = widget.user.zipCode;
     utilityRateController.text = widget.user.utility.toString();
+  }
+
+  buildShowDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return const Center(
+          child: CircularProgressIndicator(color: appGreen,),
+        );
+      });
   }
 
   @override
@@ -120,21 +135,19 @@ class _SignUpState extends State<Updateuser> {
                           title: 'Zip code',
                           validator: (value)=> Validations().validateZipCode(value),
                         ),
-                        ReusableTextBox(
-                          controller: utilityRateController, 
-                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                          title: 'Electricity rate',
-                          hintText: 'cents per kilowatt-hour',
-                          validator: (value) => Validations().validateElectricityRate(value),
-                        )
                       ],
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
                   ButtonLong(
-                      onPressed: () {
+                      onPressed: () async {
                         if(formKey.currentState!.validate()){
-
+                          buildShowDialog(context);
+                          ResponseMessage response = await Api().updateProfile(firstNameController.text, lastNameController.text, emailController.text);
+                          if(context.mounted){
+                            Navigator.pop(context);
+                            showSnackBar(context, response.message);
+                          }
                         }
                         // Perform your action here
                       },
@@ -142,6 +155,35 @@ class _SignUpState extends State<Updateuser> {
                       textColor: Colors.white,
                       isLoading: isLoading,
                       text: 'Submit'),
+                  
+                  const SizedBox(height: 50,),
+                  Form(
+                    key: rateKey,
+                    child: ReusableTextBox(
+                            controller: utilityRateController, 
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            title: 'Electricity rate',
+                            hintText: 'cents per kilowatt-hour',
+                            validator: (value) => Validations().validateElectricityRate(value),
+                          ),
+                  ),
+                  const SizedBox(height: 20),
+                  ButtonLong(
+                      onPressed: () async{
+                        if(rateKey.currentState!.validate()){
+                          buildShowDialog(context);
+                          ResponseMessage responseMessage = await Api().updateUtilityRate(double.parse(utilityRateController.text));
+                          if(context.mounted){
+                            Navigator.pop(context);
+                            showSnackBar(context, responseMessage.message);
+                          }
+                        }
+                        // Perform your action here
+                      },
+                      backgroundColor: appGreen,
+                      textColor: Colors.white,
+                      isLoading: isLoading,
+                      text: 'Update Rate'),
                 ],
               ),
             ),
