@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:wattchecker/constants/colors.dart';
 import 'package:wattchecker/constants/screensize.dart';
 import 'package:wattchecker/models/user.dart';
+import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/appbar.dart';
 import 'package:wattchecker/widgets/buttons.dart';
+import 'package:wattchecker/widgets/textbox.dart';
 
 class Updateuser extends StatefulWidget {
   final UserModel user;
@@ -55,7 +57,7 @@ class _SignUpState extends State<Updateuser> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: const StandardAppBar(title: 'Edit Your Account', textColor: appWhite, backgroundColor: appGreen,),
+        appBar: const StandardAppBar(title: 'Edit Your Account',),
         body: SingleChildScrollView(
           child: SafeArea(
             child: Padding(
@@ -65,25 +67,7 @@ class _SignUpState extends State<Updateuser> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const SizedBox(height: 20),
-                  // const Text(
-                  //   'Edit Your account',
-                  //   style: TextStyle(
-                  //     fontFamily: 'Inter',
-                  //     fontSize: 16,
-                  //     fontWeight: FontWeight.bold,
-                  //     color: appGreen,
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 10),
-                  // const Text(
-                  //   'Lorem Ipsum is simply dummy text.',
-                  //   style: TextStyle(
-                  //     fontFamily: 'Inter',
-                  //     fontSize: 14,
-                  //     color: textGrey,
-                  //   ),
-                  // ),
+                  
                   const SizedBox(height: 20),
                   Form(
                     key: formKey,
@@ -106,232 +90,52 @@ class _SignUpState extends State<Updateuser> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: TextFormField(
+                              child: ReusableTextBox(
                                 controller: firstNameController,
-                                decoration: InputDecoration(
-                                  hintText: 'First name',
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Mulish',
-                                    fontSize: 12,
-                                    color: textGrey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(
-                                      height: 0), // Hide default error text
-                                ),
-                              ),
+                                hintText: 'First name',
+                                validator: (value) => Validations().validateString(value),
+                              )
                             ),
                             const SizedBox(width: 10),
                             Expanded(
                               flex: 1,
-                              child: TextFormField(
-                                controller: lastNameController,
-                                decoration: InputDecoration(
-                                  hintText: 'Last name',
-                                  hintStyle: const TextStyle(
-                                    fontFamily: 'Mulish',
-                                    fontSize: 12,
-                                    color: textGrey,
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide:
-                                        const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(
-                                      height: 0), // Hide default error text
-                                ),
-                              ),
+                              child: ReusableTextBox(
+                                controller: lastNameController, 
+                                hintText: 'Last name',
+                                validator: (value) => Validations().validateString(value),
+                              )
                             )
                           ],
                         ),
-                        const SizedBox(
-                          height: 10,
+                        ReusableTextBox(
+                          controller: emailController, 
+                          hintText: 'Email', 
+                          title: 'Email',
+                          validator: (value)=> Validations().validateEmail(value),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Email',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                        ReusableTextBox(
+                          controller: zipCodeController, 
+                          keyboardType: TextInputType.number,
+                          hintText: 'Zip code',
+                          title: 'Zip code',
+                          validator: (value)=> Validations().validateZipCode(value),
                         ),
-                        TextFormField(
-                          controller: emailController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(
-                                height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Zip code',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: zipCodeController,
-                          decoration: InputDecoration(
-                            hintText: 'Enter your zip code',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(
-                                height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                            'Electricity Rate',
-                            style: TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textBlack,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        TextFormField(
-                          controller: utilityRateController,
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true, signed: false),
-                          decoration: InputDecoration(
-                            hintText: 'cents per kilowatt-hour',
-                            hintStyle: const TextStyle(
-                              fontFamily: 'Mulish',
-                              fontSize: 12,
-                              color: textGrey,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(
-                                height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        ReusableTextBox(
+                          controller: utilityRateController, 
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          title: 'Electricity rate',
+                          hintText: 'cents per kilowatt-hour',
+                          validator: (value) => Validations().validateElectricityRate(value),
+                        )
                       ],
                     ),
                   ),
                   const SizedBox(height: 50),
                   ButtonLong(
                       onPressed: () {
+                        if(formKey.currentState!.validate()){
+
+                        }
                         // Perform your action here
                       },
                       backgroundColor: appGreen,
