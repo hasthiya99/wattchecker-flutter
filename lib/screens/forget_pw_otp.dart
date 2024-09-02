@@ -126,10 +126,10 @@ class _VerifyOtpState extends State<VerifyOtp> {
                         }
                       }, 
                       style: ButtonStyle(
-                        overlayColor: MaterialStateProperty.all(Colors.transparent),
-                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                        shadowColor: MaterialStateProperty.all(Colors.transparent),
-                        surfaceTintColor: MaterialStateProperty.all(Colors.transparent),
+                        overlayColor: WidgetStateProperty.all(Colors.transparent),
+                        backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                        shadowColor: WidgetStateProperty.all(Colors.transparent),
+                        surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
                       ),
                       child: resendOtp? const SizedBox(
                         width: 15,

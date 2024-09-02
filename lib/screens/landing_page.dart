@@ -44,7 +44,7 @@ class _LandingPageState extends State<LandingPage> {
               currentScreen = const TipsScreen();
               break;
             case 3:
-              currentScreen = ProfileScreen();
+              currentScreen = const ProfileScreen();
               break;
             default:
               currentScreen = const HomeScreen();
@@ -209,7 +209,7 @@ class _LandingPageState extends State<LandingPage> {
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currentScreen = ProfileScreen();
+                          currentScreen = const ProfileScreen();
                           currentIndex = 3;
                         });
                       },

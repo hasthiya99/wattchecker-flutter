@@ -9,7 +9,7 @@ class GiftCard extends StatelessWidget {
   final int credits;
   final VoidCallback onRedeem;
 
-  const GiftCard({
+  const GiftCard({super.key, 
     required this.imagePath,
     required this.title,
     this.subtitle, // Allow subtitle to be optional
@@ -24,7 +24,7 @@ class GiftCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(14)),
+          borderRadius: const BorderRadius.all(Radius.circular(14)),
           boxShadow: [
             defaultShadow(),
           ],
@@ -48,7 +48,7 @@ class GiftCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Mulish',
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
@@ -59,7 +59,7 @@ class GiftCard extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       subtitle!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Inter',
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -83,7 +83,7 @@ class GiftCard extends StatelessWidget {
                               fontWeight: FontWeight.w900,
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Required Credits',
                             style: TextStyle(
                               fontFamily: 'Inter',
@@ -95,7 +95,6 @@ class GiftCard extends StatelessWidget {
                         ],
                       ),
                       ElevatedButton(
-                        child: Text('Redeem'),
                         onPressed: onRedeem,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: appGreen,
@@ -109,6 +108,7 @@ class GiftCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
+                        child: const Text('Redeem'),
                       ),
                     ],
                   ),

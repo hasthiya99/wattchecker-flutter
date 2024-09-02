@@ -7,6 +7,7 @@ import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/snackbar.dart';
+import 'package:wattchecker/widgets/textbox.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -45,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  const SizedBox(height: 20,),
                   const Text('Login', style: TextStyle(fontFamily: 'Lexend', fontSize: 25, color: appGreen),),
                   const SizedBox(height: 20),
                   ButtonLong(
@@ -89,47 +91,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text('Your Email', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
+                        ReusableTextBox(
+                          controller: emailController, 
+                          title: 'Your email',
+                          hintText: 'Email',
+                          validator: (p0) => Validations().validateEmail(p0),
                         ),
-                        TextFormField(
-                          controller: emailController,
-                          validator: (value) => Validations().validateEmail(value),
-                          decoration: InputDecoration(
-                            hintText: 'Email',
-                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
-                          child: Text('Your Password', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                        ),
-                        TextFormField(
-                          controller: passwordController,
-                          validator: (value) => Validations().validatePassword(value),
+                        ReusableTextBox(
+                          controller: passwordController, 
+                          title: 'Your password',
+                          hintText: 'Password',
+                          validator: (p0) => Validations().validatePassword(p0),
                           obscureText: hidePassword,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
+                          suffixIconButton: IconButton(
                                   onPressed: (){
                                     setState(() {
                                       hidePassword = !hidePassword;
@@ -137,27 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }, 
                                   icon: Icon(hidePassword? Icons.visibility_off : Icons.visibility, color: textGrey),
                                 ),
-                            hintText: 'Password',
-                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                             errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0), // Hide default error text
-                          ),
+
                         ),
                         Align(
                           alignment: Alignment.centerRight,
@@ -166,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.pushNamed(context, '/verifyEmail');
                             }, 
                             style: ButtonStyle(
-                              overlayColor: MaterialStateProperty.all(Colors.transparent
+                              overlayColor: WidgetStateProperty.all(Colors.transparent
                               )
                             ),
                             child: const Text('Forgot password?', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey, decoration: TextDecoration.underline),),
@@ -204,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushNamed(context, '/signup');
                               }, 
                               style: ButtonStyle(
-                                overlayColor: MaterialStateProperty.all(Colors.transparent
+                                overlayColor: WidgetStateProperty.all(Colors.transparent
                                 )
                               ),
                               child: const Text('Create an account', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, fontWeight: FontWeight.bold, color: textBlack, decoration: TextDecoration.underline),),

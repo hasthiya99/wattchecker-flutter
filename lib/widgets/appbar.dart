@@ -14,9 +14,11 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       automaticallyImplyLeading: false,
+      backgroundColor: appGreen,
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,
+          color: appWhite,
         ),
         onPressed: () {
           Navigator.pop(context);
@@ -25,7 +27,7 @@ class StandardAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: const TextStyle(
-            fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w600),
+            fontFamily: 'Lexend', fontSize: 16, fontWeight: FontWeight.w600, color: appWhite),
       ),
       centerTitle: false,
     );

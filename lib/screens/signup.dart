@@ -6,6 +6,7 @@ import 'package:wattchecker/services/api.dart';
 import 'package:wattchecker/services/validations.dart';
 import 'package:wattchecker/widgets/buttons.dart';
 import 'package:wattchecker/widgets/snackbar.dart';
+import 'package:wattchecker/widgets/textbox.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -75,237 +76,72 @@ class _SignUpState extends State<SignUp> {
                           children: [
                             Expanded(
                               flex: 1,
-                              child: TextFormField(
-                                controller: firstNameController,
-                                validator: (value) => Validations().validateName(value),
-                                decoration: InputDecoration(
-                                  hintText: 'First name',
-                                  hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0), // Hide default error text
-                                ),
-                              ),
+                              child: ReusableTextBox(
+                                controller: firstNameController, 
+                                hintText: 'First name',
+                                validator: (p0) => Validations().validateString(p0),
+                              )
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 10,),
                             Expanded(
                               flex: 1,
-                              child: TextFormField(
-                                controller: lastNameController,
-                                validator: (value) => Validations().validateName(value),
-                                decoration: InputDecoration(
-                                  hintText: 'Last name',
-                                  hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0), // Hide default error text
-                                ),
-                              ),
+                              child: ReusableTextBox(
+                                controller: lastNameController, 
+                                hintText: 'Last name',
+                                validator: (p0) => Validations().validateString(p0),
+                              )
                             )
                           ],
                         ),
-                        const SizedBox(height: 10,),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text('Email', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                        ),
-                        TextFormField(
-                          controller: emailController,
-                          validator: (value) => Validations().validateEmail(value),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your email',
-                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text('Zip code', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                        ),
-                        TextFormField(
-                          controller: zipCodeController,
-                          validator: (value) => Validations().validateZipCode(value),
-                          decoration: InputDecoration(
-                            hintText: 'Enter your zip code',
-                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text('Electricity Rate', style: TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                        ),
-                        TextFormField(
-                          controller: utilityRateController,
-                          validator: (value) => Validations().validateElectricityRate(value),
-                          decoration: InputDecoration(
-                            hintText: 'cents per kilowatt-hour',
-                            hintStyle: const TextStyle(fontFamily: 'Mulish', fontSize: 12, color: textGrey),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGrey),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: appGreen),
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.red),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            errorStyle: const TextStyle(height: 0), // Hide default error text
-                          ),
-                        ),
-                        const SizedBox(height: 10,),
-                        const Padding(
-                            padding: EdgeInsets.only(bottom: 10.0),
-                            child: Text('Password', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                          ),
-                        TextFormField(
-                                controller: passwordController,
-                                validator: (value) => Validations().validatePassword(value),
-                                obscureText: hidePassword,
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    onPressed: (){
-                                      setState(() {
-                                        hidePassword = !hidePassword;
-                                      });
-                                    }, 
-                                    icon: Icon(hidePassword? Icons.visibility_off : Icons.visibility, color: textGrey),
-                                  ),
-                                  hintText: 'Enter a password',
-                                  hintStyle: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0), // Hide default error text
-                                ),
+                        ReusableTextBox(
+                                controller: emailController, 
+                                title: 'Email',
+                                hintText: 'Enter your email',
+                                validator: (p0) => Validations().validateEmail(p0),
                               ),
-                        const SizedBox(height: 20,),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 10.0),
-                          child: Text('Confirm Password', style: TextStyle(fontFamily: 'Inter', fontSize: 12, color: textBlack, fontWeight: FontWeight.bold),),
-                        ),
-                        TextFormField(
-                                controller: confirmPasswordController,
-                                validator: (value) => Validations().validatePassword(value),
+                        ReusableTextBox(
+                                controller: zipCodeController, 
+                                keyboardType: TextInputType.number,
+                                title: 'Zip code',
+                                hintText: 'Enter your Zip code',
+                                validator: (p0) => Validations().validateZipCode(p0),
+                              ),
+                        ReusableTextBox(
+                                controller: utilityRateController, 
+                                keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                title: 'Electricity Rate',
+                                hintText: 'cents per kilowatt-hour',
+                                validator: (p0) => Validations().validateElectricityRate(p0),
+                              ),
+                        ReusableTextBox(
+                                controller: passwordController, 
+                                keyboardType: TextInputType.visiblePassword,
+                                title: 'Password',
+                                hintText: 'Enter a password',
+                                validator: (p0) => Validations().validatePassword(p0),
+                                obscureText: hidePassword,
+                                suffixIconButton: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      hidePassword = !hidePassword;
+                                    });
+                                  }, 
+                                  icon: Icon(hidePassword? Icons.visibility_off : Icons.visibility, color: textGrey)),
+                              ),
+                        ReusableTextBox(
+                                controller: confirmPasswordController, 
+                                keyboardType: TextInputType.visiblePassword,
+                                title: 'Confirm password',
+                                hintText: 'Confirm your password',
+                                validator: (p0) => Validations().validatePassword(p0),
                                 obscureText: hideConfirmPassword,
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                    onPressed: (){
-                                      setState(() {
-                                        hideConfirmPassword = !hideConfirmPassword;
-                                      });
-                                    }, 
-                                    icon: Icon(hideConfirmPassword? Icons.visibility_off : Icons.visibility, color: textGrey),
-                                  ),
-                                  hintText: 'Confirm your password',
-                                  hintStyle: const TextStyle(fontFamily: 'Inter', fontSize: 12, color: textGrey),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGrey),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: appGreen),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: Colors.red),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  errorStyle: const TextStyle(height: 0), // Hide default error text
-                                ),
+                                suffixIconButton: IconButton(
+                                  onPressed: (){
+                                    setState(() {
+                                      hideConfirmPassword = !hideConfirmPassword;
+                                    });
+                                  }, 
+                                  icon: Icon(hideConfirmPassword? Icons.visibility_off : Icons.visibility, color: textGrey)),
                               ),
                       ],
                     ),
